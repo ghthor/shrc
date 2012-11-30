@@ -31,3 +31,6 @@
 [submodule "bundle/snipmate-snippets"]
 	path = bundle/snipmate-snippets
 	url = https://github.com/honza/snipmate-snippets
+[submodule "bundle/peaksea"]
+	path = bundle/peaksea
+	url = https://github.com/vim-scripts/peaksea

@@ -44,6 +44,7 @@ set shiftwidth=4
 set expandtab
 set smarttab
 
+set number
 set ruler
 set cursorline
 set cursorcolumn

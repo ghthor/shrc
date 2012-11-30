@@ -133,6 +133,16 @@ function! TmpHtml(line1, line2)
     bd!
 endfunction
 
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+nnoremap mn :call NumberToggle()<cr>
+
 function! DivHtml(line1, line2)
     exec a:line1.','.a:line2.'TOhtml'
     "remove everything up to <body>
@@ -157,3 +167,12 @@ cmap w!! w !sudo tee >/dev/null %
 
 " jj to exit insert mode
 inoremap jj <ESC>
+
+noremap ; :
+
+noremap \ :s/
+" noremap = :%s/
+
+noremap mw gq80l
+
+noremap <Space> @q

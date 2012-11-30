@@ -154,3 +154,6 @@ command -range=% DivHtml :call DivHtml(<line1>,<line2>)
 
 " Save a file when forgetting to open with sudo
 cmap w!! w !sudo tee >/dev/null %
+
+" jj to exit insert mode
+inoremap jj <ESC>

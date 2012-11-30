@@ -34,3 +34,6 @@
 [submodule "bundle/peaksea"]
 	path = bundle/peaksea
 	url = https://github.com/vim-scripts/peaksea
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+[ -L $HOME/.vimrc ] && rm $HOME/.vimrc
+ln -s "$1" $HOME/.vimrc

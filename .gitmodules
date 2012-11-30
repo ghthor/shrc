@@ -43,3 +43,6 @@
 [submodule "bundle/vim-git"]
 	path = bundle/vim-git
 	url = https://github.com/tpope/vim-git
+[submodule "bundle/vim-go-snippets"]
+	path = bundle/vim-go-snippets
+	url = https://github.com/ghthor/vim-go-snippets

@@ -46,3 +46,6 @@
 [submodule "bundle/vim-go-snippets"]
 	path = bundle/vim-go-snippets
 	url = https://github.com/ghthor/vim-go-snippets
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = https://github.com/ervandew/supertab

@@ -1,7 +1,10 @@
 noremap mt :!go test<CR>
+noremap mtr :!go test ./...<CR>
 noremap mtp :!go test -print-all<CR>
 noremap mit :!go test -run=Integration<CR>
+noremap mitr :!go test -run=Integration ./...<CR>
 noremap mut :!go test -run=Unit<CR>
+noremap mutr :!go test -run=Unit ./...<CR>
 
 " Default SuperTab to omnifunc completion for Go files
 " <c-x><c-n> - Keyword

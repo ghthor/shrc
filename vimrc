@@ -27,13 +27,17 @@ set foldmethod=syntax
 " Colorscheme Selection
 if !has("gui_running")
     if &term == "xterm-256color"
-        set t_Co=256
+        "set t_Co=256
         " feel free to choose :set background=light for a different style
         set background=dark
-        colors peaksea
+        "colors peaksea
+        colors solarized
     else
         colorscheme ron
     endif
+else
+    set background=dark
+    colorscheme solarized
 endif
 
 set backspace=indent,eol,start

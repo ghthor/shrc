@@ -17,6 +17,9 @@ set nocindent
 " Go Fmt via syntastic on write
 let g:syntastic_go_checker_option_gofmt_write = 1
 
+let g:syntastic_javascript_jshint_exec = '/usr/bin/jshint'
+let g:syntastic_javascript_checkers = ['jshint']
+
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against

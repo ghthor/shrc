@@ -14,8 +14,8 @@ set noautoindent
 set nosmartindent
 set nocindent
 
-" Go Fmt via syntastic on write
-let g:syntastic_go_checker_option_gofmt_write = 1
+" Set goimports as fmt'er
+let g:go_fmt_command = "goimports"
 
 let g:syntastic_javascript_jshint_exec = '/usr/bin/jshint'
 let g:syntastic_javascript_checkers = ['jshint']
@@ -171,6 +171,9 @@ command -range=% DivHtml :call DivHtml(<line1>,<line2>)
 
 " Save a file when forgetting to open with sudo
 cmap w!! w !sudo tee >/dev/null %
+
+" Set Leader
+let mapleader=","
 
 " jj to exit insert mode
 inoremap jj <ESC>

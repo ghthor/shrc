@@ -64,3 +64,6 @@
 [submodule "bundle/tagbar"]
 	path = bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
+[submodule "bundle/textabyss"]
+	path = bundle/textabyss
+	url = https://github.com/q335r49/textabyss

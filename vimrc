@@ -20,6 +20,16 @@ let g:go_fmt_command = "goimports"
 let g:syntastic_javascript_jshint_exec = '/usr/bin/jshint'
 let g:syntastic_javascript_checkers = ['jshint']
 
+" Syntastic settings
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against

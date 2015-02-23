@@ -13,22 +13,6 @@ noremap mutr :!go test -run=Unit ./...<CR>
 " <c-x><c-o> - Onmi
 let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
 
-command! -buffer -nargs=0 GoInstall call s:GoInstall()
-
-" go install the package being editted in the current buffer
-func! s:GoInstall()
-    let popd = getcwd()
-    let pushd = expand('%:p:h')
-
-    " pushd
-    exec 'lcd ' . fnameescape(pushd)
-
-    !go install -v
-
-    " popd
-    exec 'lcd ' . fnameescape(popd)
-endfunction
-
 nmap <Leader>s <Plug>(go-implements)
 nmap <Leader>i <Plug>(go-info)
 

@@ -45,6 +45,8 @@ if !has("gui_running")
         set background=dark
         "colors peaksea
         colors solarized
+        highlight clear SignColumn
+        call gitgutter#highlight#define_highlights()
     else
         colorscheme ron
     endif

@@ -1,1 +1,4 @@
 vmap = :xccmd indentSelection<CR>
+
+" https://github.com/ajh17/dotfiles/blob/master/.xvimrc
+nmap <space>f :xcmenucmd Open Quickly...<CR>

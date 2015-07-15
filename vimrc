@@ -42,8 +42,8 @@ if !has("gui_running")
     if &term == "xterm-256color"
         "set t_Co=256
 
-        "colors peaksea
-        colors solarized
+        colors peaksea
+        "colors solarized
 
         " feel free to choose :set background=light for a different style
         set background=dark

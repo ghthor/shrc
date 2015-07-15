@@ -41,10 +41,13 @@ set foldmethod=syntax
 if !has("gui_running")
     if &term == "xterm-256color"
         "set t_Co=256
-        " feel free to choose :set background=light for a different style
-        set background=dark
+
         "colors peaksea
         colors solarized
+
+        " feel free to choose :set background=light for a different style
+        set background=dark
+
         highlight clear SignColumn
         call gitgutter#highlight#define_highlights()
     else

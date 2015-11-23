@@ -1,3 +1,5 @@
+set noexpandtab
+
 vmap = :xccmd indentSelection<CR>
 
 " https://github.com/ajh17/dotfiles/blob/master/.xvimrc

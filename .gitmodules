@@ -1,75 +1,75 @@
 [submodule "bundle/vim-pathogen"]
-	path = bundle/vim-pathogen
+	path = .vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen
 [submodule "bundle/vim-fugitive"]
-	path = bundle/vim-fugitive
+	path = .vim/bundle/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
 [submodule "bundle/vim-less"]
-	path = bundle/vim-less
+	path = .vim/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
 [submodule "bundle/vim-jade"]
-	path = bundle/vim-jade
+	path = .vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
 [submodule "bundle/vim-javascript"]
-	path = bundle/vim-javascript
+	path = .vim/bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript
 [submodule "bundle/syntastic"]
-	path = bundle/syntastic
+	path = .vim/bundle/syntastic
 	url = https://github.com/ghthor/syntastic
 [submodule "bundle/tlib_vim"]
-	path = bundle/tlib_vim
+	path = .vim/bundle/tlib_vim
 	url = https://github.com/tomtom/tlib_vim
 [submodule "bundle/vim-addon-mw-utils"]
-	path = bundle/vim-addon-mw-utils
+	path = .vim/bundle/vim-addon-mw-utils
 	url = https://github.com/MarcWeber/vim-addon-mw-utils
 [submodule "bundle/vim-snipmate"]
-	path = bundle/vim-snipmate
+	path = .vim/bundle/vim-snipmate
 	url = https://github.com/garbas/vim-snipmate
 [submodule "bundle/peaksea"]
-	path = bundle/peaksea
+	path = .vim/bundle/peaksea
 	url = https://github.com/vim-scripts/peaksea
 [submodule "bundle/vim-repeat"]
-	path = bundle/vim-repeat
+	path = .vim/bundle/vim-repeat
 	url = https://github.com/tpope/vim-repeat
 [submodule "bundle/vim-surround"]
-	path = bundle/vim-surround
+	path = .vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround
 [submodule "bundle/vim-git"]
-	path = bundle/vim-git
+	path = .vim/bundle/vim-git
 	url = https://github.com/tpope/vim-git
 [submodule "bundle/vim-go-snippets"]
-	path = bundle/vim-go-snippets
+	path = .vim/bundle/vim-go-snippets
 	url = https://github.com/ghthor/vim-go-snippets
 [submodule "bundle/supertab"]
-	path = bundle/supertab
+	path = .vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
 [submodule "bundle/vim-commentary"]
-	path = bundle/vim-commentary
+	path = .vim/bundle/vim-commentary
 	url = https://github.com/tpope/vim-commentary
 [submodule "bundle/vim-colors-solarized"]
-	path = bundle/vim-colors-solarized
+	path = .vim/bundle/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
 [submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
+	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
 [submodule "bundle/vim-go"]
-	path = bundle/vim-go
+	path = .vim/bundle/vim-go
 	url = https://github.com/fatih/vim-go.git
 [submodule "bundle/tagbar"]
-	path = bundle/tagbar
+	path = .vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
 [submodule "bundle/textabyss"]
-	path = bundle/textabyss
+	path = .vim/bundle/textabyss
 	url = https://github.com/q335r49/textabyss
 [submodule "bundle/vim-vinegar"]
-	path = bundle/vim-vinegar
+	path = .vim/bundle/vim-vinegar
 	url = git://github.com/tpope/vim-vinegar.git
 [submodule "bundle/vim-snippets"]
-	path = bundle/vim-snippets
+	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
 [submodule "bundle/vim-gitgutter"]
-	path = bundle/vim-gitgutter
+	path = .vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
 [submodule "bundle/vim-go-impl"]
-	path = bundle/vim-go-impl
+	path = .vim/bundle/vim-go-impl
 	url = https://github.com/rhysd/vim-go-impl

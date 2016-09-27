@@ -14,6 +14,8 @@ set noautoindent
 set nosmartindent
 set nocindent
 
+let g:elm_format_autosave = 1
+
 " Set goimports as fmt'er
 let g:go_fmt_command = "goimports"
 

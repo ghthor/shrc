@@ -3,6 +3,10 @@ set noedcompatible
 
 set hidden
 
+" Setup OCaml Plugin
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+
 " Pathogen bundle manager
 runtime bundle/vim-pathogen/autoload/pathogen.vim 
 call pathogen#infect()
@@ -18,6 +22,8 @@ let g:elm_format_autosave = 1
 
 " Set goimports as fmt'er
 let g:go_fmt_command = "goimports"
+
+let g:syntastic_ocaml_checkers = ['merlin']
 
 let g:syntastic_javascript_jshint_exec = '/usr/bin/jshint'
 let g:syntastic_javascript_checkers = ['jshint']

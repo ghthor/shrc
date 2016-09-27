@@ -6,12 +6,7 @@ noremap mitr :!go test -run=Integration ./...<CR>
 noremap mut :!go test -run=Unit<CR>
 noremap mutr :!go test -run=Unit ./...<CR>
 
-" Default SuperTab to omnifunc completion for Go files
-" <c-x><c-n> - Keyword
-" <c-x><c-f> - Filepath
-" <c-x><c-u> - User Defined
-" <c-x><c-o> - Onmi
-let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+let b:vcm_tab_complete = 'omni'
 
 nmap <Leader>s <Plug>(go-implements)
 nmap <Leader>i <Plug>(go-info)

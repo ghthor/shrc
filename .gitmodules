@@ -76,3 +76,6 @@
 [submodule "bundle/elm-vim"]
 	path = .vim/bundle/elm-vim
 	url = https://github.com/ElmCast/elm-vim.git
+[submodule "bundle/ex.next.syntax.vim"]
+	path = .vim/bundle/es.next.syntax.vim
+	url = https://github.com/othree/es.next.syntax.vim.git

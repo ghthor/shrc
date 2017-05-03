@@ -25,8 +25,8 @@ let g:go_fmt_command = "goimports"
 
 let g:syntastic_ocaml_checkers = ['merlin']
 
-let g:syntastic_javascript_jshint_exec = '/usr/bin/jshint'
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
+let g:syntastic_javascript_checkers = ['eslint']
 
 " Syntastic settings
 set statusline+=%#warningmsg#

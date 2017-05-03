@@ -82,3 +82,6 @@
 [submodule "bundle/vim-json"]
 	path = .vim/.vim/bundle/vim-json
 	url = https://github.com/elzr/vim-json.git
+[submodule "bundle/vim-jsx"]
+	path = .vim/bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git

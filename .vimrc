@@ -112,6 +112,8 @@ if has("autocmd")
     " indentation, to make files a few bytes smaller:
     autocmd FileType html,css,php setl expandtab
 
+    autocmd FileType javascript setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
     " setting for go
     autocmd Filetype go setl noexpandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
     " autocmd Filetype go autocmd BufWritePre <buffer> Fmt

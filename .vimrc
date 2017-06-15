@@ -118,6 +118,7 @@ if has("autocmd")
     autocmd Filetype go setl noexpandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
     " autocmd Filetype go autocmd BufWritePre <buffer> Fmt
 
+    autocmd Filetype conf setl expandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
 
     " Enable file type detection.
     " Use the default filetype settings, so that mail gets 'tw' set to 72,

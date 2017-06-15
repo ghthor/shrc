@@ -89,6 +89,8 @@ set showmode
 "
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
+    autocmd FileType vim set expandtab
+
     au BufRead,BufNewFile *.tpl.html set filetype=html
 
     " Web Devel Stuff

@@ -50,16 +50,15 @@ if !has("gui_running")
     if &term == "xterm-256color"
         "set t_Co=256
 
-        colors peaksea
-        "colors solarized
-
-        " feel free to choose :set background=light for a different style
         set background=dark
+        "colors peaksea
+        let g:solarized_termcolors=256
+        colors solarized
 
         highlight clear SignColumn
         call gitgutter#highlight#define_highlights()
-    else
-        colorscheme ron
+	else
+        colors ron
     endif
 else
     set background=dark

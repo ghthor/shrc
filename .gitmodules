@@ -85,3 +85,9 @@
 [submodule "bundle/vim-jsx"]
 	path = .vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
+[submodule "bundle/solidity.vim"]
+	path = .vim/bundle/solidity.vim
+	url = git@github.com:dmdque/solidity.vim.git
+[submodule "bundle/vim-solidity"]
+	path = .vim/bundle/vim-solidity
+	url = git@github.com:tomlion/vim-solidity.git

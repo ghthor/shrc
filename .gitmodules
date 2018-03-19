@@ -91,3 +91,6 @@
 [submodule "bundle/vim-solidity"]
 	path = .vim/bundle/vim-solidity
 	url = git@github.com:tomlion/vim-solidity.git
+[submodule "bundle/lightline.vim"]
+	path = .vim/bundle/lightline.vim
+	url = https://github.com/itchyny/lightline.vim

@@ -30,9 +30,6 @@ let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
 let g:syntastic_javascript_checkers = ['eslint']
 
 " Syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -77,14 +74,26 @@ set number
 set ruler
 set cursorline
 set cursorcolumn
-set statusline=(%f,%{strlen(&ft)?&ft:'?'},%{&fenc},%{&ff},%{fugitive#statusline()})\ \ %-9.(%l,%c%V%)\ \ %<%P
+
+let g:lightline = {
+            \"colorscheme": "wombat",
+            \"active": {
+            \   "left": [ [ 'mode', 'paste'],
+            \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ "component": {
+            \ },
+            \ "component_function": {
+            \   "gitbranch": "fugitive#head",
+            \ },
+            \ }
+
 " Always show status line
 set laststatus=2
-
+set noshowmode
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
-set showmode
 
 "set fenc
 "

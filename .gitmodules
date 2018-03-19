@@ -15,7 +15,7 @@
 	url = https://github.com/pangloss/vim-javascript
 [submodule "bundle/syntastic"]
 	path = .vim/bundle/syntastic
-	url = https://github.com/ghthor/syntastic
+	url = https://github.com/vim-syntastic/syntastic
 [submodule "bundle/tlib_vim"]
 	path = .vim/bundle/tlib_vim
 	url = https://github.com/tomtom/tlib_vim

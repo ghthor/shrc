@@ -22,7 +22,7 @@ let g:elm_format_autosave = 1
 
 " Set goimports as fmt'er
 let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['go', 'gotype']
+let g:syntastic_go_checkers = ['go']
 
 let g:syntastic_ocaml_checkers = ['merlin']
 

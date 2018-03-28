@@ -103,6 +103,8 @@ if has("autocmd")
 
     au BufRead,BufNewFile *.tpl.html set filetype=html
 
+    autocmd FileType bash,sh set expandtab tabstop=2 shiftwidth=2
+
     " Web Devel Stuff
     "autocmd Filetype html setlocal makeprg=tidy\ -quiet\ -e\ %
     "autocmd Filetype php,html exe 'setlocal equalprg=tidy\ -quiet\ -i\ -f\ '.&errorfile

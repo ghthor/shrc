@@ -94,3 +94,6 @@
 [submodule "bundle/lightline.vim"]
 	path = .vim/bundle/lightline.vim
 	url = https://github.com/itchyny/lightline.vim
+[submodule "bundle/vim-shfmt"]
+	path = .vim/bundle/vim-shfmt
+	url = git@github.com:z0mbix/vim-shfmt.git

@@ -60,7 +60,7 @@
 	url = https://github.com/q335r49/textabyss
 [submodule "bundle/vim-vinegar"]
 	path = .vim/bundle/vim-vinegar
-	url = git://github.com/tpope/vim-vinegar.git
+	url = https://github.com/tpope/vim-vinegar.git
 [submodule "bundle/vim-snippets"]
 	path = .vim/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
@@ -79,21 +79,21 @@
 [submodule "bundle/ex.next.syntax.vim"]
 	path = .vim/bundle/es.next.syntax.vim
 	url = https://github.com/othree/es.next.syntax.vim.git
-[submodule "bundle/vim-json"]
-	path = .vim/.vim/bundle/vim-json
-	url = https://github.com/elzr/vim-json.git
 [submodule "bundle/vim-jsx"]
 	path = .vim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
 [submodule "bundle/solidity.vim"]
 	path = .vim/bundle/solidity.vim
-	url = git@github.com:dmdque/solidity.vim.git
+	url = https://github.com/dmdque/solidity.vim.git
 [submodule "bundle/vim-solidity"]
 	path = .vim/bundle/vim-solidity
-	url = git@github.com:tomlion/vim-solidity.git
+	url = https://github.com/tomlion/vim-solidity.git
 [submodule "bundle/lightline.vim"]
 	path = .vim/bundle/lightline.vim
 	url = https://github.com/itchyny/lightline.vim
 [submodule "bundle/vim-shfmt"]
 	path = .vim/bundle/vim-shfmt
-	url = git@github.com:z0mbix/vim-shfmt.git
+	url = https://github.com/z0mbix/vim-shfmt.git
+[submodule "bundle/vim-json"]
+	path = .vim/bundle/vim-json
+	url = https://github.com/elzr/vim-json.git

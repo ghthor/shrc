@@ -109,6 +109,8 @@ if has("autocmd")
 
     autocmd FileType bash,sh set expandtab tabstop=2 shiftwidth=2
 
+    autocmd FileType python set expandtab tabstop=2 shiftwidth=2
+
     " Web Devel Stuff
     "autocmd Filetype html setlocal makeprg=tidy\ -quiet\ -e\ %
     "autocmd Filetype php,html exe 'setlocal equalprg=tidy\ -quiet\ -i\ -f\ '.&errorfile

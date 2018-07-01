@@ -115,7 +115,7 @@ if has("autocmd")
     "autocmd Filetype html setlocal makeprg=tidy\ -quiet\ -e\ %
     "autocmd Filetype php,html exe 'setlocal equalprg=tidy\ -quiet\ -i\ -f\ '.&errorfile
     " For JSON
-    autocmd FileType json set equalprg=json_reformat
+    autocmd FileType json setl expandtab equalprg=json_reformat
 
     " for CSS, also have things in braces indented:
     autocmd FileType css setl expandtab tabstop=4 shiftwidth=4

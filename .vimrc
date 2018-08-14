@@ -34,6 +34,9 @@ let g:syntastic_ocaml_checkers = ['merlin']
 let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
 let g:syntastic_javascript_checkers = ['eslint']
 
+let g:syntastic_python_checkers = ['python3']
+let g:pymode_python = 'python3'
+
 " Syntastic settings
 
 let g:syntastic_always_populate_loc_list = 1

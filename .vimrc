@@ -133,6 +133,9 @@ if has("autocmd")
     " for YAML files
     autocmd FileType yaml setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
+    " for Terraform files
+    autocmd FileType tf setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
     " for both CSS and HTML, use genuine tab characters for 
     " indentation, to make files a few bytes smaller:
     autocmd FileType html,css,php setl expandtab

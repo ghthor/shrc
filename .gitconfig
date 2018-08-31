@@ -1,5 +1,14 @@
+[branch "master"]
+	rebase = true
+[branch]
+	autosetuprebase = always
 [user]
 	email = ghthor@gmail.com
 	name = Willa Drengwitz
+[core]
+	ignorecase = false
+	excludesfile = /Users/wdrengwitz/.global.gitignore
+[push]
+	default = current
 [color]
 	ui = auto

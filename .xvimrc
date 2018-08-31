@@ -1,0 +1,11 @@
+set noexpandtab
+
+vmap = :xccmd indentSelection<CR>
+
+" https://github.com/ajh17/dotfiles/blob/master/.xvimrc
+nmap <space>f :xcmenucmd Open Quickly...<CR>
+
+map zM :xccmd foldAllMethods<CR>
+map zR :xccmd unfoldAll<CR>
+map zc :xccmd fold<CR>
+map zo :xccmd unfold<CR>

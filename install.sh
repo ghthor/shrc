@@ -1,4 +1,9 @@
 #!/bin/sh
-
-cd ..
-stow -t ~/ --ignore=.git/ --ignore=install.sh scmbrc/
+stow -d $HOME/src \
+  --ignore=.git/ \
+  --ignore=bin/ \
+  --ignore=install.sh \
+  --ignore=uninstall.sh \
+  --ignore=.gitmodules \
+  -t $HOME/ \
+  shrc

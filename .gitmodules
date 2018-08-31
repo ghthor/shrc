@@ -94,6 +94,3 @@
 [submodule "bundle/vim-shfmt"]
 	path = .vim/bundle/vim-shfmt
 	url = https://github.com/z0mbix/vim-shfmt.git
-[submodule "bundle/vim-json"]
-	path = .vim/bundle/vim-json
-	url = https://github.com/elzr/vim-json.git

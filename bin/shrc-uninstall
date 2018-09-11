@@ -1,6 +1,0 @@
-#!/bin/sh
-stow -D -d $HOME/src \
-  --ignore=.git \
-  --ignore=.gitmodules \
-  -t $HOME/ \
-  shrc

@@ -1,0 +1,10 @@
+[Unit]
+Description=Set the default PCM value
+After=sound.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/amixer -c 0 sset PCM 75%
+
+[Install]
+WantedBy=default.target

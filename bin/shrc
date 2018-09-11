@@ -1,0 +1,33 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CMD=${1:-"install"}
+
+case $CMD in
+"install")
+  stow -vvv \
+    --dir "$HOME/src" \
+    --ignore=.git/ \
+    --ignore=.gitmodules \
+    --ignore=.config/ \
+    --target "$HOME/" shrc
+
+  stow -vvv \
+    --dir "$HOME/src/shrc" \
+    --target "$HOME/.config/" .config
+  ;;
+
+*)
+  stow -vvv --delete \
+    --dir "$HOME/src" \
+    --ignore=.git/ \
+    --ignore=.gitmodules \
+    --ignore=.config/ \
+    --target "$HOME/" shrc
+
+  stow -vvv --delete \
+    --dir "$HOME/src/shrc" \
+    --target "$HOME/.config/" .config
+  ;;
+esac

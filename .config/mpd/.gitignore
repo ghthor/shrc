@@ -1,0 +1,6 @@
+.terraform
+*.tfstate
+*.tfstate.backup
+icecast.xml
+mpd.conf
+*passwd

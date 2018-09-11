@@ -3,7 +3,7 @@
          on the server info page of the icecast web interface
          (server_version.xsl). -->
     <location>NYC</location>
-    <admin>ghthor@gmail.com</admin>
+	<admin>${icecast_admin_email}</admin>
 
     <!-- IMPORTANT!
          Especially for inexperienced users:
@@ -40,7 +40,7 @@
 
         <!-- Admin logs in with the username given below -->
 		<admin-user>${icecast_admin_user}</admin-user>
-		<admin-password>${icecase_admin_password}</admin-password>
+		<admin-password>${icecast_admin_password}</admin-password>
     </authentication>
 
     <!-- set the mountpoint for a shoutcast source to use, the default if not

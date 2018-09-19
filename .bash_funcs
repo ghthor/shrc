@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Search for [$1...$n] in files from $PWD
 ff() {
   local IFS='|'
@@ -17,4 +18,12 @@ gocover() {
   go test -coverprofile=${t} $@ &&
     go tool cover -html=${t} &&
     unlink ${t}
+}
+
+tmux_race() {
+  session=${TMUX_SESSION:-"$(mktemp)"}
+  tmux new-session -d -s ${session} \; split-window
+  tmux set-window-option -g -t ${session} remain-on-exit on
+  tmux respawn-pane -k -t "$session:0.0" $(cat $1)
+  tmux respawn-pane -k -t "$session:0.1" $(cat $2)
 }

@@ -122,7 +122,7 @@ function set_ps1() {
   # <exitcode> <username>@<hostname> <pwd> [<git branch>](<gopath>)
   # $
   case $TERM in
-  xterm*)
+  screen|xterm*)
     PS1="$term_title_str"
     PS1+="\$(EXIT="\$?"; date; if [ \$EXIT == 0 ]; then echo \"$_grn_col\$EXIT\"; else echo \"$_wrn_col\$EXIT\"; fi) "
     PS1+="$user_str $dir_str$env_str\n\[$_sep_col\]$ \[$_txt_col\]"

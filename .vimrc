@@ -195,10 +195,12 @@ function! TmpHtml(line1, line2)
 endfunction
 
 function! NumberToggle()
-    if(&relativenumber == 1)
-        set number
-    else
+    if(&number == 1)
+        set number!
         set relativenumber
+    else
+        set norelativenumber
+        set number
     endif
 endfunc
 

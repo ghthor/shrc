@@ -39,6 +39,7 @@ binPaths=(
   "$GOROOT/bin"
   "$HOME/bin/go-dev-tools"
   "$HOME/bin"
+  "$HOME/.cargo/bin"
 )
 
 for dir in "${binPaths[@]}"; do

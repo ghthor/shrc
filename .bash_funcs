@@ -3,7 +3,11 @@
 # Search for [$1...$n] in files from $PWD
 ff() {
   local IFS='|'
-  grep --exclude-dir=".git/" --exclude-dir="node_modules/" -rinE "$*" .
+  grep \
+    --exclude-dir=".git/" \
+    --exclude-dir=".terraform" \
+    --exclude-dir="node_modules/" \
+    -rinE "$*" .
 }
 
 type whence >/dev/null 2>&1 || whence() { type "$@" | sed -e "s/.*is aliased to \`//" -e "s/'$//"; }

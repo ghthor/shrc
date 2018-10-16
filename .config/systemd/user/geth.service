@@ -1,0 +1,10 @@
+[Unit]
+Description=Ethereum(geth) non-mining node
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/geth --datadir /mnt/space/geth.ethereum/ --syncmode fast --nousb
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

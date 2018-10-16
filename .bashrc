@@ -210,3 +210,7 @@ fi
 [[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi
+
+{
+  [[ ${GOPATH:-""} != "" ]] && [[ -d $GOPATH ]] && cd $GOPATH
+} || true

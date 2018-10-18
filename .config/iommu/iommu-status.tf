@@ -3,17 +3,20 @@ variable "root_write" {
 }
 
 locals {
-  boot_with_iommu = true
+  boot_with_iommu = false
 
   root_disk = "root=/dev/disk/by-uuid/547f179c-c3c6-4101-8c75-24c644cdcf85"
 
   cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
   cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt vsyscall=emulate"
+
+  path_modprobe_conf = "etc/modprobe.d/vfio.conf"
+  path_syslinux_cfg  = "boot/syslinux/syslinux.cfg"
 }
 
 data "template_file" "syslinux_cfg_iommu_off" {
   count    = "${local.boot_with_iommu ? 0 : 1}"
-  template = "${file("${path.module}/boot/syslinux/syslinux.cfg.tpl")}"
+  template = "${file("${path.module}/${local.path_syslinux_cfg}.tpl")}"
 
   vars {
     label   = "Arch Linux (IOMMU Disabled)"
@@ -23,7 +26,7 @@ data "template_file" "syslinux_cfg_iommu_off" {
 
 data "template_file" "syslinux_cfg_iommu_on" {
   count    = "${local.boot_with_iommu ? 1 : 0}"
-  template = "${file("${path.module}/boot/syslinux/syslinux.cfg.tpl")}"
+  template = "${file("${path.module}/${local.path_syslinux_cfg}.tpl")}"
 
   vars {
     label   = "Arch Linux (IOMMU Enabled)"
@@ -33,7 +36,7 @@ data "template_file" "syslinux_cfg_iommu_on" {
 
 resource "local_file" "modprobe_conf" {
   count    = "${local.boot_with_iommu ? 1 : 0}"
-  filename = "${path.module}/etc/modprobe.d/vfio.conf"
+  filename = "${path.module}/${local.path_modprobe_conf}"
 
   content = <<EOF
 options vfio-pci ids=1002:687f,1002:aaf8,144d:a804
@@ -42,7 +45,7 @@ EOF
 }
 
 resource "local_file" "syslinux_cfg" {
-  filename = "${path.module}/boot/syslinux/syslinux.cfg"
+  filename = "${path.module}/${local.path_syslinux_cfg}"
 
   content = "${element(coalescelist(
 data.template_file.syslinux_cfg_iommu_off.*.rendered,
@@ -70,11 +73,11 @@ resource "null_resource" "root_write" {
   count = "${var.root_write ? 1 : 0}"
 
   provisioner "local-exec" {
-    command = "sudo rsync --delete-missing-args ${local_file.modprobe_conf.filename} /etc/modprobe.d/vfio.conf"
+    command = "sudo rsync --delete-missing-args ${path.module}/${local.path_modprobe_conf} /${local.path_modprobe_conf}"
   }
 
   provisioner "local-exec" {
-    command = "sudo cp ${local_file.syslinux_cfg.filename} /boot/syslinux/syslinux.cfg"
+    command = "sudo cp ${local_file.syslinux_cfg.filename} /${local.path_syslinux_cfg}"
   }
 }
 

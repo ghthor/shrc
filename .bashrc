@@ -40,6 +40,7 @@ binPaths=(
   "$HOME/bin/go-dev-tools"
   "$HOME/bin"
   "$HOME/.cargo/bin"
+  "$(ruby -e 'print Gem.user_dir')/bin"
 )
 
 for dir in "${binPaths[@]}"; do

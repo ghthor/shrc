@@ -4,6 +4,8 @@ set -euo pipefail
 
 CMD=${1:-"install"}
 
+mkdir -p "$HOME/.config"
+
 case $CMD in
 "install")
   stow -vvv \

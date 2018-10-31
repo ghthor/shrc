@@ -12,6 +12,7 @@ case $CMD in
     --dir "$HOME/src" \
     --ignore=.git/ \
     --ignore=.gitmodules \
+    --ignore=.terraform/ \
     --ignore=.config/ \
     --target "$HOME/" shrc
 
@@ -25,6 +26,7 @@ case $CMD in
     --dir "$HOME/src" \
     --ignore=.git/ \
     --ignore=.gitmodules \
+    --ignore=.terraform/ \
     --ignore=.config/ \
     --target "$HOME/" shrc
 

@@ -24,6 +24,7 @@ gocover() {
     unlink ${t}
 }
 
+# FIXME:
 tmux_race() {
   session=${TMUX_SESSION:-"$(mktemp)"}
   tmux new-session -d -s ${session} \; split-window

@@ -3,7 +3,7 @@ variable "root_write" {
 }
 
 locals {
-  boot_with_iommu = false
+  boot_with_iommu = true
 
   root_disk = "root=/dev/disk/by-uuid/547f179c-c3c6-4101-8c75-24c644cdcf85"
 

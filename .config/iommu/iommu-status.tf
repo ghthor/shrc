@@ -10,8 +10,9 @@ locals {
   cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
   cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt vsyscall=emulate"
 
-  path_modprobe_conf = "etc/modprobe.d/vfio.conf"
-  path_syslinux_cfg  = "boot/syslinux/syslinux.cfg"
+  path_modprobe_conf   = "etc/modprobe.d/vfio.conf"
+  path_mkinitcpio_conf = "etc/mkinitcpio.conf"
+  path_syslinux_cfg    = "boot/syslinux/syslinux.cfg"
 }
 
 data "template_file" "syslinux_cfg_iommu_off" {
@@ -44,6 +45,19 @@ options kvm_amd avic=1
 EOF
 }
 
+data "template_file" "mkinitcpio_conf" {
+  template = "${file("${path.module}/${local.path_mkinitcpio_conf}.tpl")}"
+
+  vars {
+    path_modprobe_conf = "${local.boot_with_iommu ? "/${local.path_modprobe_conf}" : ""}"
+  }
+}
+
+resource "local_file" "mkinitcpio_conf" {
+  filename = "${path.module}/${local.path_mkinitcpio_conf}"
+  content  = "${data.template_file.mkinitcpio_conf.rendered}"
+}
+
 resource "local_file" "syslinux_cfg" {
   filename = "${path.module}/${local.path_syslinux_cfg}"
 
@@ -72,12 +86,25 @@ EOF
 resource "null_resource" "root_write" {
   count = "${var.root_write ? 1 : 0}"
 
+  triggers {
+    mkinitcpio_conf_changed = "${local_file.mkinitcpio_conf.id}"
+    syslinux_cfg_changed    = "${local_file.syslinux_cfg.id}"
+  }
+
   provisioner "local-exec" {
     command = "sudo rsync --delete-missing-args ${path.module}/${local.path_modprobe_conf} /${local.path_modprobe_conf}"
   }
 
   provisioner "local-exec" {
+    command = "sudo cp ${local_file.mkinitcpio_conf.filename} /${local.path_mkinitcpio_conf}"
+  }
+
+  provisioner "local-exec" {
     command = "sudo cp ${local_file.syslinux_cfg.filename} /${local.path_syslinux_cfg}"
+  }
+
+  provisioner "local-exec" {
+    command = "sudo mkinitcpio -p linux"
   }
 }
 

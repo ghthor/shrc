@@ -7,16 +7,22 @@ locals {
 
   root_disk = "root=/dev/disk/by-uuid/547f179c-c3c6-4101-8c75-24c644cdcf85"
 
+  nvme_ssd   = "144d:a804"
+  usb3_ctl   = "1912:0014"
   vega_gpu   = "1002:687f"
   vega_audio = "1002:aaf8"
-  nvme_ssd   = "144d:a804"
 
-  cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
-  cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt vsyscall=emulate"
+  vfio_pci_ids = "${join(",", list(
+local.nvme_ssd,
+local.usb3_ctl,
+local.vega_gpu,
+local.vega_audio,
+))}"
 
-  path_modprobe_conf   = "etc/modprobe.d/vfio.conf"
-  path_mkinitcpio_conf = "etc/mkinitcpio.conf"
-  path_syslinux_cfg    = "boot/syslinux/syslinux.cfg"
+  cmdline_iommu_off = "${local.root_disk} rw vsyscall=emulate amd_iommu=off"
+  cmdline_iommu_on  = "${local.root_disk} rw vsyscall=emulate amd_iommu=on iommu=pt vfio-pci.ids=${local.vfio_pci_ids}"
+
+  path_syslinux_cfg = "boot/syslinux/syslinux.cfg"
 }
 
 data "template_file" "syslinux_cfg_iommu_off" {
@@ -37,29 +43,6 @@ data "template_file" "syslinux_cfg_iommu_on" {
     label   = "Arch Linux (IOMMU Enabled)"
     cmdline = "${local.cmdline_iommu_on}"
   }
-}
-
-resource "local_file" "modprobe_conf" {
-  count    = "${local.boot_with_iommu ? 1 : 0}"
-  filename = "${path.module}/${local.path_modprobe_conf}"
-
-  content = <<EOF
-options vfio-pci ids=${local.vega_gpu},${local.vega_audio},${local.nvme_ssd}
-options kvm_amd avic=1
-EOF
-}
-
-data "template_file" "mkinitcpio_conf" {
-  template = "${file("${path.module}/${local.path_mkinitcpio_conf}.tpl")}"
-
-  vars {
-    path_modprobe_conf = "${local.boot_with_iommu ? "/${local.path_modprobe_conf}" : ""}"
-  }
-}
-
-resource "local_file" "mkinitcpio_conf" {
-  filename = "${path.module}/${local.path_mkinitcpio_conf}"
-  content  = "${data.template_file.mkinitcpio_conf.rendered}"
 }
 
 resource "local_file" "syslinux_cfg" {
@@ -91,24 +74,11 @@ resource "null_resource" "root_write" {
   count = "${var.root_write ? 1 : 0}"
 
   triggers {
-    mkinitcpio_conf_changed = "${local_file.mkinitcpio_conf.id}"
-    syslinux_cfg_changed    = "${local_file.syslinux_cfg.id}"
-  }
-
-  provisioner "local-exec" {
-    command = "sudo rsync --delete-missing-args ${path.module}/${local.path_modprobe_conf} /${local.path_modprobe_conf}"
-  }
-
-  provisioner "local-exec" {
-    command = "sudo cp ${local_file.mkinitcpio_conf.filename} /${local.path_mkinitcpio_conf}"
+    syslinux_cfg_changed = "${local_file.syslinux_cfg.id}"
   }
 
   provisioner "local-exec" {
     command = "sudo cp ${local_file.syslinux_cfg.filename} /${local.path_syslinux_cfg}"
-  }
-
-  provisioner "local-exec" {
-    command = "sudo mkinitcpio -p linux"
   }
 }
 

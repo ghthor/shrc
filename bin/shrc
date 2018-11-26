@@ -14,6 +14,7 @@ case $CMD in
     --ignore=.gitmodules \
     --ignore=.terraform/ \
     --ignore=.config/ \
+    --ignore=Library/ \
     --target "$HOME/" shrc
 
   stow -vvv \
@@ -28,6 +29,7 @@ case $CMD in
     --ignore=.gitmodules \
     --ignore=.terraform/ \
     --ignore=.config/ \
+    --ignore=Library/ \
     --target "$HOME/" shrc
 
   stow -vvv --delete \

@@ -10,6 +10,7 @@ locals {
   vega_gpu   = "1002:687f"
   vega_audio = "1002:aaf8"
   nvme_ssd   = "144d:a804"
+  usb_card   = "1912:0014"
 
   cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
   cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt kvm.ignore_msrs=1 vsyscall=emulate"
@@ -44,7 +45,7 @@ resource "local_file" "modprobe_conf" {
   filename = "${path.module}/${local.path_modprobe_conf}"
 
   content = <<EOF
-options vfio-pci ids=${local.vega_gpu},${local.vega_audio},${local.nvme_ssd}
+options vfio-pci ids=${local.vega_gpu},${local.vega_audio},${local.nvme_ssd},${local.usb_card}
 options kvm_amd avic=1
 EOF
 }

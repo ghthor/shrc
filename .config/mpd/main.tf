@@ -8,6 +8,8 @@ variable "icecast_admin_user" {}
 
 variable "icecast_admin_email" {}
 
+variable "icecast_hostname" {}
+
 resource "local_file" "gitignore" {
   filename = "${path.module}/.gitignore"
 
@@ -15,6 +17,7 @@ resource "local_file" "gitignore" {
 .terraform
 *.tfstate
 *.tfstate.backup
+terraform.tfvars
 icecast.xml
 mpd.conf
 *passwd
@@ -81,6 +84,7 @@ data "template_file" "icecast" {
     icecast_admin_password  = "${chomp(data.local_file.admin_passwd.content)}"
     icecast_relay_password  = "${chomp(data.local_file.relay_passwd.content)}"
     icecast_source_password = "${chomp(data.local_file.source_passwd.content)}"
+    icecast_hostname        = "${var.icecast_hostname}"
   }
 }
 

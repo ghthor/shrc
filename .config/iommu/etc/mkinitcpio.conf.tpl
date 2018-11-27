@@ -1,4 +1,3 @@
-# vim:set ft=sh
 # MODULES
 # The following modules are loaded before any boot hooks are
 # run.  Advanced users may wish to specify all system modules
@@ -64,3 +63,5 @@ COMPRESSION="xz"
 # COMPRESSION_OPTIONS
 # Additional options for the compressor
 COMPRESSION_OPTIONS=(--threads=16 -e)
+
+# vim:set ft=sh:

@@ -77,4 +77,4 @@ LABEL poweroff
         MENU LABEL Poweroff
         COM32 poweroff.c32
 
-# vi:ft=cfg
+# vi: ft=cfg:

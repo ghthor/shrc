@@ -51,10 +51,7 @@ EOF
 
 data "template_file" "mkinitcpio_conf" {
   template = "${file("${path.module}/${local.path_mkinitcpio_conf}.tpl")}"
-
-  vars {
-    path_modprobe_conf = "${local.boot_with_iommu ? "/${local.path_modprobe_conf}" : ""}"
-  }
+  vars     = {}
 }
 
 resource "local_file" "mkinitcpio_conf" {

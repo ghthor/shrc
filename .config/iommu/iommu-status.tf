@@ -12,7 +12,7 @@ locals {
   nvme_ssd   = "144d:a804"
 
   cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
-  cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt vsyscall=emulate"
+  cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt kvm.ignore_msrs=1 vsyscall=emulate"
 
   path_modprobe_conf   = "etc/modprobe.d/vfio.conf"
   path_mkinitcpio_conf = "etc/mkinitcpio.conf"

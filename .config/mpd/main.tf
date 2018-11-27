@@ -8,7 +8,13 @@ variable "icecast_admin_user" {}
 
 variable "icecast_admin_email" {}
 
-variable "icecast_hostname" {}
+variable "icecast_hostname" {
+  description = "The hostname published URLs"
+}
+
+variable "icecast_port" {
+  description = "The port for published URLs"
+}
 
 resource "local_file" "gitignore" {
   filename = "${path.module}/.gitignore"
@@ -85,6 +91,7 @@ data "template_file" "icecast" {
     icecast_relay_password  = "${chomp(data.local_file.relay_passwd.content)}"
     icecast_source_password = "${chomp(data.local_file.source_passwd.content)}"
     icecast_hostname        = "${var.icecast_hostname}"
+    icecast_port            = "${var.icecast_port}"
   }
 }
 

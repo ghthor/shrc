@@ -149,6 +149,7 @@ export GREP_COLOR='1;32'
 # ---------------------
 # Undocumented feature which sets the size to "unlimited".
 # http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTCONTROL=ignorespace
 export HISTFILESIZE
 export HISTSIZE
 export HISTTIMEFORMAT="[%F %T] "

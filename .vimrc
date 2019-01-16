@@ -120,7 +120,8 @@ if has("autocmd")
     "autocmd Filetype html setlocal makeprg=tidy\ -quiet\ -e\ %
     "autocmd Filetype php,html exe 'setlocal equalprg=tidy\ -quiet\ -i\ -f\ '.&errorfile
     " For JSON
-    autocmd FileType json setl expandtab equalprg=json_reformat
+    " autocmd FileType json setl expandtab equalprg=json_reformat
+    autocmd FileType json setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
     " for CSS, also have things in braces indented:
     autocmd FileType css setl expandtab tabstop=4 shiftwidth=4
@@ -133,6 +134,9 @@ if has("autocmd")
 
     " for YAML files
     autocmd FileType yaml setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
+    " for Markdown files
+    autocmd FileType markdown setl textwidth=80
 
     " for Terraform files
     autocmd FileType tf setl expandtab tabstop=2 softtabstop=2 shiftwidth=2

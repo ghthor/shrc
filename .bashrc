@@ -214,5 +214,5 @@ fi
 set -o vi
 
 {
-  [[ ${GOPATH:-""} != "" ]] && [[ -d $GOPATH ]] && cd $GOPATH
+  [[ ${GOPATH:-""} != "" ]] && [[ -d "$GOPATH" ]] && cd "$GOPATH"
 } || true

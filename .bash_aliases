@@ -8,12 +8,15 @@ alias pfind='ps aux | grep $1'
 alias vit='vim $HOME/.tmp/temp'
 alias vrc='vim $HOME/.vimrc'
 
+alias jb='jobs'
+
 alias pyhttp='python3 -m http.server 8000'
 
 # Git Quickies
 alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gtree='git-forest --sha -n20'
 alias gfresh='g reset --hard HEAD && git clean -f -d'
+alias cdgit='cd "$(git rev-parse --show-toplevel)"'
 
 if [[ $(uname) == "Darwin" ]]; then
   alias xcrmdd='rm -v -rf $HOME/Library/Developer/Xcode/DerivedData/*'

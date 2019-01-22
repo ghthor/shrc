@@ -14,6 +14,8 @@ if [ "$(uname)" = "Darwin" ]; then
     source /usr/local/opt/fzf/shell/key-bindings.bash
 
 else
-  source /usr/share/fzf/completion.bash
-  source /usr/share/fzf/key-bindings.bash
+  [[ -e /usr/share/fzf/completion.bash ]] &&
+    source /usr/share/fzf/completion.bash
+  [[ -e /usr/share/fzf/key-bindings.bash ]] &&
+    source /usr/share/fzf/key-bindings.bash
 fi

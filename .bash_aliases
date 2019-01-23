@@ -17,6 +17,7 @@ alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gtree='git-forest --sha -n20'
 alias gfresh='g reset --hard HEAD && git clean -f -d'
 alias cdgit='cd "$(git rev-parse --show-toplevel)"'
+alias gb-sortdate="git for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'"
 
 if [[ $(uname) == "Darwin" ]]; then
   alias xcrmdd='rm -v -rf $HOME/Library/Developer/Xcode/DerivedData/*'

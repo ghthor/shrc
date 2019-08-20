@@ -6,8 +6,9 @@ export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
 
-export WINEPREFIX=$HOME/.wine-dnd/
-export WINEARCH=win32
+# export WINEPREFIX=$HOME/.wine-dnd/
+# export WINEARCH=win32
+export WINEPREFIX=$HOME/.wine64
 
 # Fix TERM variable
 if [ "$TERM" == "xterm" ]; then

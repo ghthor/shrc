@@ -19,7 +19,6 @@ set noautoindent
 set nosmartindent
 set nocindent
 
-let g:shfmt_cmd = 'shfmt -w'
 let g:shfmt_extra_args = '-i 2'
 let g:shfmt_fmt_on_save = 0
 

@@ -19,9 +19,6 @@
 [submodule "bundle/vim-jade"]
 	path = .vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
-[submodule "bundle/vim-javascript"]
-	path = .vim/bundle/vim-javascript
-	url = https://github.com/pangloss/vim-javascript
 [submodule "bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = https://github.com/vim-syntastic/syntastic
@@ -104,3 +101,6 @@
 	path = .vim/bundle/python-mode
 	url = https://github.com/python-mode/python-mode.git
 	branch = develop
+[submodule "bundle/yajs.vim"]
+	path = .vim/bundle/yajs.vim
+	url = https://github.com/othree/yajs.vim.git

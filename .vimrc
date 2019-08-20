@@ -19,30 +19,10 @@ set noautoindent
 set nosmartindent
 set nocindent
 
-let g:shfmt_extra_args = '-i 2'
-let g:shfmt_fmt_on_save = 0
-
 let g:elm_format_autosave = 1
+" let g:pymode_python = 'python3'
 
-" Set goimports as fmt'er
-let g:go_fmt_command = "goimports"
-let g:syntastic_go_checkers = ['go']
-
-let g:syntastic_ocaml_checkers = ['merlin']
-
-let g:syntastic_javascript_eslint_exe = '$(npm bin)/eslint'
-let g:syntastic_javascript_checkers = ['eslint']
-
-" let g:syntastic_python_checkers = ['python3']
-let g:syntastic_python_checkers = []
-let g:pymode_python = 'python3'
-
-" Syntastic settings
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:ale_fix_on_save = 1
 
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until

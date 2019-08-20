@@ -19,9 +19,6 @@
 [submodule "bundle/vim-jade"]
 	path = .vim/bundle/vim-jade
 	url = https://github.com/digitaltoad/vim-jade
-[submodule "bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/vim-syntastic/syntastic
 [submodule "bundle/tlib_vim"]
 	path = .vim/bundle/tlib_vim
 	url = https://github.com/tomtom/tlib_vim
@@ -104,3 +101,6 @@
 [submodule "bundle/yajs.vim"]
 	path = .vim/bundle/yajs.vim
 	url = https://github.com/othree/yajs.vim.git
+[submodule "bundle/ale"]
+	path = .vim/bundle/ale
+	url = https://github.com/dense-analysis/ale.git

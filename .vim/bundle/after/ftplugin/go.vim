@@ -1,3 +1,6 @@
+let b:ale_linters = ['gobuild']
+let b:ale_fixers = ['goimports']
+
 noremap mt :!go test<CR>
 noremap mtr :!go test ./...<CR>
 noremap mtp :!go test -print-all<CR>

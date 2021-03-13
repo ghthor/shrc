@@ -24,6 +24,11 @@ let g:elm_format_autosave = 1
 
 let g:ale_fix_on_save = 1
 
+" Terraform Settings
+let g:terraform_align = 1
+let g:terraform_fold_sections = 1
+let g:terraform_fmt_on_save = 1
+
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against

@@ -38,7 +38,7 @@ binPaths=(
   "$HOME/.local/bin"
   "$GOPATH/bin"
   "$GOROOT/bin"
-  "$HOME/bin/go-dev-tools"
+  "$HOME/go/bin"
   "$HOME/bin"
   "$HOME/.cargo/bin"
   "$(ruby -e 'print Gem.user_dir')/bin"

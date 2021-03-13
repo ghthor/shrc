@@ -6,7 +6,7 @@ export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
 
-# export WINEPREFIX=$HOME/.wine-dnd/
+# export WINEPREFIX=$HOME/.wine32
 # export WINEARCH=win32
 export WINEPREFIX=$HOME/.wine64
 

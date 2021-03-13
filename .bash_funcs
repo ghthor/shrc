@@ -24,6 +24,10 @@ gocover() {
     unlink ${t}
 }
 
+function hex_from_bin() {
+  echo "obase=16; ibase=2; $1" | bc
+}
+
 # FIXME:
 tmux_race() {
   session=${TMUX_SESSION:-"$(mktemp)"}

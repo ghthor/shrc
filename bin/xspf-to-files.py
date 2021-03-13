@@ -1,17 +1,15 @@
 #!/usr/bin/env python
-import os
 import sys
-import shutil
 from xml.dom import minidom
 from urllib.parse import unquote
 
-playlist = open(sys.argv[1:][0], 'rb')
+PLAYLIST = open(sys.argv[1:][0], 'rb')
 
 
-xmldoc = minidom.parse(playlist)
-paths = xmldoc.getElementsByTagName('location')
+XMLDOC = minidom.parse(PLAYLIST)
+PATHS = XMLDOC.getElementsByTagName('location')
 
-for path in paths:
+for path in PATHS:
   uri = path.firstChild.nodeValue.replace('file://', '')
   uri = uri.replace('file://', '')
   uri = unquote(uri)

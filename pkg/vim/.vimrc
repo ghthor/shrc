@@ -63,6 +63,7 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 
+" Enable cursor crosshair
 set number
 set ruler
 set cursorline

@@ -196,9 +196,6 @@ if [ -f "$HOME/.bash_aliases" ]; then
   . "$HOME/.bash_aliases"
 fi
 
-# Setup nvm
-[[ -s "/usr/share/nvm/init-nvm.sh" ]] && . "/usr/share/nvm/init-nvm.sh"
-
 # Setup autojump support
 if [ ! "$(uname)" = "Darwin" ]; then
   [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"

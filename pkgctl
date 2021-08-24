@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CMD=${1:-"nocmd"}
+PKG=${2:-"nopkg"}
+
+if [[ "${CMD}" == "nocmd" ]]; then
+  exit 1
+fi
+
+if [[ "${PKG}" == "nopkg" ]]; then
+  exit 2
+fi
+
+case $CMD in
+"install")
+  stow -vvv \
+    --dir "${PWD}/pkg" \
+    --target "${HOME}/" "${PKG}"
+  ;;
+*)
+  stow -vvv --delete \
+    --dir "${PWD}/pkg" \
+    --target "${HOME}/" "${PKG}"
+  ;;
+esac

@@ -6,7 +6,7 @@ export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
 
-# export WINEPREFIX=$HOME/.wine-dnd/
+# export WINEPREFIX=$HOME/.wine32
 # export WINEARCH=win32
 export WINEPREFIX=$HOME/.wine64
 
@@ -38,7 +38,7 @@ binPaths=(
   "$HOME/.local/bin"
   "$GOPATH/bin"
   "$GOROOT/bin"
-  "$HOME/bin/go-dev-tools"
+  "$HOME/go/bin"
   "$HOME/bin"
   "$HOME/.cargo/bin"
 )

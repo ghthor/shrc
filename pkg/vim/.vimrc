@@ -20,7 +20,7 @@ set nosmartindent
 set nocindent
 
 let g:elm_format_autosave = 1
-" let g:pymode_python = 'python3'
+let g:pymode_python = 'python3'
 
 let g:ale_fix_on_save = 1
 

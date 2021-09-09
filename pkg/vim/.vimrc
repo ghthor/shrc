@@ -29,6 +29,9 @@ let g:terraform_align = 1
 let g:terraform_fold_sections = 1
 let g:terraform_fmt_on_save = 1
 
+" Disable hclfmt terraform formatting
+let g:tf_fmt_autosave = 0
+
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against

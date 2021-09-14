@@ -45,14 +45,14 @@ if !has("gui_running")
         "set t_Co=256
 
         set background=dark
+        let g:jellybeans_use_term_italics = 1
+        colors jellybeans
         "colors peaksea
-        let g:solarized_termcolors=256
-        colors solarized
 
         highlight clear SignColumn
         call gitgutter#highlight#define_highlights()
 	else
-        colors ron
+        colors default
     endif
 else
     set background=dark

@@ -107,3 +107,6 @@
 [submodule "bundle/vim-terraform"]
 	path = pkg/vim/.vim/bundle/vim-terraform
 	url = https://github.com/hashivim/vim-terraform.git
+[submodule "bundle/jellybeans.vim"]
+	path = pkg/vim/.vim/bundle/jellybeans.vim
+	url = https://github.com/nanotech/jellybeans.vim.git

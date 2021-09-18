@@ -13,15 +13,26 @@ if [[ "${PKG}" == "nopkg" ]]; then
   exit 2
 fi
 
+TARGET_PATH_FILENAME="TARGET_PATH"
+TARGET_PATH_FILEPATH="${PWD}/pkg/${PKG}/${TARGET_PATH_FILENAME}"
+
+if [ -f "${TARGET_PATH_FILEPATH}" ]; then
+  TARGET=$(cat "${TARGET_PATH_FILEPATH}" | envsubst '${HOME}')
+else
+  TARGET="${HOME}/"
+fi
+
 case $CMD in
 "install")
   stow -vvv \
     --dir "${PWD}/pkg" \
-    --target "${HOME}/" "${PKG}"
+    --ignore "${TARGET_PATH_FILENAME}" \
+    --target "${TARGET}" "${PKG}"
   ;;
 *)
   stow -vvv --delete \
     --dir "${PWD}/pkg" \
-    --target "${HOME}/" "${PKG}"
+    --ignore "${TARGET_PATH_FILENAME}" \
+    --target "${TARGET}" "${PKG}"
   ;;
 esac

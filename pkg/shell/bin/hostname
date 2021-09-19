@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -eu
+
+NO_HOME_BIN_PATH=""
+
+filter_path() {
+  default_IFS="$IFS"
+  IFS=':'
+  for p in $PATH; do
+    if [ ! "$HOME/bin" = "$p" ]; then
+      NO_HOME_BIN_PATH="$p:$NO_HOME_BIN_PATH"
+    fi
+  done
+  IFS="$default_IFS"
+  PATH="${NO_HOME_BIN_PATH%%:}"
+}
+
+filter_path
+
+if command -v hostname >/dev/null; then
+  hostname
+else
+  cat /etc/hostname
+fi

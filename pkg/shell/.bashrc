@@ -192,12 +192,8 @@ if [ -f "$HOME/.bash_aliases" ]; then
   . "$HOME/.bash_aliases"
 fi
 
-# Setup autojump support
-if [ ! "$(uname)" = "Darwin" ]; then
-  [[ -s "/usr/share/autojump/autojump.bash" ]] && . "/usr/share/autojump/autojump.bash"
-else
-  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
-fi
+# Setup zoxide autojumper
+eval "$(zoxide init bash)"
 
 # Setup fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

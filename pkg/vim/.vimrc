@@ -42,21 +42,19 @@ set foldmethod=syntax
 " Colorscheme Selection
 if !has("gui_running")
     if &term == "xterm-256color"
-        "set t_Co=256
-
         set background=dark
         let g:jellybeans_use_term_italics = 1
         colors jellybeans
-        "colors peaksea
 
         highlight clear SignColumn
         call gitgutter#highlight#define_highlights()
-	else
+    else
         colors default
     endif
 else
     set background=dark
-    colorscheme solarized
+    let g:jellybeans_use_term_italics = 1
+    colorscheme jellybeans
 endif
 
 set backspace=indent,eol,start

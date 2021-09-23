@@ -1,0 +1,2 @@
+- [ ] fix management of non-generated secrets
+- [ ] automate systemd service management for up/down/refreshes

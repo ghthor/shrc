@@ -20,7 +20,7 @@ set nosmartindent
 set nocindent
 
 let g:elm_format_autosave = 1
-" let g:pymode_python = 'python3'
+let g:pymode_python = 'python3'
 
 let g:ale_fix_on_save = 1
 
@@ -28,6 +28,9 @@ let g:ale_fix_on_save = 1
 let g:terraform_align = 1
 let g:terraform_fold_sections = 1
 let g:terraform_fmt_on_save = 1
+
+" Disable hclfmt terraform formatting
+let g:tf_fmt_autosave = 0
 
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
@@ -42,14 +45,14 @@ if !has("gui_running")
         "set t_Co=256
 
         set background=dark
+        let g:jellybeans_use_term_italics = 1
+        colors jellybeans
         "colors peaksea
-        let g:solarized_termcolors=256
-        colors solarized
 
         highlight clear SignColumn
         call gitgutter#highlight#define_highlights()
 	else
-        colors ron
+        colors default
     endif
 else
     set background=dark
@@ -63,6 +66,7 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 
+" Enable cursor crosshair
 set number
 set ruler
 set cursorline

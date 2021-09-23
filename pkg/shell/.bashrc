@@ -179,15 +179,8 @@ fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-# -------------------------------------------------------
-# Bash Completion - Homebrew
-# -------------------------------------------------------
-
-if [ "$(uname)" = "Darwin" ]; then
-  command -v brew 2>&1 >/dev/null &&
-    [[ -f $(brew --prefix)/etc/bash_completion ]] &&
-    . $(brew --prefix)/etc/bash_completion
-fi
+# Setup any additional bash completion
+[[ -e "$HOME/.bash_completion" ]] && source "$HOME/.bash_completion"
 
 # Setup function definitions
 if [ -f "$HOME/.bash_funcs" ]; then
@@ -199,13 +192,8 @@ if [ -f "$HOME/.bash_aliases" ]; then
   . "$HOME/.bash_aliases"
 fi
 
-# Setup zoxide/autojump support
-if [ ! "$(uname)" = "Darwin" ]; then
-  # Setup zoxide autojumper
-  eval "$(zoxide init bash)"
-else
-  [[ -s "/usr/local/etc/profile.d/autojump.sh" ]] && . "/usr/local/etc/profile.d/autojump.sh"
-fi
+# Setup zoxide autojumper
+eval "$(zoxide init bash)"
 
 # Setup fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash

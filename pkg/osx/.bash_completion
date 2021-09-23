@@ -1,0 +1,9 @@
+# -------------------------------------------------------
+# Bash Completion - Homebrew
+# -------------------------------------------------------
+
+if [ "$(uname)" = "Darwin" ]; then
+  command -v brew 2>&1 >/dev/null &&
+    [[ -f $(brew --prefix)/etc/bash_completion ]] &&
+    . $(brew --prefix)/etc/bash_completion
+fi

@@ -110,3 +110,6 @@
 [submodule "bundle/jellybeans.vim"]
 	path = pkg/vim/.vim/bundle/jellybeans.vim
 	url = https://github.com/nanotech/jellybeans.vim.git
+[submodule "bundle/indentline"]
+	path = pkg/vim/.vim/bundle/indentLine
+	url = https://github.com/Yggdroot/indentLine.git

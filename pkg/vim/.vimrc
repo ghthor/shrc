@@ -70,6 +70,8 @@ set ruler
 set cursorline
 set cursorcolumn
 
+let g:indentLine_char = '|'
+
 let g:lightline = {
             \"colorscheme": "wombat",
             \"active": {

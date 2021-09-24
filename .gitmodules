@@ -113,3 +113,6 @@
 [submodule "bundle/indentline"]
 	path = pkg/vim/.vim/bundle/indentLine
 	url = https://github.com/Yggdroot/indentLine.git
+[submodule "bundle/vim-yaml-folds"]
+	path = pkg/vim/.vim/bundle/vim-yaml-folds
+	url = https://github.com/pedrohdz/vim-yaml-folds.git

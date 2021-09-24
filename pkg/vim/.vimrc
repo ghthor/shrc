@@ -41,7 +41,7 @@ set foldmethod=syntax
 
 " Colorscheme Selection
 if !has("gui_running")
-    if &term == "xterm-256color"
+    if &term == "xterm-256color" || &term == "alacritty"
         set background=dark
         let g:jellybeans_use_term_italics = 1
         colors jellybeans

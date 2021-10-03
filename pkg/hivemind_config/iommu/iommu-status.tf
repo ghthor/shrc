@@ -1,3 +1,30 @@
+terraform {
+
+  required_providers {
+    local = {
+      source  = "hashicorp/local"
+      version = "2.1.0"
+    }
+
+    null = {
+      source  = "hashicorp/null"
+      version = "3.1.0"
+    }
+
+    template = {
+      source  = "hashicorp/template"
+      version = "2.2.0"
+    }
+  }
+}
+
+provider "local" {
+}
+provider "null" {
+}
+provider "template" {
+}
+
 variable "root_write" {
   default = false
 }
@@ -21,27 +48,27 @@ locals {
 }
 
 data "template_file" "syslinux_cfg_iommu_off" {
-  count    = "${local.boot_with_iommu ? 0 : 1}"
-  template = "${file("${path.module}/${local.path_syslinux_cfg}.tpl")}"
+  count    = local.boot_with_iommu ? 0 : 1
+  template = file("${path.module}/${local.path_syslinux_cfg}.tpl")
 
-  vars {
+  vars = {
     label   = "Arch Linux (IOMMU Disabled)"
-    cmdline = "${local.cmdline_iommu_off}"
+    cmdline = local.cmdline_iommu_off
   }
 }
 
 data "template_file" "syslinux_cfg_iommu_on" {
-  count    = "${local.boot_with_iommu ? 1 : 0}"
-  template = "${file("${path.module}/${local.path_syslinux_cfg}.tpl")}"
+  count    = local.boot_with_iommu ? 1 : 0
+  template = file("${path.module}/${local.path_syslinux_cfg}.tpl")
 
-  vars {
+  vars = {
     label   = "Arch Linux (IOMMU Enabled)"
-    cmdline = "${local.cmdline_iommu_on}"
+    cmdline = local.cmdline_iommu_on
   }
 }
 
 resource "local_file" "modprobe_conf" {
-  count    = "${local.boot_with_iommu ? 1 : 0}"
+  count    = local.boot_with_iommu ? 1 : 0
   filename = "${path.module}/${local.path_modprobe_conf}"
 
   content = <<EOF
@@ -51,21 +78,21 @@ EOF
 }
 
 data "template_file" "mkinitcpio_conf" {
-  template = "${file("${path.module}/${local.path_mkinitcpio_conf}.tpl")}"
+  template = file("${path.module}/${local.path_mkinitcpio_conf}.tpl")
   vars     = {}
 }
 
 resource "local_file" "mkinitcpio_conf" {
   filename = "${path.module}/${local.path_mkinitcpio_conf}"
-  content  = "${data.template_file.mkinitcpio_conf.rendered}"
+  content  = data.template_file.mkinitcpio_conf.rendered
 }
 
 resource "local_file" "syslinux_cfg" {
   filename = "${path.module}/${local.path_syslinux_cfg}"
 
-  content = "${element(coalescelist(
-data.template_file.syslinux_cfg_iommu_off.*.rendered,
-data.template_file.syslinux_cfg_iommu_on.*.rendered), 0)}"
+  content = (element(coalescelist(
+    data.template_file.syslinux_cfg_iommu_off.*.rendered,
+  data.template_file.syslinux_cfg_iommu_on.*.rendered), 0))
 }
 
 resource "local_file" "root_terraform_apply_sh" {
@@ -86,11 +113,11 @@ EOF
 }
 
 resource "null_resource" "root_write" {
-  count = "${var.root_write ? 1 : 0}"
+  count = var.root_write ? 1 : 0
 
-  triggers {
-    mkinitcpio_conf_changed = "${local_file.mkinitcpio_conf.id}"
-    syslinux_cfg_changed    = "${local_file.syslinux_cfg.id}"
+  triggers = {
+    mkinitcpio_conf_changed = local_file.mkinitcpio_conf.id
+    syslinux_cfg_changed    = local_file.syslinux_cfg.id
   }
 
   provisioner "local-exec" {
@@ -111,5 +138,5 @@ resource "null_resource" "root_write" {
 }
 
 output "iommu_enabled" {
-  value = "${local.boot_with_iommu}"
+  value = local.boot_with_iommu
 }

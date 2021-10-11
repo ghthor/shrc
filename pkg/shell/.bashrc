@@ -161,6 +161,8 @@ export HISTFILE=~/.bash_eternal_history
 # http://superuser.com/questions/20900/bash-history-loss
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
+shopt -s histappend
+
 # -------------------------------------------------------
 # GPG & SSH Agent
 # -------------------------------------------------------

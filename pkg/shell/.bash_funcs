@@ -36,3 +36,14 @@ tmux_race() {
   tmux respawn-pane -k -t "$session:0.0" bash $1
   tmux respawn-pane -k -t "$session:0.1" bash $2
 }
+
+backup_history() {
+  cp "$HISTFILE" "$HISTFILE.$(date +%s)"
+}
+
+compress_history() {
+  backup_history
+  awk 'NR==FNR && !/^#/{lines[$0]=FNR;next} lines[$0]==FNR' \
+    "$HISTFILE" "$HISTFILE" >"$HISTFILE.compressed" &&
+    mv "$HISTFILE.compressed" "$HISTFILE"
+}

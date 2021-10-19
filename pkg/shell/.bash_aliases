@@ -7,6 +7,7 @@ alias lla='ls -l -a'
 alias pfind='ps aux | grep $1'
 alias vit='vim $HOME/.tmp/temp'
 alias vrc='vim $HOME/.vimrc'
+alias tree='exa -T'
 
 alias jb='jobs'
 

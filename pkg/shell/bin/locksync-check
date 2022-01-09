@@ -1,0 +1,33 @@
+#!/bin/sh
+
+set -u
+
+export DISPLAY=:0.0
+
+stateFile=${HOME}/.locksync/state
+
+checkLeader() {
+  if [ ! -e ${stateFile} ]; then
+    echo "On"
+  else
+    cat ${stateFile}
+  fi
+}
+
+checkLocalState() {
+  xset -q | grep 'Monitor is' | awk '{print $3}'
+}
+
+update() {
+  if [ "$(checkLeader)" != "On" ]; then
+    if [ "$(checkLocalState)" != "Off" ]; then
+      echo "turning off and locking screen"
+      xset dpms force off && xflock4
+    fi
+  fi
+}
+
+while true; do
+  update
+  sleep 1
+done

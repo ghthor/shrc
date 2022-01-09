@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -u
+set -x
+
+cmd=${1:-"On"}
+
+mkdir -p ${HOME}/.locksync
+
+if [ "$cmd" = "Off" ]; then
+	echo "Off" > ${HOME}/.locksync/state
+  xset dpms force off && xflock4
+else
+  echo "On" > ${HOME}/.locksync/state
+fi

@@ -47,3 +47,13 @@ compress_history() {
     "$HISTFILE" "$HISTFILE" >"$HISTFILE.compressed" &&
     mv "$HISTFILE.compressed" "$HISTFILE"
 }
+
+commaify_end() {
+  while read line; do
+    if [[ $line =~ ^.*,$ ]]; then
+      echo "$line"
+    else
+      echo "$line,"
+    fi
+  done
+}

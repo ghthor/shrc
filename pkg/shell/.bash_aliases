@@ -13,6 +13,8 @@ alias jb='jobs'
 
 alias pyhttp='python3 -m http.server 8000'
 
+alias reload_history="history -c && history -r"
+
 # git
 alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gfresh='g reset --hard HEAD && git clean -f -d'

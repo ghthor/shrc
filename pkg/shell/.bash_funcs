@@ -57,3 +57,10 @@ commaify_end() {
     fi
   done
 }
+
+du_sort() {
+  local output=$(du -hs ./* 2>/dev/null)
+  for i in G M K; do
+    echo "$output" | grep "[0-9]$i\b" | sort -rn
+  done
+}

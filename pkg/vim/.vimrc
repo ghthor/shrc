@@ -24,6 +24,8 @@ let g:pymode_python = 'python3'
 
 let g:ale_fix_on_save = 1
 
+let NERDTreeHijackNetrw=1
+
 " Terraform Settings
 let g:terraform_align = 1
 let g:terraform_fold_sections = 1

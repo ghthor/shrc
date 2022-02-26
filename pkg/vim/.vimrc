@@ -143,6 +143,9 @@ if has("autocmd")
 
     autocmd Filetype conf setl expandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
 
+    " setting for nginx config files
+    autocmd FileType nginx setl expandtab tabstop=4 softtabstop=4 shiftwidth=4
+
     " Enable file type detection.
     " Use the default filetype settings, so that mail gets 'tw' set to 72,
     " 'cindent' is on in C files, etc.

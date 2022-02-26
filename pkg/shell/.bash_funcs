@@ -10,6 +10,10 @@ ff() {
     -rinE "$*" .
 }
 
+fff() {
+  ff "$*" | cut -d ":" -f1 | sort | uniq
+}
+
 type whence >/dev/null 2>&1 || whence() { type "$@" | sed -e "s/.*is aliased to \`//" -e "s/'$//"; }
 
 unquote() {

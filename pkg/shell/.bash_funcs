@@ -68,3 +68,10 @@ du_sort() {
     echo "$output" | grep "[0-9]$i\b" | sort -rn
   done
 }
+
+go_pkgname_replace() {
+  local -r old=$1
+  local -r new=$2
+  find . -type f -name '*.go' -exec \
+    sed -i -e "s,$old,$new,g" {} \;
+}

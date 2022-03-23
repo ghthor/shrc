@@ -136,6 +136,7 @@ if has("autocmd")
     autocmd FileType html,css,php setl expandtab
 
     autocmd FileType javascript setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd FileType typescript setl expandtab tabstop=4 softtabstop=4 shiftwidth=4
 
     " setting for go
     autocmd Filetype go setl noexpandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent

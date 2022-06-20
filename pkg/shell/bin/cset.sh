@@ -5,7 +5,8 @@
 # Heavily modified by: Danny Lin <danny@kdrag0n.dev>
 # Customized by: Will Walthall <ghthor@gmail.com>
 #
-# This hook uses the `cset` tool to dynamically isolate and unisolate CPUs using
+# This hook uses the systemctl slice property AllowedCPUs
+# to dynamically isolate and unisolate CPUs using
 # the kernel's cgroup cpusets feature. While it's not as effective as
 # full kernel-level scheduler and timekeeping isolation, it still does wonders
 # for VM latency as compared to not isolating CPUs at all. Note that vCPU thread
@@ -13,6 +14,7 @@
 #
 # Original source: https://rokups.github.io/#!pages/gaming-vm-performance.md
 # Secondary source: https://github.com/PassthroughPOST/VFIO-Tools/blob/master/libvirt_hooks/hooks/cset.sh
+# systemctl cpuset source: https://old.reddit.com/r/VFIO/comments/mihb5j/systemd248_breaks_vm_boot_libvirt/gt9nk2q/
 # TODO: Maybe incorporate the Hugepages management from
 # https://rokups.github.io/#!pages/gaming-vm-performance.md
 #
@@ -36,12 +38,18 @@ VM_NAME="$1"
 VM_ACTION="$2/$3"
 
 function shield_vm() {
-    cset -m set -c $TOTAL_CORES -s machine.slice
-    cset -m shield --kthread on --cpu $VIRT_CORES
+  # cset -m set -c $TOTAL_CORES -s machine.slice
+  # cset -m shield --kthread on --cpu $VIRT_CORES
+  for t in user system init; do
+    systemctl set-property --runtime -- ${t}.slice AllowedCPUs=$HOST_CORES
+  done
 }
 
 function unshield_vm() {
-    cset -m shield --reset
+  # cset -m shield --reset
+  for t in user system init; do
+    systemctl set-property --runtime -- ${t}.slice AllowedCPUs=$TOTAL_CORES
+  done
 }
 
 # For convenient manual invocation

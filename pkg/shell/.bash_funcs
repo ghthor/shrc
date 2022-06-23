@@ -80,6 +80,6 @@ go_pkgname_replace() {
 function aws_subnet_usage() {
   local -r subnet_id=$1
   aws ec2 describe-network-interfaces --filters Name=subnet-id,Values=$subnet_id |
-    jq -r '.NetworkInterfaces[].PrivateIpAddress' |
+    jq -r '.NetworkInterfaces[].PrivateIpAddresses[].PrivateIpAddress' |
     sort
 }

@@ -75,3 +75,11 @@ go_pkgname_replace() {
   find . -type f -name '*.go' -exec \
     sed -i -e "s,$old,$new,g" {} \;
 }
+
+# src: https://serverfault.com/questions/1014882/is-there-any-way-of-viewing-in-aws-what-ips-in-a-subnet-have-been-allocated
+function aws_subnet_usage() {
+  local -r subnet_id=$1
+  aws ec2 describe-network-interfaces --filters Name=subnet-id,Values=$subnet_id |
+    jq -r '.NetworkInterfaces[].PrivateIpAddress' |
+    sort
+}

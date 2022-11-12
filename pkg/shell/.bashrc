@@ -48,6 +48,11 @@ for dir in "${binPaths[@]}"; do
   pathmunge "$dir"
 done
 
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export TF_PLUGIN_CACHE_DIR="$XDG_CACHE_HOME/hashicorp/terraform-plugin"
+mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 

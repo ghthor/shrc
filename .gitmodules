@@ -116,3 +116,6 @@
 [submodule "bundle/vim-yaml-folds"]
 	path = pkg/vim/.vim/bundle/vim-yaml-folds
 	url = https://github.com/pedrohdz/vim-yaml-folds.git
+[submodule "bundle/earthly.vim"]
+	path = pkg/vim/.vim/bundle/earthly.vim
+	url = git@github.com:earthly/earthly.vim.git

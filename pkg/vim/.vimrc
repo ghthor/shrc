@@ -85,7 +85,7 @@ let g:lightline = {
             \ "component": {
             \ },
             \ "component_function": {
-            \   "gitbranch": "fugitive#head",
+            \   "gitbranch": "FugitiveHead",
             \ },
             \ }
 

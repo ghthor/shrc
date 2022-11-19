@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+vim -c "Vinfo $1" -c 'only'

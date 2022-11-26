@@ -27,6 +27,10 @@ alias open='xdg-open'
 alias yay-orphans='yay -Qtdq'
 alias yay-upg-list='yay -Sy && yay -Qyu'
 
+export GOPROXY_DIR=$HOME/.cache/goproxy
+mkdir -p $GOPROXY_DIR
+alias goproxy='docker run --rm -d -p 8081:8081 --user $(id -u):$(id -g) -v $GOPROXY_DIR:/go goproxy/goproxy'
+
 # golang deprecated
 #alias godoc='godoc -goroot=/usr/lib/go -http=":6060"'
 alias cdgopath='cd $GOPATH'

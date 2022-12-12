@@ -1,28 +1,15 @@
 terraform {
-
   required_providers {
     local = {
       source  = "hashicorp/local"
-      version = "2.1.0"
+      version = "2.2.3"
     }
 
     null = {
       source  = "hashicorp/null"
-      version = "3.1.0"
-    }
-
-    template = {
-      source  = "hashicorp/template"
-      version = "2.2.0"
+      version = "3.2.1"
     }
   }
-}
-
-provider "local" {
-}
-provider "null" {
-}
-provider "template" {
 }
 
 variable "root_write" {
@@ -39,7 +26,7 @@ locals {
   nvme_ssd   = "144d:a804"
   usb_card   = "1912:0014"
 
-  hugepages = "default_hugepagesz=1G hugepagesz=1G hugepages=8"
+  hugepages = "default_hugepagesz=1G hugepagesz=1G hugepages=16"
 
   cmdline_iommu_off = "${local.root_disk} rw amd_iommu=off vsyscall=emulate"
   cmdline_iommu_on  = "${local.root_disk} rw amd_iommu=on iommu=pt kvm.ignore_msrs=1 vsyscall=emulate ${local.hugepages}"
@@ -49,24 +36,16 @@ locals {
   path_syslinux_cfg    = "boot/syslinux/syslinux.cfg"
 }
 
-data "template_file" "syslinux_cfg_iommu_off" {
-  count    = local.boot_with_iommu ? 0 : 1
-  template = file("${path.module}/${local.path_syslinux_cfg}.tpl")
-
-  vars = {
+locals {
+  syslinux_cfg_iommu_off = templatefile("${path.module}/${local.path_syslinux_cfg}.tpl", {
     label   = "Arch Linux (IOMMU Disabled)"
     cmdline = local.cmdline_iommu_off
-  }
-}
+  })
 
-data "template_file" "syslinux_cfg_iommu_on" {
-  count    = local.boot_with_iommu ? 1 : 0
-  template = file("${path.module}/${local.path_syslinux_cfg}.tpl")
-
-  vars = {
+  syslinux_cfg_iommu_on = templatefile("${path.module}/${local.path_syslinux_cfg}.tpl", {
     label   = "Arch Linux (IOMMU Enabled)"
     cmdline = local.cmdline_iommu_on
-  }
+  })
 }
 
 resource "local_file" "modprobe_conf" {
@@ -79,22 +58,18 @@ options kvm_amd avic=1
 EOF
 }
 
-data "template_file" "mkinitcpio_conf" {
-  template = file("${path.module}/${local.path_mkinitcpio_conf}.tpl")
-  vars     = {}
+locals {
+  mkinitcpio_conf = templatefile("${path.module}/${local.path_mkinitcpio_conf}.tpl", {})
 }
 
 resource "local_file" "mkinitcpio_conf" {
   filename = "${path.module}/${local.path_mkinitcpio_conf}"
-  content  = data.template_file.mkinitcpio_conf.rendered
+  content  = local.mkinitcpio_conf
 }
 
 resource "local_file" "syslinux_cfg" {
   filename = "${path.module}/${local.path_syslinux_cfg}"
-
-  content = (element(coalescelist(
-    data.template_file.syslinux_cfg_iommu_off.*.rendered,
-  data.template_file.syslinux_cfg_iommu_on.*.rendered), 0))
+  content  = local.boot_with_iommu ? local.syslinux_cfg_iommu_on : local.syslinux_cfg_iommu_off
 }
 
 resource "local_file" "root_terraform_apply_sh" {
@@ -123,7 +98,7 @@ resource "null_resource" "root_write" {
   }
 
   provisioner "local-exec" {
-    command = "sudo rsync --delete-missing-args ${path.module}/${local.path_modprobe_conf} /${local.path_modprobe_conf}"
+    command = "sudo rsync ${path.module}/${local.path_modprobe_conf} /${local.path_modprobe_conf}"
   }
 
   provisioner "local-exec" {

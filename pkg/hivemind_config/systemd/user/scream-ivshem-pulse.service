@@ -7,7 +7,7 @@ Wants=pulseaudio.service
 Type=simple
 ExecStartPre=/usr/bin/truncate -s 0 /dev/shm/scream-ivshmem
 ExecStartPre=/usr/bin/dd if=/dev/zero of=/dev/shm/scream-ivshmem bs=1M count=1
-ExecStart=/usr/bin/scream-ivshmem-pulse /dev/shm/scream-ivshmem
+ExecStart=/usr/bin/scream -m /dev/shm/scream-ivshmem
 
 [Install]
 WantedBy=default.target

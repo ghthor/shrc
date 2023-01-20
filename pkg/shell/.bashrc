@@ -5,6 +5,7 @@
 export PROJ=$HOME/proj
 export EDITOR=vim
 export CLICOLOR=""
+export STARSHIP_CONFIG=~/.starship.toml
 
 # export WINEPREFIX=$HOME/.wine32
 # export WINEARCH=win32

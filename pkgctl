@@ -6,11 +6,12 @@ CMD=${1:-"nocmd"}
 PKG=${2:-"nopkg"}
 
 if [[ "${CMD}" == "nocmd" ]]; then
-  exit 1
+  CMD=$(gum choose install delete)
 fi
 
 if [[ "${PKG}" == "nopkg" ]]; then
-  exit 2
+  PKG=$(gum choose $(find pkg -maxdepth 1 -type d | tail -n+2))
+  PKG=$(cut -d'/' -f2 <<<"$PKG")
 fi
 
 TARGET_PATH_FILENAME="TARGET_PATH"
@@ -21,6 +22,9 @@ if [ -f "${TARGET_PATH_FILEPATH}" ]; then
 else
   TARGET="${HOME}/"
 fi
+
+echo $CMD $PKG
+gum confirm || exit $?
 
 case $CMD in
 "install")

@@ -1,6 +1,8 @@
 gvim
 stow
 fzf
+ripgrep
+bat
 zoxide
 exa
 bc

@@ -83,3 +83,24 @@ function aws_subnet_usage() {
     jq -r '.NetworkInterfaces[].PrivateIpAddresses[].PrivateIpAddress' |
     sort
 }
+
+# src: https://github.com/andrew8088/dotfiles/commit/ee6f9109e0dcbca3e643530aa70f306888b1405e
+function search-line() {
+  rg --line-number . |
+    fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
+}
+
+function copy-line() {
+  local clipboard="xclip -i -sel -c"
+  if command -v pbcopy; then
+    clipboard=pbcopy
+  fi
+  search-line |
+    awk -F ':' '{print $3}' |
+    sed 's/^\s+//' |
+    $clipboard
+}
+
+function open-at-line() {
+  vim $(search-line | awk -F ':' '{print "+"$2" "$1}')
+}

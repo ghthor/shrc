@@ -19,6 +19,7 @@ alias reload_history="history -c && history -r"
 alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gfresh='g reset --hard HEAD && git clean -f -d'
 alias cdgit='cd "$(git rev-parse --show-toplevel)"'
+alias cdg='cd "$(git rev-parse --show-toplevel)"'
 alias gb-sortdate="git for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'"
 
 alias open='xdg-open'

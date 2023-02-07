@@ -187,27 +187,21 @@ fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
-# Setup any additional bash completion
-[[ -e "$HOME/.bash_completion" ]] && source "$HOME/.bash_completion"
+function source_file() {
+  if [ -f "$1" ]; then
+    source "$1"
+  fi
+}
 
-# Setup function definitions
-if [ -f "$HOME/.bash_funcs" ]; then
-  . "$HOME/.bash_funcs"
-fi
-
-# Setup alias definitions
-if [ -f "$HOME/.bash_aliases" ]; then
-  . "$HOME/.bash_aliases"
-fi
+source_file "$HOME/.bash_completion"
+source_file "$HOME/.bash_funcs"
+source_file "$HOME/.bash_aliases"
 
 # Setup zoxide autojumper
 eval "$(zoxide init bash)"
 
-# Setup fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-# Setup scm_breeze
-[[ -s "$HOME/.scm_breeze/scm_breeze.sh" ]] && . "$HOME/.scm_breeze/scm_breeze.sh"
+source_file "$HOME/.fzf.bash"
+source_file "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi
 
@@ -248,9 +242,4 @@ if command -v aws-sso 2>/dev/null; then
   complete -F __aws_sso_profile_complete aws-sso-profile
   complete -C /home/ghthor/go/bin/aws-sso aws-sso
 fi
-
 # END_AWS_SSO_CLI
-
-{
-  [[ ${GOPATH:-""} != "" ]] && [[ -d "$GOPATH" ]] && cd "$GOPATH"
-} || true

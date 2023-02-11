@@ -143,7 +143,8 @@ function set_ps1() {
 }
 
 # Set custom prompt
-PROMPT_COMMAND='set_ps1;'
+# PROMPT_COMMAND='set_ps1;'
+eval "$(starship init bash)"
 
 # Set GREP highlight color
 export GREP_COLOR='1;32'

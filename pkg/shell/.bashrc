@@ -43,7 +43,7 @@ binPaths=(
   "$HOME/bin"
   "$HOME/.cargo/bin"
 )
-  #"$(ruby -e 'print Gem.user_dir')/bin"
+#"$(ruby -e 'print Gem.user_dir')/bin"
 
 for dir in "${binPaths[@]}"; do
   pathmunge "$dir"
@@ -143,7 +143,7 @@ function set_ps1() {
 }
 
 # Set custom prompt
-# PROMPT_COMMAND='set_ps1;'
+PROMPT_COMMAND=''
 eval "$(starship init bash)"
 
 # Set GREP highlight color

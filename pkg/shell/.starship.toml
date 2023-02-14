@@ -1,4 +1,6 @@
 format = """
+$time\
+$line_break\
 $status\
 $username\
 $hostname\
@@ -73,11 +75,16 @@ $cmd_duration\
 $line_break\
 $jobs\
 $battery\
-$time\
 $os\
 $container\
 $shell\
 $character"""
+
+[time]
+disabled = false
+use_12hr = true
+format = '[$time]($style)'
+time_format = '%c'
 
 [username]
 

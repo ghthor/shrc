@@ -9,6 +9,8 @@ alias vit='vim $HOME/.tmp/temp'
 alias vrc='vim $HOME/.vimrc'
 alias tree='exa -T'
 
+alias cb="xclip -i -sel c"
+
 alias jb='jobs'
 
 alias pyhttp='python3 -m http.server 8000'

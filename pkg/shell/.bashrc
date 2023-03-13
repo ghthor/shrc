@@ -144,7 +144,6 @@ function set_ps1() {
 
 # Set custom prompt
 PROMPT_COMMAND=''
-eval "$(starship init bash)"
 
 function set_term_title() {
   local -r wd=$(pwd | sed "s_${HOME}_~_")
@@ -207,6 +206,7 @@ source_file "$HOME/.bash_aliases"
 
 # Setup zoxide autojumper
 eval "$(zoxide init bash)"
+eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
 
 source_file "$HOME/.fzf.bash"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"

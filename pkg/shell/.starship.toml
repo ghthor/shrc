@@ -1,7 +1,8 @@
 format = """
 $time\
-$line_break\
 $status\
+$cmd_duration\
+$line_break\
 $username\
 $hostname\
 $localip\
@@ -71,7 +72,6 @@ $env_var\
 $crystal\
 $custom\
 $sudo\
-$cmd_duration\
 $line_break\
 $jobs\
 $battery\
@@ -90,7 +90,13 @@ time_format = '%c'
 
 [status]
 disabled = false
-format = '[$status]($style) '
+success_symbol = '✓'
+map_symbol = true
+pipestatus = true
+format = ' exit [$symbol$status]($style)'
+
+[cmd_duration]
+format = ' took [$duration]($style)'
 
 [shlvl]
 threshold = 1

@@ -148,6 +148,7 @@ PROMPT_COMMAND=''
 function set_term_title() {
   local -r wd=$(pwd | sed "s_${HOME}_~_")
   echo -ne "\033]0;$(whoami)@$(hostname): ${wd}\007"
+  export STARSHIP_CMD_STATUS
 }
 
 starship_precmd_user_func="set_term_title"

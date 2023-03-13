@@ -1,5 +1,6 @@
 format = """
 $time\
+${custom.status0}\
 $status\
 $cmd_duration\
 $line_break\
@@ -90,10 +91,16 @@ time_format = '%c'
 
 [status]
 disabled = false
-success_symbol = '✓'
+success_symbol = ''
 map_symbol = true
 pipestatus = true
-format = ' exit [$symbol$status]($style)'
+format = '[ exit( $status $symbol)( $common_meaning)]($style)'
+
+[custom.status0]
+disabled = false
+when = '''test "$STARSHIP_CMD_STATUS" = "0";'''
+symbol = "0 🟢"
+format = '[ exit $symbol](bold green)'
 
 [cmd_duration]
 format = ' took [$duration]($style)'

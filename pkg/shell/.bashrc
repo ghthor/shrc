@@ -154,7 +154,7 @@ function set_term_title() {
 starship_precmd_user_func="set_term_title"
 
 # Set GREP highlight color
-export GREP_COLOR='1;32'
+export GREP_COLORS='mt=1;32'
 
 # -------------------------------------------------------
 # Config: Bash History

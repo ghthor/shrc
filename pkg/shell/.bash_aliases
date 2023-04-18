@@ -30,7 +30,7 @@ alias open='xdg-open'
 
 # Pacman helpers
 alias yay-orphans='yay -Qtdq'
-alias yay-upg-list='yay -Sy && yay -Qyu'
+alias yay-upg-list='yay -Sy && yay --color always -Qyu | sort'
 
 export GOPROXY_DIR=$HOME/.cache/goproxy
 mkdir -p $GOPROXY_DIR

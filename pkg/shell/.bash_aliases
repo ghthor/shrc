@@ -20,6 +20,8 @@ alias reload_history="history -c && history -r"
 alias fix_history="vim $HISTFILE && history -c && history -r"
 alias fxhs="vim $HISTFILE && history -c && history -r"
 
+alias lspath="tr ':' '\n' <<< \"$PATH\""
+
 # git
 alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'
 alias gfresh='g reset --hard HEAD && git clean -f -d'

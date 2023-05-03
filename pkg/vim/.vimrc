@@ -246,3 +246,8 @@ noremap \ :s/
 noremap mw gq80l
 
 noremap <Space> @q
+
+nnoremap <C-H> <C-W>h
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-L> <C-W>l

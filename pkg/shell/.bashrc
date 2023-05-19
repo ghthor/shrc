@@ -11,6 +11,8 @@ export STARSHIP_CONFIG=~/.starship.toml
 # export WINEARCH=win32
 export WINEPREFIX=$HOME/.wine64
 
+export BASH_COMP_DEBUG_FILE=/tmp/bash_comp_debug
+
 # Fix TERM variable
 if [ "$TERM" == "xterm" ]; then
   TERM=xterm-256color

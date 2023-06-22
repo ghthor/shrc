@@ -254,3 +254,12 @@ if command -v aws-sso 2>/dev/null; then
   complete -C /home/ghthor/go/bin/aws-sso aws-sso
 fi
 # END_AWS_SSO_CLI
+
+for hashi in nomad consul vault terraform; do
+  if ! command -v $hashi; then
+    continue
+  fi
+  if [ -x "$(command -v $hashi)" ]; then
+    complete -C "$(command -v $hashi)" $hashi
+  fi
+done

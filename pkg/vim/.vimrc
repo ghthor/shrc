@@ -21,7 +21,13 @@ set noautoindent
 set nosmartindent
 set nocindent
 
+let g:tabby_agent_logs = 'debug'
+let g:tabby_max_prefix_lines = 20
+let g:tabby_max_suffix_lines = 20
+let g:tabby_accept_binding = '<PageDown>'
+
 let g:elm_format_autosave = 1
+
 let g:pymode_python = 'python3'
 
 let g:ale_fix_on_save = 1

@@ -87,7 +87,7 @@ function aws_subnet_usage() {
 # src: https://github.com/andrew8088/dotfiles/commit/ee6f9109e0dcbca3e643530aa70f306888b1405e
 function search-line() {
   rg $1 --line-number . |
-    fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
+    fzf --delimiter ':' --preview 'bat --pager="less +{2} -R" --color=always --highlight-line {2} {1}'
 }
 
 function copy-line() {

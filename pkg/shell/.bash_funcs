@@ -106,3 +106,31 @@ function copy-line() {
 function open-at-line() {
   vim $(search-line $1 | awk -F ':' '{print "+"$2" "$1}')
 }
+
+function handle_pacnew() {
+  declare -r files=$(sudo find /etc/ -name "*.pacnew")
+
+  for file in $files; do
+    echo vimdiff ${file%".pacnew"} $file
+  done | column -t
+
+  for file in $files; do
+    echo \$ vimdiff ${file%".pacnew"} $file
+    read -p "Execute(vimdiff): " input </dev/tty
+    if [[ "$input" != y* ]]; then
+      continue
+    fi
+
+    sudo vimdiff ${file%".pacnew"} $file
+
+    input=""
+    echo \$ mv $file ${file%".pacnew"}
+    read -p "Execute(mv): " input </dev/tty
+    if [[ "$input" == y* ]]; then
+      sudo mv $file ${file%".pacnew"}
+    fi
+    input=""
+  done
+
+  unset input
+}

@@ -23,10 +23,7 @@ set noautoindent
 set nosmartindent
 set nocindent
 
-let g:tabby_agent_logs = 'debug'
-let g:tabby_max_prefix_lines = 20
-let g:tabby_max_suffix_lines = 20
-let g:tabby_accept_binding = '<PageDown>'
+let g:tabby_keybinding_accept = '<PageDown>'
 
 let g:elm_format_autosave = 1
 

@@ -5,6 +5,8 @@ set hidden
 
 set clipboard=unnamed
 
+set autowrite
+
 " Setup OCaml Plugin
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 execute "set rtp+=" . g:opamshare . "/merlin/vim"
@@ -253,6 +255,7 @@ noremap mw gq80l
 
 noremap <Space> @q
 
+" Window Navigation
 nnoremap <C-H> <C-W>h
 nnoremap <C-J> <C-W>j
 nnoremap <C-K> <C-W>k

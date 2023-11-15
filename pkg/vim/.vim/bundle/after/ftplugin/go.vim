@@ -1,4 +1,18 @@
-let b:ale_linters = ['gobuild']
+" https://github.com/fatih/vim-go/wiki/Tutorial#fix-it
+" let g:go_list_type = "quickfix"
+
+" https://github.com/fatih/vim-go/wiki/Tutorial#identifier-resolution
+let g:go_auto_type_info = 1
+
+" https://github.com/fatih/vim-go/wiki/Tutorial#identifier-highlighting
+let g:go_auto_sameids = 1
+
+" Disabled since using ale
+" https://github.com/fatih/vim-go/wiki/Tutorial#check-it
+" let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+" let g:go_metalinter_autosave = 1
+
+let b:ale_linters = ['gobuild', 'govet', 'staticcheck']
 let b:ale_fixers = ['goimports']
 
 noremap mt :!go test<CR>

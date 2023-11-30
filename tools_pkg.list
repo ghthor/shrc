@@ -8,6 +8,7 @@ fzf
 git-delta
 git-lfs
 gvim
+ijq
 jq
 pass
 pwgen
@@ -16,6 +17,9 @@ ruby
 screen
 starship
 stow
+tfenv
+tmux
+tmux-xpanes
 ttf-hack
 ttf-hack-nerd
 vim-jellybeans

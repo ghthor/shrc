@@ -125,3 +125,9 @@
 [submodule "bundle/microviche"]
 	path = pkg/vim/.vim/bundle/microviche
 	url = https://github.com/q335r49/microviche.git
+[submodule "bundle/fzf"]
+	path = pkg/vim/.vim/bundle/fzf
+	url = https://github.com/junegunn/fzf.git
+[submodule "bundle/fzf.vim"]
+	path = pkg/vim/.vim/bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git

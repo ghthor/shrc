@@ -134,3 +134,10 @@ function handle_pacnew() {
 
   unset input
 }
+
+function golisthcl() {
+  go list -f 'package "{{.ImportPath}}" {
+  imports      = [{{ range $i, $imp := .Imports }}{{ printf "\"%s\"," $imp }}{{end}}]
+  test_imports = [{{ range $i, $imp := .TestImports }}{{ printf "\"%s\"," $imp }}{{end}}]
+}'
+}

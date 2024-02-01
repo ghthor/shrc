@@ -1,2 +1,5 @@
 upload:
-	scp -r ../cryptmind/* root@nixos:/mnt/etc/nixos/
+	scp -r ../cryptnix/* root@nixos:/mnt/etc/nixos/
+
+install:
+	sudo cp ./* /etc/nixos/

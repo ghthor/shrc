@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
       ./syncthing.nix
       ./steam.nix
+      <home-manager/nixos>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -72,6 +73,22 @@
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC5sUE5ZiFc4Rta/4s5cDib0RTA0roZmlC6R7xfUvr8oymXbvoj6Pv1dE5iuETWtXsxN5Cp9tbcfuxI56f3aZQRdUbzqs4WcXVr/cuIBIBSKR7o5Q1Y2/e3S0qR7AODeGJvT1L9sSPnufldC0Xls3TCuCgQlYydWFJN/CT2fq080nd0zSG1af71tPenHfER12BmYQMjyOg/pobpm1oRaSzX6Mr/p1LF4EhagAUOQqZolE6RQdoKefKEVGk1FSHUsLtaIp+1niFFrVmEZQ/7Ti1PE8dW8NszLJHJwV84VKrW3oM8s8l/6CnpfQUsv6XleQUfzBz1sI/F3qQKqUV3GXHkAoXOOK0HxrphXJxKBDwQzK9eOCda/8U0vQKM4F7dw3V3XQUEC0yRunyUZhxg/DYGWbguRDQOMmaX5pbAjfmpw/4zImjfQ2qur54EEKjU1xjFBsEeSdbm6c1QWeB2yogziXqo9rJFJrTqJJcOjyffYSvCn+dQ0aeC8ORwEmZ0ZoltQgfQoOUgeHKuJbVVU+0v8FIN2uzz3wYageDVdJVm5ePM99TdHGeLE2nF6KHmigqcCPxknL9XYcIioiqHzQeF6sc/QvC+ojxAje6Fx/u2DBkGqvcRShLFYqCErzYguubCp+ejWsazPURVXXCUuid23tseaLj/tgtr4AdGo9rBYQ== ghthor@gmail.com"
     ];
   };
+  home-manager.users.ghthor = { pkgs, ... }: {
+    home.packages = [ pkgs.atool pkgs.httpie ];
+    programs.bash.enable = false;
+    programs.vim = {
+      enable = true;
+      plugins = with pkgs.vimPlugins; [
+        vim-nix
+      ];
+      settings = { ignorecase = true; };
+      extraConfig = (builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc);
+    };
+
+    # The state version is required and should stay at the version you
+    # originally installed.
+    home.stateVersion = "23.11";
+  };
 
   programs.vim.defaultEditor = true;
 
@@ -83,7 +100,6 @@
     stow
     zoxide
 
-    (import ./vim.nix)
     htop
     bat
     eza
@@ -98,6 +114,7 @@
     wget
     ripgrep
 
+    gnumake
     git
     go
 

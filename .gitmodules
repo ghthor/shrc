@@ -131,3 +131,6 @@
 [submodule "bundle/fzf.vim"]
 	path = pkg/vim/.vim/bundle/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
+[submodule "bundle/vim-nix"]
+	path = pkg/vim/.vim/bundle/vim-nix
+	url = https://github.com/LnL7/vim-nix.git

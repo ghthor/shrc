@@ -251,7 +251,7 @@ aws-sso-clear() {
 
 if command -v aws-sso 2>/dev/null; then
   complete -F __aws_sso_profile_complete aws-sso-profile
-  complete -C /home/ghthor/go/bin/aws-sso aws-sso
+  complete -C $(command -v aws-sso) aws-sso
 fi
 # END_AWS_SSO_CLI
 

@@ -37,6 +37,10 @@ pathmunge() {
   fi
 }
 
+if [ -d "/opt/homebrew/bin" ]; then
+  pathmunge "/opt/homebrew/bin"
+fi
+
 binPaths=(
   "$HOME/.local/bin"
   "$GOPATH/bin"
@@ -188,6 +192,17 @@ if [ ! "$(uname)" = "Darwin" ]; then
   fi
   if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
     export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  fi
+else
+  # Src: https://github.com/herlo/ssh-gpg-smartcard-config/blob/master/macOS.md
+  # Start gpg-agent if it's not running
+  if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
+    gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env
+  fi
+
+  # Import various environment variables from the agent.
+  if [ -f "$HOME/.gnupg/env" ]; then
+    source $HOME/.gnupg/env
   fi
 fi
 

@@ -59,26 +59,35 @@
   # services.xserver.libinput.enable = true;
 
   services.tailscale.enable = true;
+  virtualisation.docker.enable = true;
+  virtualisation.docker.storageDriver = "btrfs";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ghthor = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "docker"
+      "networkmanager"
+    ];
     packages = with pkgs; [
+      nitrokey-app
       albert
       firefox
       chromium
       aws-sso-cli
       git-extras
       gh
-      nitrokey-app
+      docker
+      docker-buildx
+      docker-credential-helpers
+      amazon-ecr-credential-helper
     ];
     openssh.authorizedKeys.keys = [ ];
   };
   home-manager.users.ghthor = { pkgs, ... }: {
     home.packages = [
-      pkgs.atool
-      pkgs.httpie
+      pkgs.docker
     ];
     programs.bash.enable = false;
     programs.vim = {
@@ -142,6 +151,8 @@
     xfce.xfce4-cpugraph-plugin
 
     winetricks
+
+    docker-buildx
   ];
 
   fonts = {

@@ -186,24 +186,23 @@ shopt -s histappend
 # -------------------------------------------------------
 # GPG & SSH Agent
 # -------------------------------------------------------
-if [ ! "$(uname)" = "Darwin" ]; then
-  if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
-    unset SSH_AGENT_PID
-  fi
-  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-  fi
-else
+if [ "$(uname)" = "Darwin" ]; then
   # Src: https://github.com/herlo/ssh-gpg-smartcard-config/blob/master/macOS.md
   # Start gpg-agent if it's not running
   if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
     gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env
   fi
-
   # Import various environment variables from the agent.
-  if [ -f "$HOME/.gnupg/env" ]; then
+  until [ -f "$HOME/.gnupg/env" ]; do
     source $HOME/.gnupg/env
-  fi
+  done
+fi
+
+if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
+  unset SSH_AGENT_PID
+fi
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
 
 # -------------------------------------------------------

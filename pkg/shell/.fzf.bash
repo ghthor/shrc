@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 
 if [ "$(uname)" = "Darwin" ]; then
-  # Setup homebrew fzf
-  # ---------
-  if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
-    export PATH="$PATH:/usr/local/opt/fzf/bin"
-  fi
-
   # Auto-completion &&
   # key bindings
   # ------------
   [[ $- == *i* ]] &&
-    source /usr/local/opt/fzf/shell/completion.bash 2>/dev/null &&
-    source /usr/local/opt/fzf/shell/key-bindings.bash
+    source $(find /opt/homebrew/Cellar/fzf -name key-bindings.bash) &&
+    source $(find /opt/homebrew/Cellar/fzf -name completion.bash) 2>/dev/null
 
 elif command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"

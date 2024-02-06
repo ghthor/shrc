@@ -231,6 +231,9 @@ source_file "$HOME/.bash_aliases"
 # Setup zoxide autojumper
 eval "$(zoxide init bash)"
 eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
+if [ -x $(command -v direnv 2>/dev/null) ]; then
+  eval "$(direnv hook bash)"
+fi
 
 source_file "$HOME/.fzf.bash"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"

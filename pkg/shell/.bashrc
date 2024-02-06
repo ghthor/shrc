@@ -217,6 +217,9 @@ function source_file() {
   fi
 }
 
+# Enable Bash completion on OSX
+source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
+
 source_file "$HOME/.bash_completion"
 source_file "$HOME/.bash_funcs"
 source_file "$HOME/.bash_aliases"

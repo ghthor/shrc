@@ -217,8 +217,8 @@ function source_file() {
   fi
 }
 
-# Enable Bash completion on OSX
-source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
+# TODO(will): replace with shell.nix bash
+# source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 if [ -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]; then
   alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"

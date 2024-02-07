@@ -29,7 +29,9 @@ alias cdgit='cd "$(git rev-parse --show-toplevel)"'
 alias cdg='cd "$(git rev-parse --show-toplevel)"'
 alias gb-sortdate="git for-each-ref --sort=committerdate refs/heads/ --format='%(committerdate:short) %(refname:short)'"
 
-alias open='xdg-open'
+if [ "$(uname)" != "Darwin" ]; then
+  alias open='xdg-open'
+fi
 
 # Pacman helpers
 alias yay-orphans='yay -Qtdq'

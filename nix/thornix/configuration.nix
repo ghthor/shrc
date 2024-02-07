@@ -13,11 +13,16 @@
       <home-manager/nixos>
     ];
 
+  # nixpkgs.config.allowUnfreePredicate = pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     # Add additional package names here
+  #   ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "cryptnix"; # Define your hostname.
+  networking.hostName = "thornix"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -42,7 +47,7 @@
 
   services.xserver.desktopManager.xfce.enable = true;
   services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "intel" ];
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -94,9 +99,16 @@
       enable = true;
       plugins = with pkgs.vimPlugins; [
         vim-nix
+        jellybeans-vim
+        vim-gitgutter
+        vim-pathogen
       ];
       settings = { ignorecase = true; };
       extraConfig = (builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc);
+    };
+
+    programs.ssh = {
+      extraConfig = "";
     };
 
     # The state version is required and should stay at the version you

@@ -13,6 +13,13 @@
       <home-manager/nixos>
     ];
 
+  # nixpkgs.config.allowUnfreePredicate = pkg:
+  #   builtins.elem (lib.getName pkg) [
+  #     # Add additional package names here
+  #   ];
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -94,9 +101,16 @@
       enable = true;
       plugins = with pkgs.vimPlugins; [
         vim-nix
+        jellybeans-vim
+        vim-gitgutter
+        vim-pathogen
       ];
       settings = { ignorecase = true; };
       extraConfig = (builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc);
+    };
+
+    programs.ssh = {
+      extraConfig = "";
     };
 
     # The state version is required and should stay at the version you
@@ -106,9 +120,16 @@
 
   programs.vim.defaultEditor = true;
 
+  programs.bash.enableCompletion = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    bash-completion
+    nix-bash-completions
+    zsh-completions
+    nix-zsh-completions
+
     starship
     fzf
     stow

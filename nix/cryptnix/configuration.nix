@@ -89,6 +89,7 @@
       docker-buildx
       docker-credential-helpers
       amazon-ecr-credential-helper
+      xclip
     ];
     openssh.authorizedKeys.keys = [ ];
   };

@@ -174,6 +174,7 @@
     winetricks
 
     docker-buildx
+    docker-compose
   ];
 
   fonts = {

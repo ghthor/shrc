@@ -1,8 +1,12 @@
 [user]
 	email = ghthor@gmail.com
-	name = Will Drengwitz
+	name = Will Owens
+	signingkey = A3124B3009B47FCF
 [includeIf "gitdir:~/voltusdev/"]
 	path = ~/voltusdev/gitconfig
+
+[commit]
+	gpgsign = true
 
 [github]
 	user = ghthor

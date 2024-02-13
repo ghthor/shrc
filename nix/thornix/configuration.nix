@@ -62,6 +62,14 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  # Enable mDNS
+  services.avahi = {
+    enable = true;
+    publish.enable = true;
+    publish.addresses = true;
+    nssmdns4 = true;
+  };
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -90,6 +98,7 @@
       docker-credential-helpers
       amazon-ecr-credential-helper
       xclip
+      barrier
     ];
     openssh.authorizedKeys.keys = [ ];
 

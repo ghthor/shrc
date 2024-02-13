@@ -236,6 +236,11 @@ if [ -x "$(command -v direnv 2>/dev/null)" ]; then
 fi
 
 source_file "$HOME/.fzf.bash"
+
+# SCM_Breeze doesn't trigger the dynamic loading of the git completions file
+# but depends on function definitions within the git completion script to be
+# sourced. So we do that explicitly instead of relying on bash to lazy load
+source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi

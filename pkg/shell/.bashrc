@@ -149,6 +149,19 @@ function source_file() {
   fi
 }
 
+function bash_completion_brew() {
+  if type brew &>/dev/null; then
+    HOMEBREW_PREFIX="$(brew --prefix)"
+    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+      source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+    else
+      for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+        [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+      done
+    fi
+  fi
+}
+
 # TODO(will): replace with shell.nix bash
 # source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
@@ -172,6 +185,7 @@ source_file "$HOME/.fzf.bash"
 # SCM_Breeze doesn't trigger the dynamic loading of the git completions file
 # but depends on function definitions within the git completion script to be
 # sourced. So we do that explicitly instead of relying on bash to lazy load
+bash_completion_brew
 source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"
 

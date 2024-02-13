@@ -74,8 +74,8 @@
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
-      "docker"
       "networkmanager"
+      "docker"
     ];
     packages = with pkgs; [
       nitrokey-app
@@ -83,14 +83,17 @@
       firefox
       chromium
       aws-sso-cli
-      git-extras
+      gitFull
       gh
       docker
       docker-buildx
       docker-credential-helpers
       amazon-ecr-credential-helper
+      xclip
     ];
     openssh.authorizedKeys.keys = [ ];
+
+    shell = pkgs.bashInteractive;
   };
   home-manager.users.ghthor = { pkgs, ... }: {
     home.packages = [
@@ -120,9 +123,15 @@
 
   programs.vim.defaultEditor = true;
 
+  programs.bash.enableCompletion = true;
+  programs.git.enable = true;
+  programs.git.package = pkgs.gitFull;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    nix-bash-completions
+
     starship
     fzf
     stow
@@ -145,7 +154,6 @@
 
     diff-so-fancy
     gnumake
-    git
     go
 
     ruby
@@ -167,6 +175,7 @@
     winetricks
 
     docker-buildx
+    docker-compose
   ];
 
   fonts = {
@@ -178,6 +187,7 @@
       (nerdfonts.override { fonts = [ "Hack" ]; })
     ];
     fontconfig = {
+      useEmbeddedBitmaps = true;
       localConf = ''
 <?xml version="1.0"?>
 <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">

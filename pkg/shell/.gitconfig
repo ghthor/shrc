@@ -1,6 +1,9 @@
 [user]
 	email = ghthor@gmail.com
-	name = Will Owens
+	name = Will Drengwitz
+[includeIf "gitdir:~/voltusdev/"]
+	path = ~/voltusdev/gitconfig
+
 [github]
 	user = ghthor
 

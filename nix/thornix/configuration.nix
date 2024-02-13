@@ -55,6 +55,9 @@
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "eurosign:e,caps:escape";
 
+  # Enable touchpad support (enabled default in most desktopManager).
+  # services.xserver.libinput.enable = true;
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -70,10 +73,12 @@
     nssmdns4 = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   services.tailscale.enable = true;
+
+  services.resolved = {
+    enable = true;
+  };
+
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
 

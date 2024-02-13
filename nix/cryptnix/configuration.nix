@@ -69,13 +69,17 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
 
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ghthor = {
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
-      "docker"
       "networkmanager"
+      "docker"
+      "libvirtd"
     ];
     packages = with pkgs; [
       nitrokey-app

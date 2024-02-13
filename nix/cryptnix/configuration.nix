@@ -87,7 +87,7 @@
       firefox
       chromium
       aws-sso-cli
-      git-extras
+      gitFull
       gh
       docker
       docker-buildx
@@ -96,6 +96,8 @@
       xclip
     ];
     openssh.authorizedKeys.keys = [ ];
+
+    shell = pkgs.bashInteractive;
   };
   home-manager.users.ghthor = { pkgs, ... }: {
     home.packages = [
@@ -126,14 +128,13 @@
   programs.vim.defaultEditor = true;
 
   programs.bash.enableCompletion = true;
+  programs.git.enable = true;
+  programs.git.package = pkgs.gitFull;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    bash-completion
     nix-bash-completions
-    zsh-completions
-    nix-zsh-completions
 
     starship
     fzf
@@ -157,7 +158,6 @@
 
     diff-so-fancy
     gnumake
-    git
     go
 
     ruby

@@ -18,7 +18,21 @@
   #     # Add additional package names here
   #   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "http://cryptnix.local/"
+    ];
+    trusted-substituters = [
+      "http://cryptnix.local/"
+    ];
+    trusted-public-keys = [
+      "cryptnix.local:cDFJzHTVw96mdDraHDg5pNDpxd7x5Z0yyPeJ99IYmqI="
+    ];
+    trusted-users = [
+      "ghthor"
+    ];
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

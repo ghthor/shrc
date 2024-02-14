@@ -20,6 +20,29 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+#   nix.sshServe = {
+#     enable = true;
+#     keys = [
+#       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMN5tEapDKMO41uv+bijSp6xCNbZWVlVZt8CrzYvF/FC root@thornix"
+#     ];
+#   };
+
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/etc/nixos/nix-serve/cache-priv-key.pem";
+    bindAddress = "127.0.0.1";
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    virtualHosts = {
+      "${config.networking.hostName}.local" = {
+        locations."/".proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+      };
+    };
+  };
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

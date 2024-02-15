@@ -131,6 +131,7 @@
       amazon-ecr-credential-helper
       xclip
       barrier
+      direnv
     ];
     openssh.authorizedKeys.keys = [ ];
 

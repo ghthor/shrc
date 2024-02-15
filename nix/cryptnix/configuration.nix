@@ -18,14 +18,18 @@
   #     # Add additional package names here
   #   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-#   nix.sshServe = {
-#     enable = true;
-#     keys = [
-#       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMN5tEapDKMO41uv+bijSp6xCNbZWVlVZt8CrzYvF/FC root@thornix"
-#     ];
-#   };
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "http://thornix.local/"
+    ];
+    trusted-substituters = [
+      "http://thornix.local/"
+    ];
+    trusted-public-keys = [
+      "thornix.local:frvTziY6xLrqPlkM7Ywe0jsoQB5EyaKH3l3hYS0WFXQ="
+    ];
+  };
 
   services.nix-serve = {
     enable = true;

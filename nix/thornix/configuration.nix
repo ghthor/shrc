@@ -29,9 +29,22 @@
     trusted-public-keys = [
       "cryptnix.local:cDFJzHTVw96mdDraHDg5pNDpxd7x5Z0yyPeJ99IYmqI="
     ];
-    trusted-users = [
-      "ghthor"
-    ];
+  };
+
+  services.nix-serve = {
+    enable = true;
+    secretKeyFile = "/etc/nixos/nix-serve/cache-priv-key.pem";
+    bindAddress = "127.0.0.1";
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    virtualHosts = {
+      "${config.networking.hostName}.local" = {
+        locations."/".proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+      };
+    };
   };
 
   # Use the systemd-boot EFI boot loader.

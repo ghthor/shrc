@@ -15,6 +15,16 @@
   programs.home-manager.enable = true;
   # I use fish, but bash and zsh work just as well here. This will setup
   # the shell to use home-manager properly on startup, neat!
+  programs.gh = {
+    enable = true;
+    settings = {
+      git_protocol = "ssh";
+      aliases = {
+        co = "pr checkout";
+      };
+      prompt = "enabled";
+    };
+  };
 
   home.file."gpg-agent.conf" = {
     text = ''
@@ -26,6 +36,12 @@
       log-file $HOME/.gnupg/gpg-agent.log
     '';
     target = ".gnupg/gpg-agent.conf";
+  };
+
+  programs.kitty = {
+    enable = true;
+    shellIntegration.enableZshIntegration = true;
+    theme = "Jellybeans";
   };
 
   programs.starship = {

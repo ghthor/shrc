@@ -20,6 +20,15 @@
   # https://mipmip.github.io/home-manager-option-search/?query=
   programs.home-manager.enable = true;
 
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+    Host cryptnix.local
+      User ghthor
+      Port 22
+    '';
+  };
+
   programs.go.enable = true;
   programs.git = {
     enable = true;

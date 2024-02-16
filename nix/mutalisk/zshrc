@@ -24,3 +24,11 @@ fi
 [[ -f "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi
+
+function finder_hidden_enable() {
+	defaults write com.apple.finder AppleShowAllFiles true && killall Finder
+}
+
+function finder_hidden_disable() {
+	defaults write com.apple.finder AppleShowAllFiles false && killall Finder
+}

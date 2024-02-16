@@ -10,6 +10,7 @@
     ];
   };
 
+  # https://mipmip.github.io/home-manager-option-search/?query=
   programs.home-manager.enable = true;
   # I use fish, but bash and zsh work just as well here. This will setup
   # the shell to use home-manager properly on startup, neat!
@@ -34,6 +35,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    enableAutosuggestions = true;
     initExtraFirst = ''
     '';
     initExtra = builtins.readFile ./zshrc;

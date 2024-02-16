@@ -15,6 +15,18 @@
   # I use fish, but bash and zsh work just as well here. This will setup
   # the shell to use home-manager properly on startup, neat!
 
+  home.file."gpg-agent.conf" = {
+    text = ''
+      pinentry-program /opt/homebrew/bin/pinentry-mac
+      enable-ssh-support
+      default-cache-ttl 600
+      max-cache-ttl 7200
+      debug-level none
+      log-file $HOME/.gnupg/gpg-agent.log
+    '';
+    target = ".gnupg/gpg-agent.conf";
+  };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = false; # Manually enabled via initExtra

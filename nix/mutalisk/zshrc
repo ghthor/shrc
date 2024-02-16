@@ -1,0 +1,26 @@
+export PATH="/opt/homebrew/bin:$PATH"
+export GPG_TTY=$(tty)
+
+# Start gpg-agent if it's not running
+if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
+	gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env
+fi
+
+# Import various environment variables from the agent.
+if [ -f "$HOME/.gnupg/env" ]; then
+	source $HOME/.gnupg/env
+fi
+
+export SSH_AUTH_SOCKET=$(gpgconf --list-dirs agent-ssh-socket)
+
+if [[ $TERM != "dumb" ]]; then
+	eval "$(/Users/willowens/.nix-profile/bin/starship init zsh)"
+	function export_STARSHIP_CMD_STATUS() {
+		export STARSHIP_CMD_STATUS
+	}
+	precmd_functions+=(export_STARSHIP_CMD_STATUS)
+fi
+
+[[ -f "$HOME/.scm_breeze/scm_breeze.sh" ]] && source "$HOME/.scm_breeze/scm_breeze.sh"
+
+set -o vi

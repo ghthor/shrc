@@ -1,6 +1,42 @@
-export PATH="/opt/homebrew/bin:$PATH"
-export GPG_TTY=$(tty)
+# src: https://unix.stackexchange.com/a/217629
+function pathmunge() {
+  if [ -d "$1" ]; then
+    if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)"; then
+      if [ "$2" = "after" ]; then
+        PATH="$PATH:$1"
+      else
+        PATH="$1:$PATH"
+      fi
+    fi
+  fi
+}
 
+eval "$(go env | grep -E '(GOPATH|GOROOT)')"
+export GOROOT
+export GOPATH
+
+binPaths=(
+  "$HOME/.local/bin"
+  "$GOPATH/bin"
+  "$GOROOT/bin"
+  "$HOME/go/bin"
+  "$HOME/bin"
+  "$HOME/.cargo/bin"
+)
+
+for dir in "${binPaths[@]}"; do
+  pathmunge "$dir"
+done
+
+if [ -d "/opt/homebrew/bin" ]; then
+  pathmunge "/opt/homebrew/bin"
+fi
+
+export XDG_CACHE_HOME="$HOME/.cache"
+export TF_PLUGIN_CACHE_DIR="$XDG_CACHE_HOME/hashicorp/terraform-plugin"
+mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+export GPG_TTY=$(tty)
 # Start gpg-agent if it's not running
 if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
 	gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env

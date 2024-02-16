@@ -41,6 +41,10 @@ if [ -d "/opt/homebrew/bin" ]; then
   pathmunge "/opt/homebrew/bin"
 fi
 
+eval "$(go env | grep -E '(GOPATH|GOROOT)')"
+export GOROOT
+export GOPATH
+
 binPaths=(
   "$HOME/.local/bin"
   "$GOPATH/bin"
@@ -49,7 +53,6 @@ binPaths=(
   "$HOME/bin"
   "$HOME/.cargo/bin"
 )
-#"$(ruby -e 'print Gem.user_dir')/bin"
 
 for dir in "${binPaths[@]}"; do
   pathmunge "$dir"
@@ -170,7 +173,6 @@ if [ -z "$BASHRC_HOME_MANAGER" ]; then
 
   source_file "$HOME/.fzf.bash"
 fi
-
 
 # SCM_Breeze doesn't trigger the dynamic loading of the git completions file
 # but depends on function definitions within the git completion script to be

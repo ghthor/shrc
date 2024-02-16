@@ -8,13 +8,25 @@
       ruby
       rubyfmt
       bashInteractive
+      pass
+      fd
+      eza
+      tree
+      bat
+      stow
     ];
   };
 
   # https://mipmip.github.io/home-manager-option-search/?query=
   programs.home-manager.enable = true;
-  # I use fish, but bash and zsh work just as well here. This will setup
-  # the shell to use home-manager properly on startup, neat!
+
+  programs.go.enable = true;
+  programs.git = {
+    enable = true;
+    diff-so-fancy.enable = true;
+    package = pkgs.gitFull;
+  };
+
   programs.gh = {
     enable = true;
     settings = {
@@ -38,6 +50,7 @@
     target = ".gnupg/gpg-agent.conf";
   };
 
+  # Still needs to be brew installed for Kitty.app
   programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;

@@ -13,7 +13,7 @@ execute "set rtp+=" . g:opamshare . "/merlin/vim"
 
 " Pathogen bundle manager
 runtime bundle/vim-pathogen/autoload/pathogen.vim 
-call pathogen#infect()
+call pathogen#infect('bundle/{}', '~/src/shrc/pkg/vim/.vim/bundle/{}')
 call pathogen#helptags()
 
 " Indention and Syntax

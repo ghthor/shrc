@@ -55,6 +55,18 @@
     target = "bin/brew_install_stdenv";
   };
 
+  programs.vim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      vim-nix
+      jellybeans-vim
+      vim-gitgutter
+      vim-pathogen
+    ];
+    settings = { ignorecase = true; };
+    extraConfig = (builtins.readFile ../../pkg/vim/.vimrc);
+  };
+
   # Still needs to be brew installed for Kitty.app
   programs.kitty = {
     enable = true;

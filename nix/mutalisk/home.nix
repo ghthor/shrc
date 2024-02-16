@@ -7,6 +7,7 @@
     packages = with pkgs; [
       ruby
       rubyfmt
+      bashInteractive
     ];
   };
 
@@ -35,6 +36,7 @@
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    enableBashIntegration = true;
   };
   programs.direnv = {
     enable = true;
@@ -51,5 +53,14 @@
     initExtraFirst = ''
     '';
     initExtra = builtins.readFile ./zshrc;
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    bashrcExtra = ''
+      export BASHRC_HOME_MANAGER=1
+    '';
+    initExtra = builtins.readFile ../../pkg/shell/.bashrc;
   };
 }

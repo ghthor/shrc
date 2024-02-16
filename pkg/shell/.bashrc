@@ -149,19 +149,6 @@ function source_file() {
   fi
 }
 
-function bash_completion_brew() {
-  if type brew &>/dev/null; then
-    HOMEBREW_PREFIX="$(brew --prefix)"
-    if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
-      source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-    else
-      for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
-        [[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
-      done
-    fi
-  fi
-}
-
 # TODO(will): replace with shell.nix bash
 # source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
@@ -169,23 +156,25 @@ if [ -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]; then
   alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 fi
 
-source_file "$HOME/.bash_completion"
 source_file "$HOME/.bash_funcs"
 source_file "$HOME/.bash_aliases"
 
-# Setup zoxide autojumper
-eval "$(zoxide init bash)"
-eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
-if [ -x "$(command -v direnv 2>/dev/null)" ]; then
-  eval "$(direnv hook bash)"
+# Home Manager will handle this for us
+if [ -z "$BASHRC_HOME_MANAGER" ]; then
+  # Setup zoxide autojumper
+  eval "$(zoxide init bash)"
+  eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
+  if [ -x "$(command -v direnv 2>/dev/null)" ]; then
+    eval "$(direnv hook bash)"
+  fi
+
+  source_file "$HOME/.fzf.bash"
 fi
 
-source_file "$HOME/.fzf.bash"
 
 # SCM_Breeze doesn't trigger the dynamic loading of the git completions file
 # but depends on function definitions within the git completion script to be
 # sourced. So we do that explicitly instead of relying on bash to lazy load
-bash_completion_brew
 source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"
 

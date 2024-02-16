@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+
+brew install \
+  gnupg \
+  pinentry \
+  pinentry-mac \
+  syncthing \
+  tailscale \
+  amethyst \
+  barrier \
+  font-hack-nerd-font \
+  kitty \
+  stats

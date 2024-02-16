@@ -50,6 +50,11 @@
     target = ".gnupg/gpg-agent.conf";
   };
 
+  home.file."brew_install_stdenv" = {
+    source = ./brew_install_stdenv;
+    target = "bin/brew_install_stdenv";
+  };
+
   # Still needs to be brew installed for Kitty.app
   programs.kitty = {
     enable = true;

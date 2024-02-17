@@ -178,6 +178,7 @@ fi
 # but depends on function definitions within the git completion script to be
 # sourced. So we do that explicitly instead of relying on bash to lazy load
 source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git"
+source_file "$HOME/.nix-profile/share/bash-completion/completions/git"
 source_file "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi

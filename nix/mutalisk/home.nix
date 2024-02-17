@@ -10,6 +10,7 @@ let
         jellybeans-vim
         vim-gitgutter
         vim-pathogen
+        # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
       ];
     };
@@ -28,6 +29,7 @@ in
       bashInteractive
       pass
       fd
+      ripgrep
       eza
       tree
       bat
@@ -94,8 +96,8 @@ in
     };
     ".vimrc" = {
       text = ''
-      source ${vimrcFile.outPath}
-      source $HOME/src/shrc/pkg/vim/.vimrc
+        source ${vimrcFile.outPath}
+        source $HOME/src/shrc/pkg/vim/.vimrc
       '';
       target = ".vimrc";
     };
@@ -141,6 +143,8 @@ in
     bashrcExtra = ''
       export BASHRC_HOME_MANAGER=1
     '';
-    initExtra = builtins.readFile ../../pkg/shell/.bashrc;
+    initExtra = ''
+      source $HOME/src/shrc/pkg/shell/.bashrc
+    '';
   };
 }

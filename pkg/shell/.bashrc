@@ -152,15 +152,12 @@ function source_file() {
   fi
 }
 
-# TODO(will): replace with shell.nix bash
-# source_file "/opt/homebrew/etc/profile.d/bash_completion.sh"
-
 if [ -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]; then
   alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 fi
 
-source_file "$HOME/.bash_funcs"
-source_file "$HOME/.bash_aliases"
+source_file "$HOME/src/shrc/pkg/shell/.bash_funcs"
+source_file "$HOME/src/shrc/pkg/shell/.bash_aliases"
 
 # Home Manager will handle this for us
 if [ -z "$BASHRC_HOME_MANAGER" ]; then
@@ -171,14 +168,14 @@ if [ -z "$BASHRC_HOME_MANAGER" ]; then
     eval "$(direnv hook bash)"
   fi
 
-  source_file "$HOME/.fzf.bash"
+  source_file "$HOME/src/shrc/pkg/shell/.fzf.bash"
 fi
 
 # SCM_Breeze doesn't trigger the dynamic loading of the git completions file
 # but depends on function definitions within the git completion script to be
 # sourced. So we do that explicitly instead of relying on bash to lazy load
-source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git"
-source_file "$HOME/.nix-profile/share/bash-completion/completions/git"
+source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git" # nixos
+source_file "$HOME/.nix-profile/share/bash-completion/completions/git"            # darwin
 source_file "$HOME/.scm_breeze/scm_breeze.sh"
 
 set -o vi

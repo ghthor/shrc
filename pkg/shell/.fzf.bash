@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$(uname)" = "Darwin" ]; then
-  # Auto-completion &&
-  # key bindings
-  # ------------
-  [[ $- == *i* ]] &&
-    source $(find /opt/homebrew/Cellar/fzf -name key-bindings.bash) &&
-    source $(find /opt/homebrew/Cellar/fzf -name completion.bash) 2>/dev/null
-
-elif command -v fzf-share >/dev/null; then
+if command -v fzf-share >/dev/null; then
   source "$(fzf-share)/key-bindings.bash"
   source "$(fzf-share)/completion.bash"
 else

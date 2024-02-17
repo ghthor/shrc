@@ -41,6 +41,10 @@ in
 
   # https://mipmip.github.io/home-manager-option-search/?query=
   programs.home-manager.enable = true;
+  home.sessionVariables = {
+    EDITOR = "vim";
+  };
+  xdg.enable = true;
 
   programs.ssh = {
     enable = true;
@@ -56,6 +60,14 @@ in
     enable = true;
     diff-so-fancy.enable = true;
     package = pkgs.gitFull;
+    extraConfig = {
+      core = {
+        excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
+      };
+    };
+    includes = [
+      {path = "~/src/shrc/pkg/shell/.gitconfig"; }
+    ];
   };
 
   programs.gh = {
@@ -108,6 +120,11 @@ in
     enable = true;
     shellIntegration.enableZshIntegration = true;
     theme = "Jellybeans";
+  };
+
+  programs.readline = {
+    enable = true;
+    extraConfig = (builtins.readFile ../../pkg/shell/.inputrc);
   };
 
   programs.starship = {

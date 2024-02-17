@@ -14,6 +14,8 @@
       tree
       bat
       stow
+      vimPlugins.coc-nvim
+      nodejs_21
     ];
   };
 
@@ -66,14 +68,21 @@
 
   programs.vim = {
     enable = true;
+    packageConfigurable = pkgs.vim-full;
     plugins = with pkgs.vimPlugins; [
       vim-nix
       jellybeans-vim
       vim-gitgutter
       vim-pathogen
+      coc-nvim
     ];
     settings = { ignorecase = true; };
     extraConfig = (builtins.readFile ../../pkg/vim/.vimrc);
+  };
+
+  home.file."vim/coc-settings.json" = {
+    source = ../../pkg/vim/.vim/coc-setting.json;
+    target = ".vim/coc-setting.json";
   };
 
   # Still needs to be brew installed for Kitty.app

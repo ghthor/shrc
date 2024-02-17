@@ -7,7 +7,7 @@ ff() {
     --exclude-dir=".git/" \
     --exclude-dir=".terraform" \
     --exclude-dir="node_modules/" \
-    -rinE "$*" .
+    -rinES "$*" .
 }
 
 fff() {

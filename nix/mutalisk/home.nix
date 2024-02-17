@@ -5,18 +5,32 @@
     username = "willowens";
     homeDirectory = "/Users/willowens";
     packages = with pkgs; [
-      ruby
-      rubyfmt
       bashInteractive
       nix-bash-completions
 
       pass
+      pwgen
+
+      ruby
+      rubyfmt
+      python3
+
       fd
       ripgrep
       eza
       tree
       bat
       stow
+
+      htop
+      screen
+      tmux
+      tmux-xpanes
+
+      jq
+      gnumake
+
+      expect
 
       vimPlugins.coc-nvim
       nodejs_21

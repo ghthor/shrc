@@ -8,6 +8,8 @@
       ruby
       rubyfmt
       bashInteractive
+      nix-bash-completions
+
       pass
       fd
       ripgrep
@@ -147,9 +149,15 @@
     enableCompletion = true;
     bashrcExtra = ''
       export BASHRC_HOME_MANAGER=1
+      source $HOME/src/shrc/pkg/shell/.bash_noninteractive
     '';
     initExtra = ''
-      source $HOME/src/shrc/pkg/shell/.bashrc
+      source $HOME/src/shrc/pkg/shell/.bash_interactive
+
+      # Avoid running any of the starship/zoxide/direnv sourcing again
+      if [ ! -z "$DIRENV_IN_ENVRC" ]; then
+        return
+      fi
     '';
   };
 }

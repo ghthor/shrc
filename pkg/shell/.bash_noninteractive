@@ -1,0 +1,100 @@
+#
+# ~/.bash_noninteractive
+#
+# vi: ft=bash
+
+export EDITOR=vim
+export CLICOLOR=""
+export BASH_COMP_DEBUG_FILE=/tmp/bash_comp_debug
+
+# Fix TERM variable
+if [ "$TERM" == "xterm" ]; then
+  TERM=xterm-256color
+fi
+
+# Fix OSX locale
+if [ "$(uname)" = "Darwin" ]; then
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+fi
+
+if [ -x "/Applications/Tailscale.app/Contents/MacOS/Tailscale" ]; then
+  alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+fi
+
+# src: https://unix.stackexchange.com/a/217629
+pathmunge() {
+  if [ -d "$1" ]; then
+    if ! echo "$PATH" | grep -Eq "(^|:)$1($|:)"; then
+      if [ "$2" = "after" ]; then
+        PATH="$PATH:$1"
+      else
+        PATH="$1:$PATH"
+      fi
+    fi
+  fi
+}
+
+if [ -d "/opt/homebrew/bin" ]; then
+  pathmunge "/opt/homebrew/bin"
+fi
+
+eval "$(go env | grep -E '(GOPATH|GOROOT)')"
+export GOROOT
+export GOPATH
+
+binPaths=(
+  "$HOME/.local/bin"
+  "$GOPATH/bin"
+  "$GOROOT/bin"
+  "$HOME/go/bin"
+  "$HOME/bin"
+  "$HOME/.cargo/bin"
+)
+
+for dir in "${binPaths[@]}"; do
+  pathmunge "$dir"
+done
+
+if [ -z "$XDG_CACHE_HOME" ]; then
+  export XDG_CACHE_HOME="$HOME/.cache"
+fi
+
+export TF_PLUGIN_CACHE_DIR="$XDG_CACHE_HOME/hashicorp/terraform-plugin"
+mkdir -p "$TF_PLUGIN_CACHE_DIR"
+
+# -------------------------------------------------------
+# GPG & SSH Agent
+# -------------------------------------------------------
+if [ "$(uname)" = "Darwin" ]; then
+  # Src: https://github.com/herlo/ssh-gpg-smartcard-config/blob/master/macOS.md
+  # Start gpg-agent if it's not running
+  if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
+    gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env
+  fi
+  # Import various environment variables from the agent.
+  until [ -f "$HOME/.gnupg/env" ]; do
+    source $HOME/.gnupg/env
+  done
+fi
+
+if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
+  unset SSH_AGENT_PID
+fi
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+
+# -------------------------------------------------------
+# GPG Pinentry use correct TTY
+# -------------------------------------------------------
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+# OPAM configuration
+# [[ -f ~/.opam/opam-init/init.sh ]] &&
+#   source ~/.opam/opam-init/init.sh >/dev/null 2>/dev/null
+
+# Setup rbenv
+# [[ -f $(command -v rbenv 2>/dev/null || echo "/no/rbenv/exists") ]] &&
+#   eval "$(rbenv init -)"

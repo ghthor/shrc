@@ -134,3 +134,6 @@
 [submodule "bundle/vim-nix"]
 	path = pkg/vim/.vim/bundle/vim-nix
 	url = https://github.com/LnL7/vim-nix.git
+[submodule "bundle/vim-nixfmt"]
+	path = pkg/vim/.vim/bundle/vim-nixfmt
+	url = git@github.com:ghthor/vim-nixfmt.git

@@ -1,22 +1,4 @@
 { pkgs, ... }:
-# TODO: figure out how to group all the vim related things together
-let
-  vimrcFile = pkgs.vimUtils.vimrcFile {
-    customRC = ''
-    '';
-    packages.myPlugins = {
-      start = with pkgs.vimPlugins; [
-        vim-nix
-        jellybeans-vim
-        vim-gitgutter
-        vim-pathogen
-        # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
-        coc-nvim
-      ];
-    };
-  };
-in
-
 {
   # This is required information for home-manager to do its job
   home = {
@@ -40,58 +22,58 @@ in
   };
 
   # https://mipmip.github.io/home-manager-option-search/?query=
-  programs.home-manager.enable = true;
-  home.sessionVariables = {
-    EDITOR = "vim";
-  };
-  xdg.enable = true;
+    programs.home-manager.enable = true;
+    home.sessionVariables = {
+      EDITOR = "vim";
+    };
+    xdg.enable = true;
 
-  programs.ssh = {
-    enable = true;
-    extraConfig = ''
-    Host cryptnix.local
-      User ghthor
-      Port 22
-    '';
-  };
+    programs.ssh = {
+      enable = true;
+      extraConfig = ''
+        Host cryptnix.local
+        User ghthor
+        Port 22
+      '';
+    };
 
-  programs.go.enable = true;
-  programs.git = {
-    enable = true;
-    diff-so-fancy.enable = true;
-    package = pkgs.gitFull;
-    extraConfig = {
-      core = {
-        excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
+    programs.go.enable = true;
+    programs.git = {
+      enable = true;
+      diff-so-fancy.enable = true;
+      package = pkgs.gitFull;
+      extraConfig = {
+        core = {
+          excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
+        };
+      };
+      includes = [
+        {path = "~/src/shrc/pkg/shell/.gitconfig"; }
+      ];
+    };
+
+    programs.gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+        aliases = {
+          co = "pr checkout";
+        };
+        prompt = "enabled";
       };
     };
-    includes = [
-      {path = "~/src/shrc/pkg/shell/.gitconfig"; }
-    ];
-  };
 
-  programs.gh = {
-    enable = true;
-    settings = {
-      git_protocol = "ssh";
-      aliases = {
-        co = "pr checkout";
-      };
-      prompt = "enabled";
+    home.file."gpg-agent.conf" = {
+      text = ''
+        pinentry-program /opt/homebrew/bin/pinentry-mac
+        enable-ssh-support
+        default-cache-ttl 600
+        max-cache-ttl 7200
+        debug-level none
+        log-file $HOME/.gnupg/gpg-agent.log
+      '';
+      target = ".gnupg/gpg-agent.conf";
     };
-  };
-
-  home.file."gpg-agent.conf" = {
-    text = ''
-      pinentry-program /opt/homebrew/bin/pinentry-mac
-      enable-ssh-support
-      default-cache-ttl 600
-      max-cache-ttl 7200
-      debug-level none
-      log-file $HOME/.gnupg/gpg-agent.log
-    '';
-    target = ".gnupg/gpg-agent.conf";
-  };
 
   # TODO: generate this shell script from nix instead of
   #       it being outside of nix
@@ -100,20 +82,36 @@ in
     target = "bin/brew_install_stdenv";
   };
 
-  # TODO: figure out how to group all the vim related things together
   home.file = {
     ".vim" = {
       source = ../../pkg/vim/.vim;
       target = ".vim";
     };
-    ".vimrc" = {
-      text = ''
-        source ${vimrcFile.outPath}
-        source $HOME/src/shrc/pkg/vim/.vimrc
-      '';
-      target = ".vimrc";
+    ".vimrc" =
+      let
+        vimrcFile = pkgs.vimUtils.vimrcFile {
+          customRC = ''
+          '';
+          packages.myPlugins = {
+            start = with pkgs.vimPlugins; [
+              jellybeans-vim
+              vim-pathogen
+              vim-nix
+              vim-gitgutter
+              # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
+              coc-nvim
+            ];
+          };
+        };
+      in
+      {
+        text = ''
+          source ${vimrcFile.outPath}
+          source $HOME/src/shrc/pkg/vim/.vimrc
+        '';
+        target = ".vimrc";
+      };
     };
-  };
 
   # Still needs to be brew installed for Kitty.app
   programs.kitty = {

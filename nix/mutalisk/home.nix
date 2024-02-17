@@ -1,4 +1,22 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+# TODO: figure out how to group all the vim related things together
+let
+  vimrcFile = pkgs.vimUtils.vimrcFile {
+    customRC = ''
+    '';
+    packages.myPlugins = {
+      start = with pkgs.vimPlugins; [
+        vim-nix
+        jellybeans-vim
+        vim-gitgutter
+        vim-pathogen
+        coc-nvim
+      ];
+    };
+  };
+in
+
+{
   # This is required information for home-manager to do its job
   home = {
     stateVersion = "23.11";
@@ -61,28 +79,26 @@
     target = ".gnupg/gpg-agent.conf";
   };
 
+  # TODO: generate this shell script from nix instead of
+  #       it being outside of nix
   home.file."brew_install_stdenv" = {
     source = ./brew_install_stdenv;
     target = "bin/brew_install_stdenv";
   };
 
-  programs.vim = {
-    enable = true;
-    packageConfigurable = pkgs.vim-full;
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
-      jellybeans-vim
-      vim-gitgutter
-      vim-pathogen
-      coc-nvim
-    ];
-    settings = { ignorecase = true; };
-    extraConfig = (builtins.readFile ../../pkg/vim/.vimrc);
-  };
-
-  home.file."vim/coc-settings.json" = {
-    source = ../../pkg/vim/.vim/coc-setting.json;
-    target = ".vim/coc-setting.json";
+  # TODO: figure out how to group all the vim related things together
+  home.file = {
+    ".vim" = {
+      source = ../../pkg/vim/.vim;
+      target = ".vim";
+    };
+    ".vimrc" = {
+      text = ''
+      source ${vimrcFile.outPath}
+      source $HOME/src/shrc/pkg/vim/.vimrc
+      '';
+      target = ".vimrc";
+    };
   };
 
   # Still needs to be brew installed for Kitty.app

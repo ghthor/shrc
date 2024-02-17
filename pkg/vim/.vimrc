@@ -3,7 +3,7 @@ set noedcompatible
 
 set hidden
 
-set clipboard=unnamed
+set clipboard^=unnamed
 
 set autowrite
 

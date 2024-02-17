@@ -10,4 +10,5 @@ brew install \
   barrier \
   font-hack-nerd-font \
   kitty \
-  stats
+  stats \
+  vim

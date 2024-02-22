@@ -12,7 +12,7 @@ function pathmunge() {
 }
 
 eval "$(go env | grep -E '(GOPATH|GOROOT)')"
-export GOROOT
+# export GOROOT
 export GOPATH
 
 binPaths=(

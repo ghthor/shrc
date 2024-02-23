@@ -42,6 +42,7 @@ fi
 eval "$(go env | grep -E '(GOPATH|GOROOT)')"
 # export GOROOT
 export GOPATH
+export GOWORK=off
 
 binPaths=(
   "$HOME/.local/bin"

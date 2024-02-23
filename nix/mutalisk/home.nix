@@ -47,8 +47,8 @@
     enable = true;
     extraConfig = ''
       Host cryptnix.local
-      User ghthor
-      Port 22
+        User ghthor
+        Port 22
     '';
   };
 

@@ -164,6 +164,12 @@
       extraConfig = "";
     };
 
+    programs.kitty = {
+      enable = true;
+      shellIntegration.enableBashIntegration = true;
+      theme = "Jellybeans";
+    };
+
     # The state version is required and should stay at the version you
     # originally installed.
     home.stateVersion = "23.11";
@@ -271,6 +277,10 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 600;
+      max-cache-ttl = 7200;
+    };
   };
 
   # List services that you want to enable:

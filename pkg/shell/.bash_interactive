@@ -75,10 +75,10 @@ source_file "$HOME/src/shrc/pkg/shell/.bash_aliases"
 if [ -z "$BASHRC_HOME_MANAGER" ]; then
   # Setup zoxide autojumper
   eval "$(zoxide init bash)"
-  eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
   if [ -x "$(command -v direnv 2>/dev/null)" ]; then
     eval "$(direnv hook bash)"
   fi
+  eval "$(starship init bash)" # starship must be last to modify PROMPT_COMMAND
 
   source_file "$HOME/src/shrc/pkg/shell/.fzf.bash"
 fi

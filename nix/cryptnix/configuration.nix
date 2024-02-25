@@ -13,10 +13,15 @@
       <home-manager/nixos>
     ];
 
-  # nixpkgs.config.allowUnfreePredicate = pkg:
-  #   builtins.elem (lib.getName pkg) [
-  #     # Add additional package names here
-  #   ];
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    # Add additional package names here
+    "nvidia-x11"
+    "nvidia-settings"
+    "nvidia-persistenced"
+    "steam"
+    "steam-original"
+    "steam-run"
+  ];
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
@@ -76,7 +81,7 @@
 
   services.xserver.desktopManager.xfce.enable = true;
   services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -108,6 +113,7 @@
 
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
+  virtualisation.docker.enableNvidia = true;
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;

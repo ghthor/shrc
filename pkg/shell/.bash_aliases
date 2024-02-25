@@ -19,6 +19,7 @@ alias pyhttp='python3 -m http.server 8000'
 alias reload_history="history -c && history -r"
 alias fix_history="vim $HISTFILE && history -c && history -r"
 alias fxhs="vim $HISTFILE && history -c && history -r"
+alias f="vim $HISTFILE && history -c && history -r"
 
 alias lspath="tr ':' '\n' <<< \"$PATH\""
 

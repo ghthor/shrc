@@ -18,9 +18,11 @@
     "nvidia-x11"
     "nvidia-settings"
     "nvidia-persistenced"
+    "cudatoolkit"
     "steam"
     "steam-original"
     "steam-run"
+    "nomad"
   ];
 
   nix.settings = {
@@ -114,6 +116,30 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
   virtualisation.docker.enableNvidia = true;
+
+  services.nomad = {
+    enable = true;
+    dropPrivileges = false; # would be nice to have, but need to figure out how to work with docker/gpus
+    extraPackages = with pkgs; [
+      cni-plugins
+      nomad-device-nvidia
+      libnvidia-container
+      nvidia-container-toolkit
+      docker
+    ];
+    extraSettingsPlugins = [
+      pkgs.nomad-device-nvidia
+    ];
+    extraSettingsPaths = [
+      "${(builtins.toFile "nomad-agent.hcl" (builtins.readFile ./nomad_agent.hcl))}"
+    ];
+    settings = {
+      log_level = "DEBUG";
+      client = {
+        cni_path = "${pkgs.cni-plugins.outPath}/bin";
+      };
+    };
+  };
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;

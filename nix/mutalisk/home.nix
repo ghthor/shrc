@@ -130,26 +130,31 @@
     enable = true;
     extraConfig = builtins.readFile ../../pkg/shell/.inputrc;
   };
-
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = false; # Manually enabled via initExtra
-    settings =
-      builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
-  };
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = true;
   };
+
+  # bash eval ordering matters so managing it manually
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = false; # Manually enabled via initExtra
+    enableBashIntegration = false;
+    settings =
+      builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
+  };
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+    enableBashIntegration = false;
   };
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    enableBashIntegration = false;
   };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -164,13 +169,18 @@
     bashrcExtra = ''
       export BASHRC_HOME_MANAGER=1
       source $HOME/src/shrc/pkg/shell/.bash_noninteractive
-    '';
-    initExtra = ''
-      source $HOME/src/shrc/pkg/shell/.bash_interactive
 
       # Avoid running any of the starship/zoxide/direnv sourcing again
       if [ ! -z "$DIRENV_IN_ENVRC" ]; then
         return
+      fi
+    '';
+    initExtra = ''
+      source $HOME/src/shrc/pkg/shell/.bash_interactive
+      if [[ $TERM != "dumb" ]]; then
+        eval "$(zoxide init bash)"
+        eval "$(direnv hook bash)"
+        eval "$(starship init bash --print-full-init)"
       fi
     '';
   };

@@ -138,10 +138,18 @@
     shell = pkgs.bashInteractive;
   };
   home-manager.users.ghthor = { pkgs, ... }: {
-    home.packages = [
-      pkgs.docker
+    home.packages = with pkgs; [
+      bashInteractive
+      docker
+      nodejs_21
+      statix
+
+      ruby
+      rubyfmt
     ];
-    programs.bash.enable = false;
+
+    xdg.enable = true;
+
     programs.vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [
@@ -149,13 +157,74 @@
         jellybeans-vim
         vim-gitgutter
         vim-pathogen
+        ctrlp-vim
+        # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
+        coc-nvim
       ];
       settings = { ignorecase = true; };
-      extraConfig = (builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc);
+      extraConfig = builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc;
     };
 
     programs.ssh = {
       extraConfig = "";
+    };
+
+    programs.kitty = {
+      enable = true;
+      shellIntegration.enableBashIntegration = true;
+      theme = "Jellybeans";
+    };
+
+    programs.readline = {
+      enable = true;
+      extraConfig = builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc;
+    };
+
+    programs.fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
+    };
+
+    # bash eval ordering matters so managing it manually
+    programs.starship = {
+      enable = true;
+      enableBashIntegration = false;
+      enableZshIntegration = false; # Manually enabled via initExtra
+      settings =
+        builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml);
+    };
+    programs.direnv = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = false;
+    };
+    programs.zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = false;
+    };
+
+    programs.bash = {
+      enable = true;
+      enableCompletion = true;
+      bashrcExtra = ''
+        export BASHRC_HOME_MANAGER=1
+        source $HOME/src/shrc/pkg/shell/.bash_noninteractive
+
+        # Avoid running any of the starship/zoxide/direnv sourcing again
+        if [ ! -z "$DIRENV_IN_ENVRC" ]; then
+          return
+        fi
+      '';
+      initExtra = ''
+        source $HOME/src/shrc/pkg/shell/.bash_interactive
+        if [[ $TERM != "dumb" ]]; then
+          eval "$(zoxide init bash)"
+          eval "$(direnv hook bash)"
+          eval "$(starship init bash --print-full-init)"
+        fi
+      '';
     };
 
     # The state version is required and should stay at the version you
@@ -165,13 +234,16 @@
 
   programs.vim.defaultEditor = true;
 
-  programs.bash.enableCompletion = true;
+  programs.bash = {
+    enableCompletion = true;
+  };
   programs.git.enable = true;
   programs.git.package = pkgs.gitFull;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    bashInteractive
     nix-bash-completions
 
     starship
@@ -265,6 +337,10 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 600;
+      max-cache-ttl = 7200;
+    };
   };
 
   # List services that you want to enable:

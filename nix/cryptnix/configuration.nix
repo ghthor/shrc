@@ -201,7 +201,9 @@
         coc-nvim
       ];
       settings = { ignorecase = true; };
-      extraConfig = builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc;
+      extraConfig = ''
+        source $HOME/src/shrc/pkg/vim/.vimrc
+      '';
     };
 
     programs.ssh = {
@@ -304,6 +306,7 @@
     wget
     ripgrep
     fd
+    file
 
     diff-so-fancy
     gnumake

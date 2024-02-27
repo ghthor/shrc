@@ -115,26 +115,26 @@
 
   virtualisation.docker.enable = true;
   virtualisation.docker.storageDriver = "btrfs";
-  virtualisation.docker.enableNvidia = true;
+  # virtualisation.docker.enableNvidia = true;
+  # virtualisation.containers.cdi.dynamic.nvidia.enable = true; # shits in flux, fuxkit
 
   services.nomad = {
     enable = true;
     dropPrivileges = false; # would be nice to have, but need to figure out how to work with docker/gpus
     extraPackages = with pkgs; [
       cni-plugins
-      nomad-device-nvidia
-      libnvidia-container
-      nvidia-container-toolkit
-      docker
+      # nomad-device-nvidia
     ];
     extraSettingsPlugins = [
-      pkgs.nomad-device-nvidia
+      # pkgs.nomad-device-nvidia
     ];
     extraSettingsPaths = [
       "${(builtins.toFile "nomad-agent.hcl" (builtins.readFile ./nomad_agent.hcl))}"
+      # "${(builtins.toFile "nomad-agent_device_nvidia.hcl" (builtins.readFile ./nomad_agent_device_nvidia.hcl))}"
+      "/etc/nomad.d/"
     ];
     settings = {
-      log_level = "DEBUG";
+      log_level = "INFO";
       client = {
         cni_path = "${pkgs.cni-plugins.outPath}/bin";
       };
@@ -168,6 +168,7 @@
       xclip
       barrier
       direnv
+      tabby
     ];
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCmYcBHHo/QLcJGAGDyjZXUBy+xnS4wDmnFLBg3jA9X6n0MGF5iWhiOkdZlXrw6pA7ogjjXIRvg+9cqTkfq02MmWWK0TgzalxVYOJmcMzVDNStps7joUxibkg+Cz9OMVF7BP98bO5pddUrD4lS70JoqdlNBzXGx6C9S4tjS7R5897VYFCQQbjXFP/vgxiBrrsSN4XAoegNURbSnPAuTCNqURdvWzxfjWkYrLyKmq6zFdcJWIY8oGtxKHns8Szy79LeUpQAl4OSWAKlKXZf5NoyJzBfoRy1LvpCsYzC+ClBpbgb+o6Qb4ZjdLtYoCurqaDpRCd/0TgXMQXSnZCdOm8z8n+X1RXXJ8sOfp7uSY4HzifqUSQxdaRiIfdKEpQTP2xNvK4fcTGdEzZhdKTpYPpQr1BWt4z32SB94rA0ykwHPVMpDEfmA7po62NKzP65heMQoo0050f25QyB9UwHUfJ3EGr0pqZedrjdqPR8wsqIvKNNXwDI/SBHdjqrE+zpkuOE= openpgp:0xF74007AE"
@@ -328,6 +329,8 @@
 
     docker-buildx
     docker-compose
+
+    nvtop
   ];
 
   fonts = {

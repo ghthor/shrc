@@ -28,11 +28,6 @@ client {
     // ssh port and consul/nomad ports
     reserved_ports = "22,8500-8600"
   }
-
-  # host_volume "voltus_monorepo" {
-  #   path      = "/home/ghthor/.voltus/voltus"
-  #   read_only = true
-  # }
 }
 
 plugin "raw_exec" {
@@ -55,16 +50,5 @@ plugin "docker" {
 
     allow_caps       = ["NET_ADMIN"]
     allow_privileged = true
-  }
-}
-
-# TODO(will)
-#   yay -S nomad-device-nvidia-bin # works
-#   yay -S nomad-device-nvidia     # locally compiled fails
-plugin "nomad-device-nvidia" {
-  config {
-    enabled            = true
-    ignored_gpu_ids    = []
-    fingerprint_period = "1m"
   }
 }

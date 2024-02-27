@@ -199,6 +199,7 @@
         ctrlp-vim
         # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
+        vim-tabby
       ];
       settings = { ignorecase = true; };
       extraConfig = ''

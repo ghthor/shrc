@@ -14,7 +14,6 @@ export ga_auto_remove="yes"
 #   Note: Bash tab completion will not be automatically set up for your aliases if you disable this option.
 export git_setup_aliases="yes"
 
-
 # Git Index Config
 # ----------------------------------------------
 # Repos will be automatically added from this directory.
@@ -24,8 +23,7 @@ export GIT_REPO_DIR="$HOME/code"
 export GIT_REPOS=""
 export git_status_command="git_status_shortcuts"
 # Alias
-git_index_alias="c"    # Switch to a repo in the (c)ode directory
-
+git_index_alias="c" # Switch to a repo in the (c)ode directory
 
 # Git Aliases
 # ----------------------------------------------
@@ -92,7 +90,7 @@ git_log_all_alias="gla"
 git_log_stat_alias="gls"
 git_log_graph_alias="glg"
 git_show_alias="gsh"
-git_show_summary="gsm"  # (gss taken by git status short)
+git_show_summary="gsm" # (gss taken by git status short)
 git_stash_alias="gash"
 git_stash_apply_alias="gasha"
 git_stash_pop_alias="gashp"
@@ -106,21 +104,39 @@ git_apply_alias="gapp"
 # Hub aliases (https://github.com/github/hub)
 git_pull_request_alias="gpr"
 
-
 # Git Keyboard Shortcuts
 # ----------------------------------------------
 # Keyboard shortcuts are on by default. Set this to 'false' to disable them.
 git_keyboard_shortcuts_enabled="false"
-git_commit_all_keys="\C-x "        		  # CTRL+x, SPACE
-git_add_and_commit_keys="\C-xc"    		  # CTRL+x, c
-git_commit_all_with_ci_skip_keys="\C-xv"  # CTRL+x, v    (Appends [ci skip] to commit message)
-
+git_commit_all_keys="\C-x "              # CTRL+x, SPACE
+git_add_and_commit_keys="\C-xc"          # CTRL+x, c
+git_commit_all_with_ci_skip_keys="\C-xv" # CTRL+x, v    (Appends [ci skip] to commit message)
 
 # Shell Command Wrapping
 # ----------------------------------------------
 # Expand numbered args for common shell commands
 shell_command_wrapping_enabled="true"
 # Here you can tweak the list of wrapped commands.
-scmb_wrapped_shell_commands=(vim vimdiff emacs gedit cat head tail rm cp mv ln cd tree open)
+scmb_wrapped_shell_commands=(
+  "bat"
+  "cat"
+  "cd"
+  "code"
+  "cp"
+  "emacs"
+  "gedit"
+  "less"
+  "ln"
+  "ls"
+  "mv"
+  "open"
+  "rm"
+  "subl"
+  "tree"
+  "vim"
+  "vimdiff"
+)
 # Add numbered shortcuts to output of ls -l, just like 'git status'
 shell_ls_aliases_enabled="true"
+
+# vi: ft=bash

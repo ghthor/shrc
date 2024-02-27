@@ -1,0 +1,8 @@
+#
+# Design Assets Management Config
+# ----------------------------------------------------------------
+
+# Set =true to disable the design/assets management features
+export SCM_BREEZE_DISABLE_ASSETS_MANAGEMENT=true
+
+# vi: ft=sh

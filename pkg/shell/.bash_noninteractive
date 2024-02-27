@@ -39,9 +39,12 @@ if [ -d "/opt/homebrew/bin" ]; then
   pathmunge "/opt/homebrew/bin"
 fi
 
-eval "$(go env | grep -E '(GOPATH|GOROOT)')"
+eval "$(go env | grep -E '(GOPATH|GOROOT|GOCACHE|GOMODCACHE)')"
 # export GOROOT
+export GOSUMDB='sum.golang.org'
 export GOPATH
+export GOCACHE
+export GOMODCACHE
 export GOWORK=off
 
 binPaths=(

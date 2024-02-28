@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, pkgs-unstable, NIX_PATH, ... }: {
   # This is required information for home-manager to do its job
   home = {
     stateVersion = "23.11";
@@ -40,7 +40,10 @@
 
   # https://mipmip.github.io/home-manager-option-search/?query=
   programs.home-manager.enable = true;
-  home.sessionVariables = { EDITOR = "vim"; };
+  home.sessionVariables = {
+    EDITOR = "vim";
+    inherit NIX_PATH;
+  };
   xdg.enable = true;
 
   programs.ssh = {
@@ -107,7 +110,7 @@
             vim-gitgutter
             # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
             coc-nvim
-            vim-tabby
+            pkgs-unstable.vimPlugins.vim-tabby
           ];
         };
       };
@@ -169,6 +172,7 @@
     enableCompletion = true;
     bashrcExtra = ''
       export BASHRC_HOME_MANAGER=1
+      export NIX_PATH="${NIX_PATH}"
       source $HOME/src/shrc/pkg/shell/.bash_noninteractive
 
       # Avoid running any of the starship/zoxide/direnv sourcing again

@@ -36,10 +36,23 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1709075909,
+        "narHash": "sha256-uf9Z0wchd16wDMyEG2iUugVZvu8fdz5RvCTQf9L+p9Y=",
+        "path": "/Users/willowens/src/nixpkgs",
+        "type": "path"
+      },
+      "original": {
+        "path": "/Users/willowens/src/nixpkgs",
+        "type": "path"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     }
   },

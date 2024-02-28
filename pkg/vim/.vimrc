@@ -39,7 +39,11 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
-let g:tabby_keybinding_accept = '<PageDown>'
+if has('macunix')
+    let g:tabby_keybinding_accept = '<Right>'
+else
+    let g:tabby_keybinding_accept = '<PageDown>'
+endif
 
 let g:elm_format_autosave = 1
 

@@ -48,8 +48,12 @@ func main() {
 	mustNot(json.Unmarshal(fromBytes, &fromJson))
 	mustNot(json.Unmarshal(toBytes, &toJson))
 
+	obj := fromJson.Nodes["root"].(map[string]any)
+	obj = obj["inputs"].(map[string]any)
+	key := obj["nixpkgs"].(string)
+
 	var ok bool
-	if toJson.Nodes["nixpkgs"], ok = fromJson.Nodes["nixpkgs"]; !ok {
+	if toJson.Nodes["nixpkgs"], ok = fromJson.Nodes[key]; !ok {
 		mustNot(fmt.Errorf("%s missing nixpkgs key", *from))
 	}
 

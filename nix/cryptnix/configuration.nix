@@ -216,6 +216,10 @@
       shellIntegration.enableBashIntegration = true;
       theme = "Jellybeans";
     };
+    programs.tmux = {
+      enable = true;
+      mouse = true;
+    };
 
     programs.readline = {
       enable = true;

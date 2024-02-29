@@ -219,7 +219,9 @@
     programs.tmux = {
       enable = true;
       mouse = true;
+      terminal = "tmux-256color";
     };
+    home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
 
     programs.readline = {
       enable = true;

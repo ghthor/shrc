@@ -12,6 +12,8 @@ if [ "$TERM" == "xterm" ]; then
   TERM=xterm-256color
 fi
 
+export TMUX_XPANES_EXEC="tmux -2"
+
 # Fix OSX locale
 if [ "$(uname)" = "Darwin" ]; then
   export LC_ALL=en_US.UTF-8

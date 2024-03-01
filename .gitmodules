@@ -128,12 +128,6 @@
 [submodule "bundle/fzf.vim"]
 	path = pkg/vim/.vim/bundle/fzf.vim
 	url = https://github.com/junegunn/fzf.vim.git
-[submodule "bundle/vim-nix"]
-	path = pkg/vim/.vim/bundle/vim-nix
-	url = https://github.com/LnL7/vim-nix.git
-[submodule "bundle/vim-nixfmt"]
-	path = pkg/vim/.vim/bundle/vim-nixfmt
-	url = git@github.com:ghthor/vim-nixfmt.git
 [submodule "bundle/VimCompletesMe.vim"]
 	path = pkg/vim/.vim/bundle/VimCompletesMe.vim
 	url = https://git.sr.ht/~ackyshake/VimCompletesMe.vim

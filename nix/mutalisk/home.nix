@@ -133,7 +133,7 @@
   programs.tmux = {
     enable = true;
     mouse = true;
-    terminal = "tmux-256color";
+    terminal = "xterm-kitty";
   };
   home.sessionVariables.TMUX_XPANES_EXEC =
     "tmux -2"; # force tmux from xpanes to be 256color

@@ -7,8 +7,8 @@ set clipboard^=unnamed
 
 set autowrite
 
-silent !mkdir -p "$HOME/.vim/swap"
-silent !mkdir -p "$HOME/.vim/undodir"
+silent !mkdir -p "$XDG_CACHE_HOME/vim/swap"
+silent !mkdir -p "$XDG_CACHE_HOME/vim/undodir"
 
 set directory^=$HOME/.vim/swap//
 set undodir=$HOME/.vim/undodir

@@ -10,8 +10,8 @@ set autowrite
 silent !mkdir -p "$XDG_CACHE_HOME/vim/swap"
 silent !mkdir -p "$XDG_CACHE_HOME/vim/undodir"
 
-set directory^=$HOME/.vim/swap//
-set undodir=$HOME/.vim/undodir
+set directory^=$XDG_CACHE_HOME/vim/swap//
+set undodir=$XDG_CACHE_HOME/vim/undodir
 set undofile
 
 " Setup OCaml Plugin

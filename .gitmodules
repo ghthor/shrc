@@ -1,6 +1,6 @@
 [submodule "scm_breeze"]
 	path = pkg/scm_breeze/.scm_breeze
-	url = https://github.com/scmbreeze/scm_breeze
+	url = https://github.com/ghthor/scm_breeze
 [submodule "bundle/vim-pathogen"]
 	path = pkg/vim/.vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen

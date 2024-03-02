@@ -106,5 +106,5 @@ format = '[ exit $symbol](bold green)'
 format = ' took [$duration]($style)'
 
 [shlvl]
-threshold = 2
+threshold = 1
 disabled = false

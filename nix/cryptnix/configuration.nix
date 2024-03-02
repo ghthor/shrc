@@ -19,6 +19,10 @@
     "nvidia-settings"
     "nvidia-persistenced"
     "cudatoolkit"
+    "cuda_cccl"
+    "cuda_cudart"
+    "cuda_nvcc"
+    "libcublas"
     "steam"
     "steam-original"
     "steam-run"
@@ -168,7 +172,7 @@
       xclip
       barrier
       direnv
-      tabby
+      # tabby
       obs-studio
     ];
     openssh.authorizedKeys.keys = [
@@ -409,6 +413,23 @@
   services.openssh.settings = {
     PermitRootLogin = "no";
     PasswordAuthentication = false;
+  };
+
+  # TODO: firewall config
+  services.tabby = {
+    enable = true;
+    acceleration = "cuda";
+    model = "TabbyML/StarCoder-3B";
+    modelDownload = true;
+
+    settings = {
+      repositories = [
+        {
+          # Has to be created/updated manually, and permissions corrected
+          git_url = "file:///var/lib/tabby/source_repo";
+        }
+      ];
+    };
   };
 
   # Open ports in the firewall.

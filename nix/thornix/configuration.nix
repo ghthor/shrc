@@ -2,15 +2,15 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, home-manager, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./modules/syncthing.nix
-      ./modules/steam.nix
-      <home-manager/nixos>
+      ../modules/syncthing.nix
+      ../modules/steam.nix
+      home-manager.nixosModules.default
     ];
 
   # nixpkgs.config.allowUnfreePredicate = pkg:
@@ -132,6 +132,7 @@
       xclip
       barrier
       direnv
+      obs-studio
     ];
     openssh.authorizedKeys.keys = [ ];
 
@@ -146,9 +147,15 @@
 
       ruby
       rubyfmt
+
+      vlc
     ];
 
     xdg.enable = true;
+
+    programs.obs-studio = {
+      enable = true;
+    };
 
     programs.vim = {
       enable = true;
@@ -160,13 +167,18 @@
         ctrlp-vim
         # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
+        vim-tabby
       ];
       settings = { ignorecase = true; };
-      extraConfig = builtins.readFile /home/ghthor/src/shrc/pkg/vim/.vimrc;
+      extraConfig = ''
+        source $HOME/src/shrc/pkg/vim/.vimrc
+      '';
     };
 
     programs.ssh = {
-      extraConfig = "";
+      enable = true;
+      extraConfig = ''
+      '';
     };
 
     programs.kitty = {
@@ -174,10 +186,16 @@
       shellIntegration.enableBashIntegration = true;
       theme = "Jellybeans";
     };
+    programs.tmux = {
+      enable = true;
+      mouse = true;
+      terminal = "tmux-256color";
+    };
+    home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
 
     programs.readline = {
       enable = true;
-      extraConfig = builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc;
+      extraConfig = builtins.readFile ../../pkg/shell/.inputrc;
     };
 
     programs.fzf = {
@@ -192,7 +210,7 @@
       enableBashIntegration = false;
       enableZshIntegration = false; # Manually enabled via initExtra
       settings =
-        builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml);
+        builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
     };
     programs.direnv = {
       enable = true;
@@ -265,6 +283,7 @@
     wget
     ripgrep
     fd
+    file
 
     diff-so-fancy
     gnumake
@@ -362,7 +381,7 @@
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
+  system.copySystemConfiguration = false; # don't need, using flakes
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

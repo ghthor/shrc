@@ -13,11 +13,15 @@
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
+    inherit (pkgs) lib;
   in {
     nixosConfigurations = {
       thornix = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = attrs;
+        specialArgs = lib.mkMerge [
+          attrs
+          { useFlake = true; }
+        ];
         modules = [
           ./thornix/configuration.nix
           {
@@ -27,7 +31,10 @@
       };
       cryptnix = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = attrs;
+        specialArgs = lib.mkMerge [
+          attrs
+          { useFlake = true; }
+        ];
         modules = [
           ./cryptnix/configuration.nix
           {

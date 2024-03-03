@@ -2,15 +2,24 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, home-manager, ... }:
-
+{ config, lib, pkgs, ... }@attrs:
+let
+  useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+    ] ++ lib.optionals useFlake [
       ../modules/syncthing.nix
       ../modules/steam.nix
-      home-manager.nixosModules.default
+      attrs.home-manager.nixosModules.default
+
+    ] ++ lib.optionals (!useFlake) [
+      ./modules/syncthing.nix
+      ./modules/steam.nix
+      <home-manager/nixos>
     ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -235,7 +244,10 @@
 
     programs.readline = {
       enable = true;
-      extraConfig = builtins.readFile ../../pkg/shell/.inputrc;
+      extraConfig = builtins.head (
+        lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
+        ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
+      );
     };
 
     programs.fzf = {
@@ -249,8 +261,10 @@
       enable = true;
       enableBashIntegration = false;
       enableZshIntegration = false; # Manually enabled via initExtra
-      settings =
-        builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
+      settings = builtins.head (
+        lib.optional useFlake (builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml))
+        ++ lib.optional (!useFlake) (builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml))
+      );
     };
     programs.direnv = {
       enable = true;
@@ -440,7 +454,7 @@
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  system.copySystemConfiguration = false; # don't need, using flakes
+  system.copySystemConfiguration = !useFlake;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

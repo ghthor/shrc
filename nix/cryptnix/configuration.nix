@@ -22,6 +22,8 @@ in
       <home-manager/nixos>
     ];
 
+  # See for more options, they don't show up in the NixOS option search
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # Add additional package names here
     "nvidia-x11"
@@ -431,10 +433,9 @@ in
   # TODO: firewall config
   services.tabby = {
     enable = true;
+    # model = "TabbyML/StarCoder-3B";
+    model = "ghthor/DeepseekCoder-6.7B";
     acceleration = "cuda";
-    model = "TabbyML/StarCoder-3B";
-    modelDownload = true;
-
     settings = {
       repositories = [
         {

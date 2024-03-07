@@ -82,6 +82,12 @@ if [ "$(uname)" = "Darwin" ]; then
   until [ -f "$HOME/.gnupg/env" ]; do
     source $HOME/.gnupg/env
   done
+
+  # -------------------------------------------------------
+  # GPG Pinentry use correct TTY
+  # -------------------------------------------------------
+  export GPG_TTY=$(tty)
+  gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
 
 if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then
@@ -90,12 +96,6 @@ fi
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
-
-# -------------------------------------------------------
-# GPG Pinentry use correct TTY
-# -------------------------------------------------------
-export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # OPAM configuration
 # [[ -f ~/.opam/opam-init/init.sh ]] &&

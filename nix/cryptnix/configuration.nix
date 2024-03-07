@@ -7,20 +7,19 @@ let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-    ] ++ lib.optionals useFlake [
-      ../modules/syncthing.nix
-      ../modules/steam.nix
-      attrs.home-manager.nixosModules.default
+  ] ++ lib.optionals useFlake [
+    ../modules/syncthing.nix
+    ../modules/steam.nix
+    attrs.home-manager.nixosModules.default
 
-    ] ++ lib.optionals (!useFlake) [
-      ./modules/syncthing.nix
-      ./modules/steam.nix
-      <home-manager/nixos>
-    ];
+  ] ++ lib.optionals (!useFlake) [
+    ./modules/syncthing.nix
+    ./modules/steam.nix
+    <home-manager/nixos>
+  ];
 
   # See for more options, they don't show up in the NixOS option search
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
@@ -191,7 +190,10 @@ in
 
     shell = pkgs.bashInteractive;
   };
+
   home-manager.users.ghthor = { pkgs, ... }: {
+    xdg.enable = true;
+
     home.packages = with pkgs; [
       bashInteractive
       docker
@@ -203,8 +205,6 @@ in
 
       vlc
     ];
-
-    xdg.enable = true;
 
     programs.obs-studio = {
       enable = true;
@@ -229,7 +229,37 @@ in
     };
 
     programs.ssh = {
-      extraConfig = "";
+      enable = true;
+      forwardAgent = true;
+      extraConfig = ''
+        Host ghthor-devbox.tail83f15.ts.net
+          RemoteForward /run/user/1000/gnupg/S.gpg-agent.extra /run/user/1000/gnupg/S.gpg-agent
+          StreamLocalBindUnlink yes
+
+        # SSH over Session Manager
+        Host i-* mi-*
+          ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+      '';
+    };
+
+    services.gpg-agent = {
+      enable = true;
+      defaultCacheTtl = 600;
+      maxCacheTtl = 7200;
+      enableScDaemon = true;
+      enableSshSupport = true;
+      enableExtraSocket = true;
+      enableBashIntegration = true;
+      sshKeys = [
+        "0x807409C92CE23033"
+      ];
+      # pinentryFlavor = "tty";
+    };
+
+    programs.gpg = {
+      enable = true;
+      mutableKeys = true;
+      mutableTrust = true;
     };
 
     programs.kitty = {
@@ -408,19 +438,7 @@ in
     };
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    settings = {
-      default-cache-ttl = 600;
-      max-cache-ttl = 7200;
-    };
-  };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -476,4 +494,3 @@ in
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-

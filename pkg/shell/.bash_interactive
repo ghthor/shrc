@@ -88,7 +88,7 @@ fi
 # sourced. So we do that explicitly instead of relying on bash to lazy load
 source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git" # nixos
 source_file "$HOME/.nix-profile/share/bash-completion/completions/git"            # darwin
-source_file "$HOME/.scm_breeze/scm_breeze.sh"
+source_file "$HOME/src/shrc/pkg/scm_breeze/.scm_breeze/scm_breeze.sh"
 
 set -o vi
 

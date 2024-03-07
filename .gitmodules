@@ -112,13 +112,13 @@
 	url = https://github.com/pedrohdz/vim-yaml-folds.git
 [submodule "bundle/earthly.vim"]
 	path = pkg/vim/.vim/bundle/earthly.vim
-	url = git@github.com:earthly/earthly.vim.git
+	url = https://github.com/earthly/earthly.vim.git
 [submodule "bundle/vinfo"]
 	path = pkg/vim/.vim/bundle/vinfo
 	url = https://github.com/alx741/vinfo.git
 [submodule "bundle/vim-table-mode"]
 	path = pkg/vim/.vim/bundle/vim-table-mode
-	url = git@github.com:dhruvasagar/vim-table-mode.git
+	url = https://github.com/dhruvasagar/vim-table-mode.git
 [submodule "bundle/microviche"]
 	path = pkg/vim/.vim/bundle/microviche
 	url = https://github.com/q335r49/microviche.git

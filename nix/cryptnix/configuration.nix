@@ -230,15 +230,23 @@ in
 
     programs.ssh = {
       enable = true;
-      forwardAgent = true;
+      matchBlocks = {
+        "ghthor-devbox" = {
+          host = "ghthor-devbox.tail83f15.ts.net";
+          forwardAgent = false; # handled by the gpg-agent socket forwarding
+          extraOptions = {
+            "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
+            "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
+          };
+        };
+        "ssm" = {
+          host = "i-* mi-*";
+          extraOptions = {
+            ProxyCommand  = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+          };
+        };
+      };
       extraConfig = ''
-        Host ghthor-devbox.tail83f15.ts.net
-          RemoteForward /run/user/1000/gnupg/S.gpg-agent.extra /run/user/1000/gnupg/S.gpg-agent
-          StreamLocalBindUnlink yes
-
-        # SSH over Session Manager
-        Host i-* mi-*
-          ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
       '';
     };
 
@@ -253,13 +261,16 @@ in
       sshKeys = [
         "0x807409C92CE23033"
       ];
-      # pinentryFlavor = "tty";
+      pinentryFlavor = "gtk2";
     };
 
     programs.gpg = {
       enable = true;
       mutableKeys = true;
       mutableTrust = true;
+      # settings = {
+      #   "no-autostart" = "";
+      # };
     };
 
     programs.kitty = {

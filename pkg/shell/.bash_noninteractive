@@ -76,7 +76,7 @@ if [ "$(uname)" = "Darwin" ]; then
   # Src: https://github.com/herlo/ssh-gpg-smartcard-config/blob/master/macOS.md
   # Start gpg-agent if it's not running
   if [ -z "$(pidof gpg-agent 2>/dev/null)" ]; then
-    gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support >$HOME/.gnupg/env
+    gpg-agent --homedir $HOME/.gnupg --daemon --sh --enable-ssh-support --extra-socket $HOME/.gnupg/S.gpg-agent.extra >$HOME/.gnupg/env
   fi
   # Import various environment variables from the agent.
   until [ -f "$HOME/.gnupg/env" ]; do

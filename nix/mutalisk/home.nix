@@ -48,10 +48,18 @@
 
   programs.ssh = {
     enable = true;
+    matchBlocks = {
+      "ghthor-devbox" = {
+        host = "ghthor-devbox.tail83f15.ts.net";
+        user = "ghthor";
+        forwardAgent = false; # handled by the gpg-agent socket forwarding
+        extraOptions = {
+          "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /Users/willowens/.gnupg/S.gpg-agent.extra" = "";
+          "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /Users/willowens/.gnupg/S.gpg-agent.ssh" = "";
+        };
+      };
+    };
     extraConfig = ''
-      Host cryptnix.local
-        User ghthor
-        Port 22
     '';
   };
 
@@ -79,6 +87,7 @@
     text = ''
       pinentry-program /opt/homebrew/bin/pinentry-mac
       enable-ssh-support
+      extra-socket $HOME/.gnupg/S.gpg-agent.extra
       default-cache-ttl 600
       max-cache-ttl 7200
       debug-level none

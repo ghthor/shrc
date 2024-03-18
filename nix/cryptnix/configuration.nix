@@ -232,7 +232,7 @@ in
       enable = true;
       matchBlocks = {
         "ghthor-devbox" = {
-          host = "ghthor-devbox.tail83f15.ts.net";
+          host = "ghthor.voltus-devbox";
           forwardAgent = false; # handled by the gpg-agent socket forwarding
           extraOptions = {
             "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
@@ -258,9 +258,9 @@ in
       enableSshSupport = true;
       enableExtraSocket = true;
       enableBashIntegration = true;
-      sshKeys = [
-        "0x807409C92CE23033"
-      ];
+      # sshKeys = [
+      #   "0x807409C92CE23033"
+      # ];
       pinentryFlavor = "gtk2";
     };
 

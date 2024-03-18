@@ -135,6 +135,7 @@ scmb_wrapped_shell_commands=(
   "tree"
   "vim"
   "vimdiff"
+  "tail"
 )
 # Add numbered shortcuts to output of ls -l, just like 'git status'
 shell_ls_aliases_enabled="true"

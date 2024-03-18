@@ -58,6 +58,12 @@
           "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /Users/willowens/.gnupg/S.gpg-agent.ssh" = "";
         };
       };
+      "ssm" = {
+        host = "i-* mi-*";
+        extraOptions = {
+          ProxyCommand  = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+        };
+      };
     };
     extraConfig = ''
     '';

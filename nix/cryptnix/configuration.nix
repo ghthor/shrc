@@ -206,6 +206,22 @@ in
       vlc
     ];
 
+    programs.git = {
+      enable = true;
+    };
+
+    programs.gh = {
+      enable = true;
+      settings = {
+        aliases = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+        git_protocol = "ssh";
+      };
+      gitCredentialHelper.enable = true;
+    };
+
     programs.obs-studio = {
       enable = true;
     };

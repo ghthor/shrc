@@ -50,7 +50,7 @@
     enable = true;
     matchBlocks = {
       "ghthor-devbox" = {
-        host = "ghthor-devbox.tail83f15.ts.net";
+        host = "ghthor.voltus-devbox";
         user = "ghthor";
         forwardAgent = false; # handled by the gpg-agent socket forwarding
         extraOptions = {

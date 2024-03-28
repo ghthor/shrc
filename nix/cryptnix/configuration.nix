@@ -277,7 +277,7 @@ in
       # sshKeys = [
       #   "0x807409C92CE23033"
       # ];
-      pinentryFlavor = "gtk2";
+      pinentryPackage = pkgs.pinentry-gtk2;
     };
 
     programs.gpg = {

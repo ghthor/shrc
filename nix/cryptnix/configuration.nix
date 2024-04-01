@@ -426,7 +426,7 @@ in
     docker-buildx
     docker-compose
 
-    nvtop
+    nvtopPackages.full
   ];
 
   fonts = {

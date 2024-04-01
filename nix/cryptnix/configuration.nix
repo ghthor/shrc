@@ -205,6 +205,8 @@ in
 
       vlc
       peek
+
+      vscodium
     ];
 
     programs.git = {

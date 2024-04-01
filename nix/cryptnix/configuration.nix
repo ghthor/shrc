@@ -204,6 +204,7 @@ in
       rubyfmt
 
       vlc
+      peek
     ];
 
     programs.git = {

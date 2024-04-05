@@ -470,6 +470,11 @@ in
 
   programs.mtr.enable = true;
 
+  programs.mosh = {
+    enable = true;
+    openFirewall = true;
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.startWhenNeeded = true;

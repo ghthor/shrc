@@ -26,6 +26,7 @@
       screen
       tmux
       tmux-xpanes
+      mosh
 
       jq
       gnumake

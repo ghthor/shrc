@@ -7,25 +7,29 @@ let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 in
 {
-  imports = [ # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+  imports =
+    [
+      ./hardware-configuration.nix
+    ] ++ lib.optionals useFlake [
+      ../modules/syncthing.nix
+      ../modules/steam.nix
+      attrs.home-manager.nixosModules.default
 
-  ] ++ lib.optionals useFlake [
-    ../modules/syncthing.nix
-    ../modules/steam.nix
-    attrs.home-manager.nixosModules.default
-
-  ] ++ lib.optionals (!useFlake) [
-    ./modules/syncthing.nix
-    ./modules/steam.nix
-    <home-manager/nixos>
-  ];
+    ] ++ lib.optionals (!useFlake) [
+      ./modules/syncthing.nix
+      ./modules/steam.nix
+      <home-manager/nixos>
+    ];
 
   # See for more options, they don't show up in the NixOS option search
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # Add additional package names here
     "nomad"
+
+    "steam"
+    "steam-original"
+    "steam-run"
 
     "nvidia-x11"
     "nvidia-settings"
@@ -54,10 +58,6 @@ in
     "libcusparse"
     "libnpp"
     "libnvjitlink"
-
-    "steam"
-    "steam-original"
-    "steam-run"
   ];
 
   nixpkgs.config = {
@@ -202,8 +202,9 @@ in
       "wheel" # Enable ‘sudo’ for the user.
       "networkmanager"
       "docker"
-      "libvirtd"
       "audio"
+
+      "libvirtd"
     ];
     packages = with pkgs; [
       nitrokey-app

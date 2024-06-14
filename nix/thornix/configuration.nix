@@ -8,9 +8,8 @@ let
 in
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
-
     ] ++ lib.optionals useFlake [
       ../modules/syncthing.nix
       ../modules/steam.nix
@@ -22,10 +21,23 @@ in
       <home-manager/nixos>
     ];
 
-  # nixpkgs.config.allowUnfreePredicate = pkg:
-  #   builtins.elem (lib.getName pkg) [
-  #     # Add additional package names here
-  #   ];
+  # See for more options, they don't show up in the NixOS option search
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    # Add additional package names here
+    "nomad"
+
+    "steam"
+    "steam-original"
+    "steam-run"
+
+  ];
+
+  nixpkgs.config = {
+    firefox = {
+      ffmpegSupport = true;
+    };
+  };
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
@@ -99,7 +111,17 @@ in
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+
+    daemon.config = {
+      avoid-resampling = "yes";
+      resample-method = "src-sinc-best-quality";
+      default-sample-format = "s32le";
+      default-sample-rate = "96000";
+      alternate-sample-rate = "44100";
+    };
+  };
 
   # Enable mDNS
   services.avahi = {
@@ -125,10 +147,11 @@ in
       "wheel" # Enable ‘sudo’ for the user.
       "networkmanager"
       "docker"
+      "audio"
     ];
     packages = with pkgs; [
       nitrokey-app
-      albert
+      ulauncher
       firefox
       chromium
       aws-sso-cli
@@ -148,19 +171,37 @@ in
     shell = pkgs.bashInteractive;
   };
   home-manager.users.ghthor = { pkgs, ... }: {
+    xdg.enable = true;
+
     home.packages = with pkgs; [
       bashInteractive
+      comma
       docker
-      nodejs_21
+      nodejs_22
       statix
 
       ruby
       rubyfmt
 
       vlc
+      peek
     ];
 
-    xdg.enable = true;
+    programs.git = {
+      enable = true;
+    };
+
+    programs.gh = {
+      enable = true;
+      settings = {
+        aliases = {
+          co = "pr checkout";
+          pv = "pr view";
+        };
+        git_protocol = "ssh";
+      };
+      gitCredentialHelper.enable = true;
+    };
 
     programs.obs-studio = {
       enable = true;
@@ -186,8 +227,47 @@ in
 
     programs.ssh = {
       enable = true;
+      matchBlocks = {
+        "ghthor-devbox" = {
+          host = "ghthor.voltus-devbox";
+          forwardAgent = false; # handled by the gpg-agent socket forwarding
+          extraOptions = {
+            "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
+            "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
+          };
+        };
+        "ssm" = {
+          host = "i-* mi-*";
+          extraOptions = {
+            ProxyCommand  = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+          };
+        };
+      };
       extraConfig = ''
       '';
+    };
+
+    services.gpg-agent = {
+      enable = true;
+      defaultCacheTtl = 600;
+      maxCacheTtl = 7200;
+      enableScDaemon = true;
+      enableSshSupport = true;
+      enableExtraSocket = true;
+      enableBashIntegration = true;
+      # sshKeys = [
+      #   "0x807409C92CE23033"
+      # ];
+      pinentryPackage = pkgs.pinentry-gtk2;
+    };
+
+    programs.gpg = {
+      enable = true;
+      mutableKeys = true;
+      mutableTrust = true;
+      # settings = {
+      #   "no-autostart" = "";
+      # };
     };
 
     programs.kitty = {
@@ -208,6 +288,12 @@ in
         lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
         ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
       );
+    };
+
+    programs.nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
     };
 
     programs.fzf = {
@@ -267,7 +353,7 @@ in
   programs.vim.defaultEditor = true;
 
   programs.bash = {
-    enableCompletion = true;
+    completion.enable = true;
   };
   programs.git.enable = true;
   programs.git.package = pkgs.gitFull;
@@ -364,19 +450,12 @@ in
     };
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-    settings = {
-      default-cache-ttl = 600;
-      max-cache-ttl = 7200;
-    };
-  };
 
-  # List services that you want to enable:
+  programs.mosh = {
+    enable = true;
+    openFirewall = true;
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -416,4 +495,3 @@ in
   system.stateVersion = "23.11"; # Did you read the comment?
 
 }
-

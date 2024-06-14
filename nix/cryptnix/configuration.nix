@@ -532,17 +532,8 @@ in
   # TODO: firewall config
   services.tabby = {
     enable = true;
-    # model = "TabbyML/StarCoder-3B";
-    model = "ghthor/DeepseekCoder-6.7B";
+    model = "TabbyML/StarCoder-3B";
     acceleration = "cuda";
-    settings = {
-      repositories = [
-        {
-          # Has to be created/updated manually, and permissions corrected
-          git_url = "file:///var/lib/tabby/source_repo";
-        }
-      ];
-    };
   };
 
   # Open ports in the firewall.

@@ -169,7 +169,7 @@ in
     ];
     packages = with pkgs; [
       nitrokey-app
-      albert
+      ulauncher
       firefox
       chromium
       aws-sso-cli

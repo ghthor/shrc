@@ -60,6 +60,12 @@ in
     "steam-run"
   ];
 
+  nixpkgs.config = {
+    firefox = {
+      ffmpegSupport = true;
+    };
+  };
+
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     substituters = [

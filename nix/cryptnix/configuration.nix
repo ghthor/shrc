@@ -236,7 +236,7 @@ in
       bashInteractive
       comma
       docker
-      nodejs_21
+      nodejs_22
       statix
 
       ruby
@@ -414,7 +414,7 @@ in
   programs.vim.defaultEditor = true;
 
   programs.bash = {
-    enableCompletion = true;
+    completion.enable = true;
   };
   programs.git.enable = true;
   programs.git.package = pkgs.gitFull;

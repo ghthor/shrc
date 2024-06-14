@@ -196,6 +196,7 @@ in
 
     home.packages = with pkgs; [
       bashInteractive
+      comma
       docker
       nodejs_21
       statix
@@ -310,6 +311,12 @@ in
         lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
         ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
       );
+    };
+
+    programs.nix-index = {
+      enable = true;
+      enableZshIntegration = true;
+      enableBashIntegration = true;
     };
 
     programs.fzf = {

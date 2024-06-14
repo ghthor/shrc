@@ -25,18 +25,39 @@ in
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     # Add additional package names here
+    "nomad"
+
     "nvidia-x11"
     "nvidia-settings"
     "nvidia-persistenced"
-    "cudatoolkit"
+
+    "cuda-merged"
     "cuda_cccl"
     "cuda_cudart"
+    "cuda_cuobjdump"
+    "cuda_cupti"
+    "cuda_cuxxfilt"
+    "cuda_gdb"
     "cuda_nvcc"
+    "cuda_nvdisasm"
+    "cuda_nvml_dev"
+    "cuda_nvprune"
+    "cuda_nvrtc"
+    "cuda_nvtx"
+    "cuda_profiler_api"
+    "cuda_sanitizer_api"
+    "cudatoolkit"
     "libcublas"
+    "libcufft"
+    "libcurand"
+    "libcusolver"
+    "libcusparse"
+    "libnpp"
+    "libnvjitlink"
+
     "steam"
     "steam-original"
     "steam-run"
-    "nomad"
   ];
 
   nix.settings = {

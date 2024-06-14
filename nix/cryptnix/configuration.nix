@@ -138,7 +138,17 @@ in
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+
+    daemon.config = {
+      avoid-resampling = "yes";
+      resample-method = "src-sinc-best-quality";
+      default-sample-format = "s32le";
+      default-sample-rate = "96000";
+      alternate-sample-rate = "44100";
+    };
+  };
 
   # Enable mDNS
   services.avahi = {
@@ -193,6 +203,7 @@ in
       "networkmanager"
       "docker"
       "libvirtd"
+      "audio"
     ];
     packages = with pkgs; [
       nitrokey-app

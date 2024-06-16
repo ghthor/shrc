@@ -30,12 +30,15 @@
 
       jq
       gnumake
+      findutils
 
       expect
 
       vimPlugins.coc-nvim
       nodejs_21
       statix # used by vim-ale
+
+      pkgs-unstable.gum
     ];
   };
 
@@ -144,6 +147,7 @@
     enable = true;
     shellIntegration.enableZshIntegration = true;
     theme = "Jellybeans";
+    font.name = "Hack Nerd Font Mono";
   };
 
   programs.tmux = {

@@ -138,17 +138,16 @@ in
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio = {
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-
-    daemon.config = {
-      avoid-resampling = "yes";
-      resample-method = "src-sinc-best-quality";
-      default-sample-format = "s32le";
-      default-sample-rate = "96000";
-      alternate-sample-rate = "44100";
-    };
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
   };
+  # $ pw-metadata -n settings 0 clock.force-rate 96000
 
   # Enable mDNS
   services.avahi = {
@@ -467,6 +466,8 @@ in
     xfce.xfce4-sensors-plugin
     xfce.xfce4-systemload-plugin
     xfce.xfce4-cpugraph-plugin
+    xfce.xfce4-pulseaudio-plugin
+    pavucontrol
 
     winetricks
 

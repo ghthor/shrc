@@ -123,7 +123,8 @@ in
   services.xserver.enable = true;
 
   services.xserver.desktopManager.xfce.enable = true;
-  services.xserver.displayManager.defaultSession = "xfce";
+  # services.xserver.displayManager.defaultSession = "xfce";
+  services.displayManager.defaultSession = "xfce";
   services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 
   # Configure keymap in X11
@@ -241,7 +242,7 @@ in
       statix
 
       ruby
-      rubyfmt
+      # rubyfmt # current broken
 
       vlc
       peek
@@ -452,7 +453,7 @@ in
     go
 
     ruby
-    rubyfmt
+    # rubyfmt # current broken
     python3
 
     pass
@@ -534,6 +535,10 @@ in
   # TODO: firewall config
   services.tabby = {
     enable = true;
+    package = pkgs.callPackage (pkgs.fetchurl {
+      url = "https://raw.githubusercontent.com/ghthor/nixpkgs/f26c45ce5a50ddbc5c5c550b803914f169eec90f/pkgs/by-name/ta/tabby/package.nix";
+      hash = "sha256-OMm1ipmMPopOae+YQxPQcOpi4hhcLICeTtdN+q8OPjQ=";
+    }) {};
     model = "TabbyML/StarCoder-3B";
     acceleration = "cuda";
   };

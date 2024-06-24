@@ -16,10 +16,13 @@
     "steam-run"
   ];
 
-  hardware.opengl = {
-    ## radv: an open-source Vulkan driver from freedesktop
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware.opengl.enable = true;
+
+  hardware.graphics = {
+    enable = true;
+    # enable32bit = true;
+
+    ## TODO: radv: an open-source Vulkan driver from freedesktop
   
     ## amdvlk: an open-source Vulkan driver from AMD
     extraPackages = [ pkgs.amdvlk ];

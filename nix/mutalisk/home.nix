@@ -123,13 +123,27 @@
         customRC = "";
         packages.myPlugins = {
           start = with pkgs.vimPlugins; [
-            jellybeans-vim
             vim-pathogen
+            vim-addon-mw-utils
+            tlib_vim
+
+            jellybeans-vim
+            ctrlp-vim
+            pkgs-unstable.vimPlugins.vim-tabby
+            nerdtree
+            lightline-vim
+            vim-commentary
+            vim-repeat
+            vim-surround
+            vim-vinegar
+            indentLine
+
             vim-nix
-            vim-gitgutter
+
+            vim-terraform
+
             # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
             coc-nvim
-            pkgs-unstable.vimPlugins.vim-tabby
 
             vim-gitgutter
             vim-git

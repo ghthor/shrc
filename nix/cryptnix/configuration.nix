@@ -278,14 +278,27 @@ in
     programs.vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [
-        vim-nix
-        jellybeans-vim
-        vim-gitgutter
         vim-pathogen
+        vim-addon-mw-utils
+        tlib_vim
+
+        jellybeans-vim
         ctrlp-vim
+        vim-tabby
+        nerdtree
+        lightline-vim
+        vim-commentary
+        vim-repeat
+        vim-surround
+        vim-vinegar
+        indentLine
+
+        vim-nix
+
+        vim-terraform
+
         # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
-        vim-tabby
 
         vim-gitgutter
         vim-git

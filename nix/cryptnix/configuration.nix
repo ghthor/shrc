@@ -286,6 +286,11 @@ in
         # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
         vim-tabby
+
+        vim-gitgutter
+        vim-git
+        vim-fugitive
+        vim-rhubarb
       ];
       settings = { ignorecase = true; };
       extraConfig = ''

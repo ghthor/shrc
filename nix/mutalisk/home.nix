@@ -130,6 +130,11 @@
             # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
             coc-nvim
             pkgs-unstable.vimPlugins.vim-tabby
+
+            vim-gitgutter
+            vim-git
+            vim-fugitive
+            vim-rhubarb
           ];
         };
       };

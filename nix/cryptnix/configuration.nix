@@ -58,6 +58,8 @@ in
     "libcusparse"
     "libnpp"
     "libnvjitlink"
+
+    "graphite-cli"
   ];
 
   nixpkgs.config = {
@@ -215,9 +217,8 @@ in
       ulauncher
       firefox
       chromium
+
       aws-sso-cli
-      gitFull
-      gh
       docker
       docker-buildx
       docker-credential-helpers
@@ -228,6 +229,10 @@ in
       obs-studio
       sshfs
       qmk
+
+      gitFull
+      gh
+      graphite-cli
     ];
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCmYcBHHo/QLcJGAGDyjZXUBy+xnS4wDmnFLBg3jA9X6n0MGF5iWhiOkdZlXrw6pA7ogjjXIRvg+9cqTkfq02MmWWK0TgzalxVYOJmcMzVDNStps7joUxibkg+Cz9OMVF7BP98bO5pddUrD4lS70JoqdlNBzXGx6C9S4tjS7R5897VYFCQQbjXFP/vgxiBrrsSN4XAoegNURbSnPAuTCNqURdvWzxfjWkYrLyKmq6zFdcJWIY8oGtxKHns8Szy79LeUpQAl4OSWAKlKXZf5NoyJzBfoRy1LvpCsYzC+ClBpbgb+o6Qb4ZjdLtYoCurqaDpRCd/0TgXMQXSnZCdOm8z8n+X1RXXJ8sOfp7uSY4HzifqUSQxdaRiIfdKEpQTP2xNvK4fcTGdEzZhdKTpYPpQr1BWt4z32SB94rA0ykwHPVMpDEfmA7po62NKzP65heMQoo0050f25QyB9UwHUfJ3EGr0pqZedrjdqPR8wsqIvKNNXwDI/SBHdjqrE+zpkuOE= openpgp:0xF74007AE"

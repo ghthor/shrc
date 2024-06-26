@@ -3,6 +3,8 @@ set noedcompatible
 
 set hidden
 
+set mouse=a
+
 set clipboard^=unnamed
 
 set autowrite

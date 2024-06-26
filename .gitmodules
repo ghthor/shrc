@@ -47,9 +47,6 @@
 [submodule "bundle/yajs.vim"]
 	path = pkg/vim/.vim/bundle/yajs.vim
 	url = https://github.com/othree/yajs.vim.git
-[submodule "bundle/ale"]
-	path = pkg/vim/.vim/bundle/ale
-	url = https://github.com/dense-analysis/ale.git
 [submodule "bundle/vim-yaml-folds"]
 	path = pkg/vim/.vim/bundle/vim-yaml-folds
 	url = https://github.com/pedrohdz/vim-yaml-folds.git

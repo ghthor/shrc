@@ -248,7 +248,10 @@ in
       bashInteractive
       comma
       docker
+
       nodejs_22
+      typescript
+
       statix
 
       ruby

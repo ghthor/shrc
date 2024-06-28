@@ -129,6 +129,7 @@
 
             jellybeans-vim
             ctrlp-vim
+            zoxide-vim
             pkgs-unstable.vimPlugins.vim-tabby
             nerdtree
             lightline-vim
@@ -144,6 +145,7 @@
 
             # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
             coc-nvim
+            ale
 
             vim-gitgutter
             vim-git

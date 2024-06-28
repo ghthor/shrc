@@ -1,4 +1,5 @@
 { pkgs, pkgs-unstable, NIX_PATH, ... }: {
+
   # This is required information for home-manager to do its job
   home = {
     stateVersion = "23.11";
@@ -12,7 +13,7 @@
       pwgen
 
       ruby
-      rubyfmt
+      # rubyfmt # broken in nixos-unstable
       python3
 
       fd
@@ -21,6 +22,11 @@
       tree
       bat
       stow
+
+      gitFull
+      pkgs-unstable.graphite-cli
+
+      typescript
 
       htop
       screen

@@ -14,8 +14,23 @@
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }:
     let
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+          ];
+        };
+      };
+      pkgs-unstable = import nixpkgs-unstable {
+        inherit system;
+        config = {
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
+            "graphite-cli"
+          ];
+        };
+      };
+
       NIX_PATH =
         "nixpkgs=${nixpkgs.outPath}:unstable=${nixpkgs-unstable.outPath}";
       home = import ./home.nix {

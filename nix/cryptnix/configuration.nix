@@ -273,6 +273,7 @@ in
         aliases = {
           co = "pr checkout";
           pv = "pr view";
+          pvw = "pr view --web";
         };
         git_protocol = "ssh";
       };

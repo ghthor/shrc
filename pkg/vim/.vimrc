@@ -292,3 +292,8 @@ nnoremap <C-L> <C-W>l
 
 " Directory Navigation
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR>
+
+" fzf navigation
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>fg :GFiles<CR>

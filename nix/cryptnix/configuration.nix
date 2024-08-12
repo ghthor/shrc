@@ -314,7 +314,7 @@ in
         vim-git
         vim-fugitive
         vim-rhubarb
-        argtextobj-vim
+        vim-argumentative
       ];
       settings = { ignorecase = true; };
       extraConfig = ''

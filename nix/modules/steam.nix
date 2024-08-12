@@ -16,7 +16,7 @@
     "steam-run"
   ];
 
-  hardware.opengl.enable = true;
+  # hardware.opengl.enable = true;
 
   hardware.graphics = {
     enable = true;

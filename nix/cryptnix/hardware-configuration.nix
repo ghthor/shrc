@@ -78,10 +78,6 @@
     package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
-  hardware.opengl = {
-    enable = true;
-  };
-
   hardware.graphics = {
     enable = true;
     # enable32bit = true;

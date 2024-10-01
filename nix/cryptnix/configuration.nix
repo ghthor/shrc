@@ -572,10 +572,10 @@ in
   # TODO: firewall config
   services.tabby = {
     enable = true;
-    package = pkgs.callPackage (pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/ghthor/nixpkgs/f26c45ce5a50ddbc5c5c550b803914f169eec90f/pkgs/by-name/ta/tabby/package.nix";
-      hash = "sha256-OMm1ipmMPopOae+YQxPQcOpi4hhcLICeTtdN+q8OPjQ=";
-    }) {};
+    # package = pkgs.callPackage (pkgs.fetchurl {
+    #   url = "https://raw.githubusercontent.com/ghthor/nixpkgs/f26c45ce5a50ddbc5c5c550b803914f169eec90f/pkgs/by-name/ta/tabby/package.nix";
+    #   hash = "sha256-OMm1ipmMPopOae+YQxPQcOpi4hhcLICeTtdN+q8OPjQ=";
+    # }) {};
     model = "TabbyML/StarCoder-3B";
     acceleration = "cuda";
   };

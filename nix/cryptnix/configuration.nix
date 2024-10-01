@@ -224,7 +224,6 @@ in
       amazon-ecr-credential-helper
       xclip
       barrier
-      direnv
       obs-studio
       sshfs
       qmk
@@ -413,6 +412,7 @@ in
       enable = true;
       enableZshIntegration = true;
       enableBashIntegration = false;
+      nix-direnv.enable = true;
     };
     programs.zoxide = {
       enable = true;

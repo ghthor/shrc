@@ -125,7 +125,6 @@ in
   services.xserver.enable = true;
 
   services.xserver.desktopManager.xfce.enable = true;
-  # services.xserver.displayManager.defaultSession = "xfce";
   services.displayManager.defaultSession = "xfce";
   services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 

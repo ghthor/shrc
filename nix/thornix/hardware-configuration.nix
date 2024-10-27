@@ -47,6 +47,40 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  hardware.system76.kernel-modules.enable = true;
   hardware.system76.enableAll = true;
+  services.power-profiles-daemon.enable = false;
+
+  # MODPROBE_INTEGRATED
+  # https://github.com/pop-os/system76-power/blob/master/src/graphics.rs#L55
+  boot.extraModprobeConfig = ''
+    blacklist i2c_nvidia_gpu
+    blacklist nouveau
+    blacklist nvidia
+    blacklist nvidia-drm
+    blacklist nvidia-modeset
+    alias i2c_nvidia_gpu off
+    alias nouveau off
+    alias nvidia off
+    alias nvidia-drm off
+    alias nvidia-modeset off
+  '';
+
+  # Ensure NVIDIA GPU is powered off by default on boot
+  systemd.services."nvidia-gpu-poweroff" = let
+    power-pkg = config.boot.kernelPackages.system76-power;
+  in {
+    after = [ "system76-power.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      ${power-pkg}/bin/system76-power graphics power off
+    '';
+  };
+
+  hardware.graphics = {
+    enable = true;
+    # enable32bit = true;
+  };
 }

@@ -31,6 +31,7 @@ in
     "steam-original"
     "steam-run"
 
+    "graphite-cli"
   ];
 
   nixpkgs.config = {
@@ -96,8 +97,8 @@ in
   services.xserver.enable = true;
 
   services.xserver.desktopManager.xfce.enable = true;
-  services.xserver.displayManager.defaultSession = "xfce";
-  services.xserver.videoDrivers = [ "intel" ];
+  services.displayManager.defaultSession = "xfce";
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -110,18 +111,16 @@ in
   services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
+  security.rtkit.enable = true;
+  services.pipewire = {
     enable = true;
-
-    daemon.config = {
-      avoid-resampling = "yes";
-      resample-method = "src-sinc-best-quality";
-      default-sample-format = "s32le";
-      default-sample-rate = "96000";
-      alternate-sample-rate = "44100";
-    };
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
   };
+  # $ pw-metadata -n settings 0 clock.force-rate 96000
 
   # Enable mDNS
   services.avahi = {
@@ -154,22 +153,25 @@ in
       ulauncher
       firefox
       chromium
+
       aws-sso-cli
-      gitFull
-      gh
       docker
       docker-buildx
       docker-credential-helpers
       amazon-ecr-credential-helper
       xclip
       barrier
-      direnv
       obs-studio
+      sshfs
+      gitFull
+      gh
+      graphite-cli
     ];
     openssh.authorizedKeys.keys = [ ];
 
     shell = pkgs.bashInteractive;
   };
+
   home-manager.users.ghthor = { pkgs, ... }: {
     xdg.enable = true;
 
@@ -177,11 +179,14 @@ in
       bashInteractive
       comma
       docker
+
       nodejs_22
+      typescript
+
       statix
 
       ruby
-      rubyfmt
+      # rubyfmt # current broken
 
       vlc
       peek
@@ -197,6 +202,7 @@ in
         aliases = {
           co = "pr checkout";
           pv = "pr view";
+          pvw = "pr view --web";
         };
         git_protocol = "ssh";
       };
@@ -210,14 +216,35 @@ in
     programs.vim = {
       enable = true;
       plugins = with pkgs.vimPlugins; [
-        vim-nix
-        jellybeans-vim
-        vim-gitgutter
         vim-pathogen
+        vim-addon-mw-utils
+        tlib_vim
+
+        jellybeans-vim
         ctrlp-vim
+        zoxide-vim
+        vim-tabby
+        nerdtree
+        lightline-vim
+        vim-commentary
+        vim-repeat
+        vim-surround
+        vim-vinegar
+        indentLine
+
+        vim-nix
+
+        vim-terraform
+
         # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
         coc-nvim
-        vim-tabby
+        ale
+
+        vim-gitgutter
+        vim-git
+        vim-fugitive
+        vim-rhubarb
+        vim-argumentative
       ];
       settings = { ignorecase = true; };
       extraConfig = ''
@@ -316,6 +343,7 @@ in
       enable = true;
       enableZshIntegration = true;
       enableBashIntegration = false;
+      nix-direnv.enable = true;
     };
     programs.zoxide = {
       enable = true;
@@ -350,7 +378,10 @@ in
     home.stateVersion = "23.11";
   };
 
-  programs.vim.defaultEditor = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
   programs.bash = {
     completion.enable = true;
@@ -390,7 +421,7 @@ in
     go
 
     ruby
-    rubyfmt
+    # rubyfmt # current broken
     python3
 
     pass
@@ -404,6 +435,8 @@ in
     xfce.xfce4-sensors-plugin
     xfce.xfce4-systemload-plugin
     xfce.xfce4-cpugraph-plugin
+    xfce.xfce4-pulseaudio-plugin
+    pavucontrol
 
     winetricks
 

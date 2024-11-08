@@ -47,5 +47,12 @@
           modules = [ home ];
         };
       };
+
+      apps.${system} = {
+        home-manager = {
+          type = "app";
+          program = "${home-manager.packages.${system}.default}/bin/home-manager";
+        };
+      };
     };
 }

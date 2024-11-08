@@ -41,7 +41,7 @@
       expect
 
       vimPlugins.coc-nvim
-      nodejs_21
+      nodejs_22
       statix # used by vim-ale
 
       pkgs-unstable.gum
@@ -211,6 +211,7 @@
     enable = true;
     enableZshIntegration = true;
     enableBashIntegration = false;
+    nix-direnv.enable = true;
   };
   programs.zoxide = {
     enable = true;
@@ -221,7 +222,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     initExtraFirst = "";
     initExtra = builtins.readFile ./zshrc;
   };

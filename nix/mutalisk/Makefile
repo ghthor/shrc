@@ -1,5 +1,5 @@
 switch: flake.lock_sync
-	if [ "$(hostname)" != "mutalisk.local" ]; then echo "$(hostname) != mutalisk.local"; fi
+	if [ "$(hostname)" != "VOLTUS-MAC-GVQX2XQ2C6" ]; then echo "$(hostname) != VOLTUS-MAC-GVQX2XQ2C6"; fi
 	nix run '.#home-manager' -- switch --flake .
 
 flake.lock_sync:

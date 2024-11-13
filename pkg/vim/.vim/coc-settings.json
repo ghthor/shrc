@@ -11,5 +11,14 @@
       "initializationOptions": {},
       "settings": {}
     }
+  },
+  "go.goplsPath": "gopls",
+  "go.goplsEnv": {
+    "GOWORK": "off"
+  },
+  "go.goplsOptions": {
+    "env": {
+      "GOWORK": "off"
+    }
   }
 }

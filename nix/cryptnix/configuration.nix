@@ -258,6 +258,7 @@ in
       peek
 
       vscodium
+      zeal
     ];
 
     programs.git = {
@@ -313,6 +314,8 @@ in
         vim-fugitive
         vim-rhubarb
         vim-argumentative
+
+        zeavim
       ];
       settings = { ignorecase = true; };
       extraConfig = ''

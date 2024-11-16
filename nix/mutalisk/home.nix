@@ -111,6 +111,7 @@
       default-cache-ttl 600
       max-cache-ttl 7200
       debug-level none
+      # debug-pinentry
       log-file $HOME/.gnupg/gpg-agent.log
     '';
     target = ".gnupg/gpg-agent.conf";

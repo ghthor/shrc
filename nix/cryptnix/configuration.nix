@@ -259,6 +259,8 @@ in
 
       vscodium
       zeal
+
+      remmina # rdp/vnc client
     ];
 
     programs.git = {

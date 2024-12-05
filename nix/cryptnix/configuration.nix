@@ -30,6 +30,7 @@ in
     "steam"
     "steam-original"
     "steam-run"
+    "steam-unwrapped"
 
     "nvidia-x11"
     "nvidia-settings"
@@ -233,6 +234,7 @@ in
     ];
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCmYcBHHo/QLcJGAGDyjZXUBy+xnS4wDmnFLBg3jA9X6n0MGF5iWhiOkdZlXrw6pA7ogjjXIRvg+9cqTkfq02MmWWK0TgzalxVYOJmcMzVDNStps7joUxibkg+Cz9OMVF7BP98bO5pddUrD4lS70JoqdlNBzXGx6C9S4tjS7R5897VYFCQQbjXFP/vgxiBrrsSN4XAoegNURbSnPAuTCNqURdvWzxfjWkYrLyKmq6zFdcJWIY8oGtxKHns8Szy79LeUpQAl4OSWAKlKXZf5NoyJzBfoRy1LvpCsYzC+ClBpbgb+o6Qb4ZjdLtYoCurqaDpRCd/0TgXMQXSnZCdOm8z8n+X1RXXJ8sOfp7uSY4HzifqUSQxdaRiIfdKEpQTP2xNvK4fcTGdEzZhdKTpYPpQr1BWt4z32SB94rA0ykwHPVMpDEfmA7po62NKzP65heMQoo0050f25QyB9UwHUfJ3EGr0pqZedrjdqPR8wsqIvKNNXwDI/SBHdjqrE+zpkuOE= openpgp:0xF74007AE"
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDSRUJVtcVuBuCYyj78EpC5AeeO4bO3u+C2M/I5uA4UFG32A8kZsQj8HChKwkQU2HxRMCe8xVKXcwSYaSpp2W3t0xnxnZfh6nsXUEQAert5srk4ZNbtkD1cGV3lgfURMyE0rBoY722LsehwWNFE/HODYQqe1lTRDVjjl1e2i22X5AF7wg9YYVFBJfS1VPFJypQElt0IfsYdEq+b6gkI/AG0f83rik/eiA6gqfH0tRnc8i6KWJQREMwOhdDgU0+1DFc0zRhL8W7GDjSs7ISKxd7i4rEfDh8IndUMBNPj0O09JYf0oTAkeCOvo88PyU3j3bHzN91b9clu9F2pGvCRBXc7sj2wuyr6o4lqCqGtFjsEjq2tL4bsEvDZkz2BbTQShCFQR3NxkY/T4B6iQvUwkkmscdFGp5tVpqJ3Mi5LoCZAMOlSyM0z1jfSyg6PBz4YMKjRXashY8WNeknmARsZJRz7XPQ1q3HxJr5D/TuG+UJO+Zzjnmhn9cRDQksYse1gcdfTqzkm4jiyiBBn4n4t/d4D3i48WNxZ7cjUysy1SjmfTslOnLQG4VJvMbEW2acBCtMqYl5tnFOTPdsnW/wvKW0nL45uAlr3GqnHLM/jC/q3QUnR4UFtRGxfuEpb4IA7FRx/i83uEdmFZMOuqbidg0qIUN6C7M8uQwQ6AJ+LksIuXQ== cardno:000F_CAEE8C01"
     ];
 
     shell = pkgs.bashInteractive;
@@ -522,10 +524,10 @@ in
   fonts = {
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
-      (nerdfonts.override { fonts = [ "Hack" ]; })
+      nerd-fonts.hack
     ];
     fontconfig = {
       useEmbeddedBitmaps = true;

@@ -30,6 +30,7 @@ in
     "steam"
     "steam-original"
     "steam-run"
+    "steam-unwrapped"
 
     "graphite-cli"
   ];
@@ -454,10 +455,10 @@ in
   fonts = {
     packages = with pkgs; [
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       liberation_ttf
-      (nerdfonts.override { fonts = [ "Hack" ]; })
+      nerd-fonts.hack
     ];
     fontconfig = {
       useEmbeddedBitmaps = true;

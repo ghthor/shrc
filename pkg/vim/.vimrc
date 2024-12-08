@@ -32,6 +32,8 @@ set noautoindent
 set nosmartindent
 set nocindent
 
+let g:coc_user_config = "$HOME/src/shrc/pkg/vim/.vim/coc-settings.json"
+
 " Autocomplete confirm for coc
 " https://github.com/neoclide/coc.nvim/wiki/Completion-with-sources#use-cr-to-confirm-completion
 inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"

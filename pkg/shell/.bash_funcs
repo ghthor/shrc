@@ -141,3 +141,11 @@ function golisthcl() {
   test_imports = [{{ range $i, $imp := .TestImports }}{{ printf "\"%s\"," $imp }}{{end}}]
 }'
 }
+
+xmodmap_mouse() {
+  xmodmap -e 'pointer = 1 3 2 4 5'
+}
+
+xmodmap_touchpad() {
+  xmodmap -e 'pointer = 1 2 3 4 5'
+}

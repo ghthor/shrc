@@ -105,6 +105,10 @@ in
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "eurosign:e,caps:escape";
 
+  services.udev.packages = [
+    pkgs.qmk-udev-rules
+  ];
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -164,6 +168,8 @@ in
       barrier
       obs-studio
       sshfs
+      qmk
+
       gitFull
       gh
       graphite-cli
@@ -418,6 +424,7 @@ in
     bc
 
     jq
+    miller # jq for csv
     tree
     wget
     ripgrep

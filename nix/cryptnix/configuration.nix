@@ -485,6 +485,7 @@ in
     bc
 
     jq
+    miller # jq for csv
     tree
     wget
     ripgrep

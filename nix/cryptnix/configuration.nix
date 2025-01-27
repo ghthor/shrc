@@ -485,6 +485,7 @@ in
     bc
 
     jq
+    ijq
     miller # jq for csv
     tree
     wget

@@ -40,10 +40,6 @@
 [submodule "bundle/vim-shfmt"]
 	path = pkg/vim/.vim/bundle/vim-shfmt
 	url = https://github.com/z0mbix/vim-shfmt.git
-[submodule "bundle/python-mode"]
-	path = pkg/vim/.vim/bundle/python-mode
-	url = https://github.com/python-mode/python-mode.git
-	branch = develop
 [submodule "bundle/yajs.vim"]
 	path = pkg/vim/.vim/bundle/yajs.vim
 	url = https://github.com/othree/yajs.vim.git

@@ -20,5 +20,11 @@
     "env": {
       "GOWORK": "off"
     }
+  },
+
+  "ruff.enableExperimentalFormatter": true,
+  "python.linting.enabled": true,
+  "[python]": {
+    "coc.preferences.formatOnSave": true
   }
 }

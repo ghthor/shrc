@@ -256,6 +256,8 @@ in
       ruby
       # rubyfmt # current broken
 
+      ruff
+
       vlc
       peek
 
@@ -326,6 +328,15 @@ in
         source $HOME/src/shrc/pkg/vim/.vimrc
       '';
     };
+
+    # The /. path form is used because it verifies that the path exists at eval time
+    home.activation.linkCocConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      run mkdir -p ${config.home.homeDirectory}/.config/vim/
+      run echo ${/. + config.home.homeDirectory + "/src/shrc/pkg/vim/.vim/coc-settings.json"}
+      run ln -sf $VERBOSE_ARG \
+        ${config.home.homeDirectory}/src/shrc/pkg/vim/.vim/coc-settings.json \
+        ${config.home.homeDirectory}/.config/vim/coc-settings.json
+    '';
 
     programs.ssh = {
       enable = true;

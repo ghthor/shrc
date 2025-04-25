@@ -178,7 +178,7 @@
   programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;
-    theme = "Jellybeans";
+    themeFile = "Jellybeans";
     font.name = "Hack Nerd Font Mono";
   };
 

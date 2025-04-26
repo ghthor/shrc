@@ -8,6 +8,7 @@
     packages = with pkgs; [
       bashInteractive
       nix-bash-completions
+      pkgs-unstable.nix-output-monitor
 
       pass
       pwgen
@@ -35,6 +36,7 @@
       mosh
 
       jq
+      ijq
       gnumake
       findutils
 

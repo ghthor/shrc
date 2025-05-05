@@ -10,6 +10,8 @@
       nix-bash-completions
       pkgs-unstable.nix-output-monitor
 
+      pkgs-unstable.aws-sso-cli
+
       pass
       pwgen
 

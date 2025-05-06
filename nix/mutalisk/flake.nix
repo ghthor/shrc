@@ -34,6 +34,7 @@
       NIX_PATH =
         "nixpkgs=${nixpkgs.outPath}:unstable=${nixpkgs-unstable.outPath}";
       home = import ./home.nix {
+        inherit (home-manager) lib;
         inherit pkgs;
         inherit pkgs-unstable;
         inherit NIX_PATH;

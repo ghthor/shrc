@@ -1,10 +1,12 @@
-{ pkgs, pkgs-unstable, NIX_PATH, ... }: {
+{ lib, pkgs, pkgs-unstable, NIX_PATH, ... }: let
+  homeDirectory = "/Users/willowens";
+in {
 
   # This is required information for home-manager to do its job
   home = {
     stateVersion = "23.11";
     username = "willowens";
-    homeDirectory = "/Users/willowens";
+    inherit homeDirectory;
     packages = with pkgs; [
       bashInteractive
       nix-bash-completions
@@ -128,11 +130,12 @@
     target = "bin/brew_install_stdenv";
   };
 
+  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary"] ''
+    run ln -sf $VERBOSE_ARG \
+      ${homeDirectory}/src/shrc/pkg/vim/.vim/ \
+      ${homeDirectory}/.vim
+  '';
   home.file = {
-    ".vim" = {
-      source = ../../pkg/vim/.vim;
-      target = ".vim";
-    };
     ".vimrc" = let
       vimrcFile = pkgs.vimUtils.vimrcFile {
         customRC = "";

@@ -20,6 +20,7 @@ in {
       ruby
       # rubyfmt # broken in nixos-unstable
       python3
+      ruff
 
       fd
       ripgrep

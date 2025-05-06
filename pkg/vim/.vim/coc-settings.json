@@ -22,8 +22,9 @@
     }
   },
 
-  "ruff.enableExperimentalFormatter": true,
+  "python.formatting.provider": "ruff",
   "python.linting.enabled": true,
+  "python.linting.ruffEnabled": true,
   "[python]": {
     "coc.preferences.formatOnSave": true
   }

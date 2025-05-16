@@ -50,11 +50,22 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
+let g:tabby_keybinding_accept = '<Right>'
+let g:tabby_inline_completion_keybinding_accept = '<Right>'
+
 if has('macunix')
-    let g:tabby_keybinding_accept = '<Right>'
+    if system('ioreg -p IOUSB -l -w 0 | grep ErgoDox') != ''
+        let g:tabby_keybinding_accept = '<PageDown>'
+        let g:tabby_inline_completion_keybinding_accept = '<PageDown>'
+    endif
 else
-    let g:tabby_keybinding_accept = '<PageDown>'
+    if system('lsusb | grep ErgoDox') != ''
+        let g:tabby_keybinding_accept = '<PageDown>'
+        let g:tabby_inline_completion_keybinding_accept = '<PageDown>'
+    endif
 endif
+let g:tabby_agent_start_command = ['npx', 'tabby-agent', '--stdio']
+let g:tabby_inline_completion_trigger = 'auto'
 
 let g:elm_format_autosave = 1
 

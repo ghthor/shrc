@@ -14,6 +14,8 @@ in {
 
       pkgs-unstable.aws-sso-cli
 
+      (pkgs.callPackage ../packages/tabby.nix { })
+
       pass
       pwgen
 
@@ -131,10 +133,16 @@ in {
     target = "bin/brew_install_stdenv";
   };
 
-  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary"] ''
+  home.activation.linkTabbyPlist = lib.hm.dag.entryAfter [ "writeBoundary"] ''
     run ln -sf $VERBOSE_ARG \
-      ${homeDirectory}/src/shrc/pkg/vim/.vim/ \
-      ${homeDirectory}/.vim
+      ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
+      ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
+  '';
+  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary"] ''
+    run [ -L "${homeDirectory}/.vim" ] || \
+      run ln -sf $VERBOSE_ARG \
+        ${homeDirectory}/src/shrc/pkg/vim/.vim/ \
+        ${homeDirectory}/.vim
   '';
   home.file = {
     ".vimrc" = let
@@ -149,7 +157,9 @@ in {
             jellybeans-vim
             ctrlp-vim
             zoxide-vim
-            pkgs-unstable.vimPlugins.vim-tabby
+
+            (pkgs.callPackage ../packages/vim-tabby.nix { })
+
             nerdtree
             lightline-vim
             vim-commentary

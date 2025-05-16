@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ghthor.tabby</string>
+
+    <key>ProgramArguments</key>
+    <array>
+		<string>/Users/willowens/.nix-profile/bin/tabby</string>
+		<string>serve</string>
+		<string>--model</string>
+		<string>StarCoder2-3B</string>
+		<string>--host</string>
+		<string>127.0.0.1</string>
+		<string>--port</string>
+		<string>8080</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <false/>
+
+    <!-- Optional: Set working directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/willowens</string>
+
+    <!-- Optional: Set environment variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/willowens/.nix-profile/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

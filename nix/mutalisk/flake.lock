@@ -55,8 +55,8 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1748196763,
-        "narHash": "sha256-ueCF/8nbBVrC5XJP/waeKYsfbi6ytvx2mOKtU7s+1ZQ=",
+        "lastModified": 1748205222,
+        "narHash": "sha256-6GUWgPo2OZ4HuMrGsu3soLwrZaWb7loyPXt1Qb+nARg=",
         "path": "/Users/willowens/src/nixpkgs",
         "type": "path"
       },

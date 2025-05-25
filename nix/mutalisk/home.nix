@@ -1,6 +1,14 @@
-{ lib, pkgs, pkgs-unstable, NIX_PATH, ... }: let
+{
+  lib,
+  pkgs,
+  pkgs-unstable,
+  NIX_PATH,
+  ...
+}:
+let
   homeDirectory = "/Users/willowens";
-in {
+in
+{
 
   # This is required information for home-manager to do its job
   home = {
@@ -80,12 +88,11 @@ in {
       "ssm" = {
         host = "i-* mi-*";
         extraOptions = {
-          ProxyCommand  = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+          ProxyCommand = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
         };
       };
     };
-    extraConfig = ''
-    '';
+    extraConfig = "";
   };
 
   programs.go.enable = true;
@@ -94,9 +101,11 @@ in {
     diff-so-fancy.enable = true;
     package = pkgs.gitFull;
     extraConfig = {
-      core = { excludesfile = "~/src/shrc/pkg/shell/.global.gitignore"; };
+      core = {
+        excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
+      };
     };
-    includes = [{ path = "~/src/shrc/pkg/shell/.gitconfig"; }];
+    includes = [ { path = "~/src/shrc/pkg/shell/.gitconfig"; } ];
   };
 
   programs.gh = {
@@ -133,63 +142,65 @@ in {
     target = "bin/brew_install_stdenv";
   };
 
-  home.activation.linkTabbyPlist = lib.hm.dag.entryAfter [ "writeBoundary"] ''
+  home.activation.linkTabbyPlist = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ln -sf $VERBOSE_ARG \
       ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
       ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
   '';
-  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary"] ''
+  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run [ -L "${homeDirectory}/.vim" ] || \
       run ln -sf $VERBOSE_ARG \
         ${homeDirectory}/src/shrc/pkg/vim/.vim/ \
         ${homeDirectory}/.vim
   '';
   home.file = {
-    ".vimrc" = let
-      vimrcFile = pkgs.vimUtils.vimrcFile {
-        customRC = "";
-        packages.myPlugins = {
-          start = with pkgs.vimPlugins; [
-            vim-pathogen
-            vim-addon-mw-utils
-            tlib_vim
+    ".vimrc" =
+      let
+        vimrcFile = pkgs.vimUtils.vimrcFile {
+          customRC = "";
+          packages.myPlugins = {
+            start = with pkgs.vimPlugins; [
+              vim-pathogen
+              vim-addon-mw-utils
+              tlib_vim
 
-            jellybeans-vim
-            ctrlp-vim
-            zoxide-vim
+              jellybeans-vim
+              ctrlp-vim
+              zoxide-vim
 
-            (pkgs.callPackage ../packages/vim-tabby.nix { })
+              (pkgs.callPackage ../packages/vim-tabby.nix { })
 
-            nerdtree
-            lightline-vim
-            vim-commentary
-            vim-repeat
-            vim-surround
-            vim-vinegar
-            indentLine
+              nerdtree
+              lightline-vim
+              vim-commentary
+              vim-repeat
+              vim-surround
+              vim-vinegar
+              indentLine
 
-            vim-nix
+              vim-nix
 
-            vim-terraform
+              vim-terraform
 
-            # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
-            coc-nvim
-            ale
+              # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
+              coc-nvim
+              ale
 
-            vim-gitgutter
-            vim-git
-            vim-fugitive
-            vim-rhubarb
-          ];
+              vim-gitgutter
+              vim-git
+              vim-fugitive
+              vim-rhubarb
+            ];
+          };
         };
+      in
+      {
+        text = ''
+          source ${vimrcFile.outPath}
+          source $HOME/src/shrc/pkg/vim/.vimrc
+        '';
+        target = ".vimrc";
       };
-    in {
-      text = ''
-        source ${vimrcFile.outPath}
-        source $HOME/src/shrc/pkg/vim/.vimrc
-      '';
-      target = ".vimrc";
-    };
   };
 
   # Still needs to be brew installed for Kitty.app
@@ -204,9 +215,10 @@ in {
     enable = true;
     mouse = true;
     terminal = "xterm-kitty";
+    shell = "${pkgs.bash}/bin/bash";
+    plugins = [ pkgs.tmuxPlugins.cpu ];
   };
-  home.sessionVariables.TMUX_XPANES_EXEC =
-    "tmux -2"; # force tmux from xpanes to be 256color
+  home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
 
   programs.readline = {
     enable = true;
@@ -223,8 +235,7 @@ in {
     enable = true;
     enableZshIntegration = false; # Manually enabled via initExtra
     enableBashIntegration = false;
-    settings =
-      builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
+    settings = builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
   };
   programs.direnv = {
     enable = true;

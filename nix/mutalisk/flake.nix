@@ -1,7 +1,7 @@
 {
   description = "ghthor's dotfiles";
   inputs = {
-    nixpkgs ={
+    nixpkgs = {
       url = "github:NixOS/nixpkgs/26d499fc9f1d567283d5d56fcf367edd815dba1d";
     };
     nixpkgs-darwin = {
@@ -18,36 +18,38 @@
 
   # In this context, outputs are mostly about getting home-manager what it
   # needs since it will be the one using the flake
-  outputs = { self, nixpkgs, nixpkgs-darwin, nixpkgs-unstable, home-manager, ... }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-darwin,
+      nixpkgs-unstable,
+      home-manager,
+      ...
+    }:
     let
       system = "aarch64-darwin";
 
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "copilot.vim"
-          ];
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "copilot.vim" ];
         };
       };
       pkgs-darwin = import nixpkgs-darwin {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-          ];
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ ];
         };
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [
-            "graphite-cli"
-          ];
+          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "graphite-cli" ];
         };
       };
 
-      NIX_PATH =
-        "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
+      NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
       home = import ./home.nix {
         inherit (home-manager) lib;
         inherit pkgs;
@@ -56,8 +58,9 @@
         inherit NIX_PATH;
       };
 
-    in {
-      formatter.${system} = pkgs.nixfmt;
+    in
+    {
+      formatter.${system} = pkgs-unstable.nixfmt-rfc-style;
       homeConfigurations = {
         "willowens" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;

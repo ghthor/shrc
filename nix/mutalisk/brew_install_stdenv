@@ -1,14 +1,17 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 brew install \
-  gnupg \
-  pinentry \
-  pinentry-mac \
-  syncthing \
-  tailscale \
   amethyst \
   barrier \
   font-hack-nerd-font \
+  gnupg \
   kitty \
+  orbstack \
+  pinentry \
+  pinentry-mac \
   stats \
-  vim
+  syncthing \
+  tailscale \
+  vim \
+  vlc &&
+  exit 0

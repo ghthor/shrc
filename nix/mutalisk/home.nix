@@ -38,6 +38,7 @@ in
       tree
       bat
       stow
+      viddy
 
       gitFull
       pkgs-unstable.graphite-cli

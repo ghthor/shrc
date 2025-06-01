@@ -212,6 +212,20 @@ in
     font.name = "Hack Nerd Font Mono";
   };
 
+  # Still installed with brew for Ghostty.app
+  programs.ghostty = {
+    enable = true;
+    package = (pkgs-unstable.callPackage ./ghostty-bin.nix { });
+    # manually enabled via initExtra cause HomeManager ordering is wrong
+    enableBashIntegration = false;
+    enableZshIntegration = true;
+    installVimSyntax = true;
+    settings = {
+      theme = "Jellybeans";
+      font-family = "Hack Nerd Font Mono";
+    };
+  };
+
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -277,6 +291,10 @@ in
         eval "$(zoxide init bash)"
         eval "$(direnv hook bash)"
         eval "$(starship init bash --print-full-init)"
+      fi
+
+      if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+        builtin source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
       fi
     '';
   };

@@ -4,6 +4,7 @@ brew install \
   amethyst \
   barrier \
   font-hack-nerd-font \
+  ghostty \
   gnupg \
   kitty \
   orbstack \

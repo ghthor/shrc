@@ -95,7 +95,7 @@ set foldmethod=syntax
 
 " Colorscheme Selection
 if !has("gui_running")
-    if &term == "screen-256color" || &term == "xterm-256color" || &term == "alacritty" || &term == "tmux-256color" || &term == "xterm-kitty"
+    if &term == "screen-256color" || &term == "xterm-256color" || &term == "alacritty" || &term == "tmux-256color" || &term == "xterm-kitty" || &term == "xterm-ghostty"
         set background=dark
         let g:jellybeans_use_term_italics = 1
         colors jellybeans

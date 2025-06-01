@@ -27,5 +27,11 @@
   "python.linting.ruffEnabled": true,
   "[python]": {
     "coc.preferences.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "coc.preferences.formatOnSave": true
+  },
+  "[typescript]": {
+    "coc.preferences.formatOnSave": true
   }
 }

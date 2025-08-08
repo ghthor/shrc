@@ -37,10 +37,6 @@ pathmunge() {
   fi
 }
 
-if [ -d "/opt/homebrew/bin" ]; then
-  pathmunge "/opt/homebrew/bin"
-fi
-
 eval "$(go env | grep -E '(GOPATH|GOROOT|GOCACHE|GOMODCACHE)')"
 # export GOROOT
 export GOSUMDB='sum.golang.org'
@@ -50,12 +46,14 @@ export GOMODCACHE
 export GOWORK=off
 
 binPaths=(
+  "/opt/homebrew/sbin"
+  "/opt/homebrew/bin"
   "$HOME/.local/bin"
+  "$HOME/.cargo/bin"
   "$GOPATH/bin"
   "$GOROOT/bin"
   "$HOME/go/bin"
   "$HOME/bin"
-  "$HOME/.cargo/bin"
 )
 
 for dir in "${binPaths[@]}"; do

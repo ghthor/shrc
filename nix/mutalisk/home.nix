@@ -93,7 +93,9 @@ in
         };
       };
     };
-    extraConfig = "";
+    extraConfig = ''
+      Include ~/.orbstack/ssh/config
+    '';
   };
 
   programs.go.enable = true;

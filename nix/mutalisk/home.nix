@@ -9,6 +9,7 @@ let
   homeDirectory = "/Users/willowens";
 in
 {
+  news.display = "show";
 
   # This is required information for home-manager to do its job
   home = {

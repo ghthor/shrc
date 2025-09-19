@@ -1,7 +1,7 @@
 [user]
 	email = ghthor@gmail.com
 	name = Will Owens
-	signingkey = 2E5231C73B0B6D5E
+	signingkey = 28B1E2F89BBFE3F8944208848C8384B16B623DA6
 [includeIf "gitdir:~/voltusdev/"]
 	path = ~/voltusdev/gitconfig
 

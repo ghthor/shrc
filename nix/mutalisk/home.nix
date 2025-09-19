@@ -63,6 +63,8 @@ in
       statix # used by vim-ale
 
       pkgs-unstable.gum
+
+      pkgs-unstable.amazon-ecr-credential-helper
     ];
   };
 

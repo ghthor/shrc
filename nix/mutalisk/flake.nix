@@ -2,16 +2,16 @@
   description = "ghthor's dotfiles";
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/26d499fc9f1d567283d5d56fcf367edd815dba1d";
+      url = "github:NixOS/nixpkgs/fc756aa6f5d3e2e5666efcf865d190701fef150a";
     };
     nixpkgs-darwin = {
-      url = "github:NixOS/nixpkgs/300cf356fb3aca28d3d73bfd0276ddf6b21dd0c2";
+      url = "github:NixOS/nixpkgs/5c8ff8d6a76ae12f399ce646dba7aea9f0c8e6c4";
     };
     nixpkgs-unstable = {
-      url = "path:/Users/willowens/src/nixpkgs";
+      url = "github:NixOS/nixpkgs/dfb2f12e899db4876308eba6d93455ab7da304cd";
     };
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-24.11";
+      url = "github:nix-community/home-manager?ref=release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

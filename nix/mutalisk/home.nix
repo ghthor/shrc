@@ -1,5 +1,6 @@
 {
   lib,
+  hmlib,
   pkgs,
   pkgs-unstable,
   NIX_PATH,
@@ -148,12 +149,12 @@ in
     target = "bin/brew_install_stdenv";
   };
 
-  home.activation.linkTabbyPlist = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.linkTabbyPlist = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run ln -sf $VERBOSE_ARG \
       ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
       ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
   '';
-  home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.linkDotVim = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run [ -L "${homeDirectory}/.vim" ] || \
       run ln -sf $VERBOSE_ARG \
         ${homeDirectory}/src/shrc/pkg/vim/.vim/ \
@@ -273,8 +274,11 @@ in
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
-    initExtraFirst = "";
-    initExtra = builtins.readFile ./zshrc;
+    initContent = let
+      initExtra = lib.mkOrder 1000 (builtins.readFile ./zshrc);
+    in lib.mkMerge [
+      initExtra
+    ];
   };
 
   programs.bash = {
@@ -292,14 +296,16 @@ in
     '';
     initExtra = ''
       source $HOME/src/shrc/pkg/shell/.bash_interactive
-      if [[ $TERM != "dumb" ]]; then
-        eval "$(zoxide init bash)"
-        eval "$(direnv hook bash)"
-        eval "$(starship init bash --print-full-init)"
-      fi
 
-      if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
-        builtin source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+      if [[ $TERM != "dumb" ]]; then
+        eval "$(starship init bash --print-full-init)"
+
+        if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+          builtin source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+        fi
+
+        eval "$(direnv hook bash)"
+        eval "$(zoxide init bash)"
       fi
     '';
   };

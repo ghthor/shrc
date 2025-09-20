@@ -51,7 +51,8 @@
 
       NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
       home = import ./home.nix {
-        inherit (home-manager) lib;
+        inherit (nixpkgs) lib;
+        hmlib = home-manager.lib;
         inherit pkgs;
         inherit pkgs-darwin;
         inherit pkgs-unstable;

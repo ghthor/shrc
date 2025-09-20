@@ -194,6 +194,9 @@ if has("autocmd")
     autocmd Filetype go setl noexpandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
     " autocmd Filetype go autocmd BufWritePre <buffer> Fmt
 
+    " setting for cpp
+    autocmd Filetype cpp setl expandtab tabstop=2 softtabstop=2 shiftwidth=2 noautoindent
+
     autocmd Filetype conf setl expandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent
 
     " setting for nginx config files

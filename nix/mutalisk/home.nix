@@ -195,8 +195,10 @@ in
 
               vim-gitgutter
               vim-git
-              vim-fugitive
-              vim-rhubarb
+              pkgs-unstable.vimPlugins.vim-fugitive
+              pkgs-unstable.vimPlugins.vim-rhubarb
+
+              fzf-vim
             ];
           };
         };

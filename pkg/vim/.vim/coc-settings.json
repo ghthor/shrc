@@ -22,6 +22,8 @@
     }
   },
 
+  "rust-analyzer.serverPath": "rust-analyzer",
+
   "python.formatting.provider": "ruff",
   "python.linting.enabled": true,
   "python.linting.ruffEnabled": true,

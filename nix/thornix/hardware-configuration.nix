@@ -8,6 +8,9 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+  # Use latest kernel.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.initrd.availableKernelModules = [ "cryptd" "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];

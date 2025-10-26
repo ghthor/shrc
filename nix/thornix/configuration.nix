@@ -174,6 +174,7 @@ in
       gh
       graphite-cli
     ];
+
     openssh.authorizedKeys.keys = [ ];
 
     shell = pkgs.bashInteractive;
@@ -543,7 +544,8 @@ in
   # even if you've upgraded your system to a new NixOS release.
   #
   # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system.
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
   #
   # This value being lower than the current NixOS release does NOT mean your system is
   # out of date, out of support, or vulnerable.
@@ -553,5 +555,4 @@ in
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }

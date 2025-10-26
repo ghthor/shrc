@@ -1,7 +1,7 @@
 {
   description = "ghthor's system flakes";
   inputs = {
-    nixpkgs.url = "path:/home/ghthor/src/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     home-manager = {
       url = "github:nix-community/home-manager?ref=master";
@@ -37,6 +37,19 @@
         ];
         modules = [
           ./cryptnix/configuration.nix
+          {
+            nix.registry.nixpkgs.flake = nixpkgs;
+          }
+        ];
+      };
+      nydus = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = lib.mkMerge [
+          attrs
+          { useFlake = true; }
+        ];
+        modules = [
+          ./nydus/configuration.nix
           {
             nix.registry.nixpkgs.flake = nixpkgs;
           }

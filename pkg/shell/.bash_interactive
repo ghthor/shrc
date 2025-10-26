@@ -90,6 +90,8 @@ source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git
 source_file "$HOME/.nix-profile/share/bash-completion/completions/git"            # darwin
 source_file "$HOME/src/shrc/pkg/scm_breeze/.scm_breeze/scm_breeze.sh"
 
+export FZF_CTRL_T_COMMAND="fd ."
+
 set -o vi
 
 for hashi in nomad consul vault terraform; do

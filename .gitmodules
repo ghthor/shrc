@@ -1,6 +1,9 @@
 [submodule "scm_breeze"]
 	path = pkg/scm_breeze/.scm_breeze
 	url = https://github.com/ghthor/scm_breeze
+[submodule "bundle/vim-go"]
+	path = pkg/vim/.vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go.git
 [submodule "bundle/vim-hclfmt"]
 	path = pkg/vim/.vim/bundle/vim-hclfmt
 	url = git@github.com:ghthor/vim-hclfmt.git

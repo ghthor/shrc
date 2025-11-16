@@ -10,6 +10,8 @@
 }@attrs:
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
+
+  vim-tabby = if useFlake then ../packages/vim-tabby.nix else ./packages/vim-tabby.nix;
 in
 {
   imports = [
@@ -188,7 +190,9 @@ in
       gh
       graphite-cli
     ];
-    openssh.authorizedKeys.keys = [ ];
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/P1Dwjn0gppEakHqmYWD0QijlkK6JlOCp9A0tj+R8kdvGq2Ti6GyI1eRPUbrcwF41Cj2ynGQe/OgmguRxL72xIT8/ZvVtM4kqwTiMspEjMeizMNtGlGfPhmQd4CgnXyVuILrqTDNi8j8yUYEvIaBID/dt2qWd4UmgcSRZmGPmIOK7RaH9Rc69bJ9xu0KdE2u85I9nEb3t8r13kz8oggEPbqeL7RArsZLxyzVuucZr8QkpHUDjyyJWAjAg3lLX2t6RbUP8NDk+ZSKGJ6ldeVxbjupIu/o/L9XiZUqQw32Nt+WW+BGYmCI5ygvuswdkBZMACYYc96EckWzthcN4SjJP cardno:000F_D0A41346"
+    ];
 
     shell = pkgs.bashInteractive;
   };
@@ -258,7 +262,7 @@ in
           jellybeans-vim
           ctrlp-vim
           zoxide-vim
-          vim-tabby
+          (pkgs.callPackage vim-tabby { })
           nerdtree
           lightline-vim
           vim-commentary

@@ -19,6 +19,7 @@ cryptnix:
 	else \
 		sudo rsync -r ./cryptnix/ /etc/nixos/; \
 		sudo rsync -r ./modules/ /etc/nixos/modules/; \
+		sudo rsync -r ./packages/ /etc/nixos/packages/; \
 		sudo nixos-rebuild -I nixpkgs=/home/ghthor/src/nixpkgs -I nixos-config=/etc/nixos/configuration.nix switch --show-trace; \
 	fi
 
@@ -28,5 +29,6 @@ nydus:
 	else \
 		sudo rsync -r ./nydus/ /etc/nixos/; \
 		sudo rsync -r ./modules/ /etc/nixos/modules/; \
+		sudo rsync -r ./packages/ /etc/nixos/packages/; \
 		sudo nixos-rebuild -I nixos-config=/etc/nixos/configuration.nix switch --show-trace; \
 	fi

@@ -9,52 +9,61 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@attrs:
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    inherit (pkgs) lib;
-  in {
-    nixosConfigurations = {
-      thornix = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = lib.mkMerge [
-          attrs
-          { useFlake = true; }
-        ];
-        modules = [
-          ./thornix/configuration.nix
-          {
-            nix.registry.nixpkgs.flake = nixpkgs;
-          }
-        ];
-      };
-      cryptnix = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = lib.mkMerge [
-          attrs
-          { useFlake = true; }
-        ];
-        modules = [
-          ./cryptnix/configuration.nix
-          {
-            nix.registry.nixpkgs.flake = nixpkgs;
-          }
-        ];
-      };
-      nydus = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = lib.mkMerge [
-          attrs
-          { useFlake = true; }
-        ];
-        modules = [
-          ./nydus/configuration.nix
-          {
-            nix.registry.nixpkgs.flake = nixpkgs;
-          }
-        ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@attrs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      inherit (pkgs) lib;
+    in
+    {
+      formatter.${system} = pkgs.nixfmt-rfc-style;
+
+      nixosConfigurations = {
+        thornix = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = lib.mkMerge [
+            attrs
+            { useFlake = true; }
+          ];
+          modules = [
+            ./thornix/configuration.nix
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+            }
+          ];
+        };
+        cryptnix = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = lib.mkMerge [
+            attrs
+            { useFlake = true; }
+          ];
+          modules = [
+            ./cryptnix/configuration.nix
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+            }
+          ];
+        };
+        nydus = nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = lib.mkMerge [
+            attrs
+            { useFlake = true; }
+          ];
+          modules = [
+            ./nydus/configuration.nix
+            {
+              nix.registry.nixpkgs.flake = nixpkgs;
+            }
+          ];
+        };
       };
     };
-  };
 }

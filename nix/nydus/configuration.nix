@@ -2,44 +2,55 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }@attrs:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}@attrs:
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ] ++ lib.optionals useFlake [
-      # ../modules/syncthing.nix
-      # ../modules/steam.nix
-      # attrs.home-manager.nixosModules.default
+  imports = [
+    ./hardware-configuration.nix
+  ]
+  ++ lib.optionals useFlake [
+    # ../modules/syncthing.nix
+    # ../modules/steam.nix
+    # attrs.home-manager.nixosModules.default
 
-    ] ++ lib.optionals (!useFlake) [
-      # ./modules/syncthing.nix
-      # ./modules/steam.nix
-      # <home-manager/nixos>
-    ];
+  ]
+  ++ lib.optionals (!useFlake) [
+    # ./modules/syncthing.nix
+    # ./modules/steam.nix
+    # <home-manager/nixos>
+  ];
 
   # See for more options, they don't show up in the NixOS option search
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    # Add additional package names here
-    "nomad"
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      # Add additional package names here
+      "nomad"
 
-    "steam"
-    "steam-original"
-    "steam-run"
-    "steam-unwrapped"
+      "steam"
+      "steam-original"
+      "steam-run"
+      "steam-unwrapped"
 
-    "graphite-cli"
-  ];
+      "graphite-cli"
+    ];
 
   nixpkgs.config = {
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     # substituters = [
     #   "http://cryptnix.local/"
     # ];
@@ -74,7 +85,7 @@ in
   networking.hostName = "nydus"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -93,7 +104,6 @@ in
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -163,7 +173,6 @@ in
   };
   programs.git.enable = true;
   programs.git.package = pkgs.gitFull;
-
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).

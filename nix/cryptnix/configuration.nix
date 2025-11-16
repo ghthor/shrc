@@ -2,66 +2,74 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }@attrs:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}@attrs:
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 in
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ] ++ lib.optionals useFlake [
-      ../modules/syncthing.nix
-      ../modules/steam.nix
-      attrs.home-manager.nixosModules.default
+  imports = [
+    ./hardware-configuration.nix
+  ]
+  ++ lib.optionals useFlake [
+    ../modules/syncthing.nix
+    ../modules/steam.nix
+    attrs.home-manager.nixosModules.default
 
-    ] ++ lib.optionals (!useFlake) [
-      ./modules/syncthing.nix
-      ./modules/steam.nix
-      <home-manager/nixos>
-    ];
+  ]
+  ++ lib.optionals (!useFlake) [
+    ./modules/syncthing.nix
+    ./modules/steam.nix
+    <home-manager/nixos>
+  ];
 
   # See for more options, they don't show up in the NixOS option search
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    # Add additional package names here
-    "nomad"
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      # Add additional package names here
+      "nomad"
 
-    "steam"
-    "steam-original"
-    "steam-run"
-    "steam-unwrapped"
+      "steam"
+      "steam-original"
+      "steam-run"
+      "steam-unwrapped"
 
-    "nvidia-x11"
-    "nvidia-settings"
-    "nvidia-persistenced"
+      "nvidia-x11"
+      "nvidia-settings"
+      "nvidia-persistenced"
 
-    "cuda-merged"
-    "cuda_cccl"
-    "cuda_cudart"
-    "cuda_cuobjdump"
-    "cuda_cupti"
-    "cuda_cuxxfilt"
-    "cuda_gdb"
-    "cuda_nvcc"
-    "cuda_nvdisasm"
-    "cuda_nvml_dev"
-    "cuda_nvprune"
-    "cuda_nvrtc"
-    "cuda_nvtx"
-    "cuda_profiler_api"
-    "cuda_sanitizer_api"
-    "cudatoolkit"
-    "libcublas"
-    "libcufft"
-    "libcurand"
-    "libcusolver"
-    "libcusparse"
-    "libnpp"
-    "libnvjitlink"
+      "cuda-merged"
+      "cuda_cccl"
+      "cuda_cudart"
+      "cuda_cuobjdump"
+      "cuda_cupti"
+      "cuda_cuxxfilt"
+      "cuda_gdb"
+      "cuda_nvcc"
+      "cuda_nvdisasm"
+      "cuda_nvml_dev"
+      "cuda_nvprune"
+      "cuda_nvrtc"
+      "cuda_nvtx"
+      "cuda_profiler_api"
+      "cuda_sanitizer_api"
+      "cudatoolkit"
+      "libcublas"
+      "libcufft"
+      "libcurand"
+      "libcusolver"
+      "libcusparse"
+      "libnpp"
+      "libnvjitlink"
 
-    "graphite-cli"
-  ];
+      "graphite-cli"
+    ];
 
   nixpkgs.config = {
     firefox = {
@@ -70,7 +78,10 @@ in
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     substituters = [
       "http://thornix.local/"
     ];
@@ -93,7 +104,8 @@ in
     recommendedProxySettings = true;
     virtualHosts = {
       "${config.networking.hostName}.local" = {
-        locations."/".proxyPass = "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
+        locations."/".proxyPass =
+          "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
       };
     };
   };
@@ -105,7 +117,7 @@ in
   networking.hostName = "cryptnix"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -127,7 +139,10 @@ in
 
   services.xserver.desktopManager.xfce.enable = true;
   services.displayManager.defaultSession = "xfce";
-  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -240,229 +255,239 @@ in
     shell = pkgs.bashInteractive;
   };
 
-  home-manager.users.ghthor = { pkgs, ... }: {
-    xdg.enable = true;
+  home-manager.users.ghthor =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
+    {
+      xdg.enable = true;
 
-    home.packages = with pkgs; [
-      bashInteractive
-      comma
-      docker
+      home.packages = with pkgs; [
+        bashInteractive
+        comma
+        docker
 
-      nodejs_22
-      typescript
+        nodejs_22
+        typescript
 
-      statix
+        statix
 
-      ruby
-      # rubyfmt # current broken
+        ruby
+        # rubyfmt # current broken
 
-      ruff
+        ruff
 
-      vlc
-      peek
+        vlc
+        peek
 
-      vscodium
-      zeal
+        vscodium
+        zeal
 
-      remmina # rdp/vnc client
-    ];
-
-    programs.git = {
-      enable = true;
-    };
-
-    programs.gh = {
-      enable = true;
-      settings = {
-        aliases = {
-          co = "pr checkout";
-          pv = "pr view";
-          pvw = "pr view --web";
-        };
-        git_protocol = "ssh";
-      };
-      gitCredentialHelper.enable = true;
-    };
-
-    programs.obs-studio = {
-      enable = true;
-    };
-
-    programs.vim = {
-      enable = true;
-      plugins = with pkgs.vimPlugins; [
-        vim-pathogen
-        vim-addon-mw-utils
-        tlib_vim
-
-        jellybeans-vim
-        ctrlp-vim
-        zoxide-vim
-        vim-tabby
-        nerdtree
-        lightline-vim
-        vim-commentary
-        vim-repeat
-        vim-surround
-        vim-vinegar
-        indentLine
-
-        vim-nix
-
-        vim-terraform
-
-        # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
-        coc-nvim
-        ale
-
-        vim-gitgutter
-        vim-git
-        vim-fugitive
-        vim-rhubarb
-        vim-argumentative
-
-        zeavim
+        remmina # rdp/vnc client
       ];
-      settings = { ignorecase = true; };
-      extraConfig = ''
-        source $HOME/src/shrc/pkg/vim/.vimrc
-      '';
-    };
 
-    # The /. path form is used because it verifies that the path exists at eval time
-    home.activation.linkCocConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run mkdir -p ${config.home.homeDirectory}/.config/vim/
-      run echo ${/. + config.home.homeDirectory + "/src/shrc/pkg/vim/.vim/coc-settings.json"}
-      run ln -sf $VERBOSE_ARG \
-        ${config.home.homeDirectory}/src/shrc/pkg/vim/.vim/coc-settings.json \
-        ${config.home.homeDirectory}/.config/vim/coc-settings.json
-    '';
-
-    programs.ssh = {
-      enable = true;
-      matchBlocks = {
-        "ghthor-devbox" = {
-          host = "ghthor.voltus-devbox";
-          forwardAgent = false; # handled by the gpg-agent socket forwarding
-          extraOptions = {
-            "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
-            "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
-          };
-        };
-        "ssm" = {
-          host = "i-* mi-*";
-          extraOptions = {
-            ProxyCommand  = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
-          };
-        };
+      programs.git = {
+        enable = true;
       };
-      extraConfig = ''
+
+      programs.gh = {
+        enable = true;
+        settings = {
+          aliases = {
+            co = "pr checkout";
+            pv = "pr view";
+            pvw = "pr view --web";
+          };
+          git_protocol = "ssh";
+        };
+        gitCredentialHelper.enable = true;
+      };
+
+      programs.obs-studio = {
+        enable = true;
+      };
+
+      programs.vim = {
+        enable = true;
+        plugins = with pkgs.vimPlugins; [
+          vim-pathogen
+          vim-addon-mw-utils
+          tlib_vim
+
+          jellybeans-vim
+          ctrlp-vim
+          zoxide-vim
+          vim-tabby
+          nerdtree
+          lightline-vim
+          vim-commentary
+          vim-repeat
+          vim-surround
+          vim-vinegar
+          indentLine
+
+          vim-nix
+
+          vim-terraform
+
+          # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
+          coc-nvim
+          ale
+
+          vim-gitgutter
+          vim-git
+          vim-fugitive
+          vim-rhubarb
+          vim-argumentative
+
+          zeavim
+        ];
+        settings = {
+          ignorecase = true;
+        };
+        extraConfig = ''
+          source $HOME/src/shrc/pkg/vim/.vimrc
+        '';
+      };
+
+      # The /. path form is used because it verifies that the path exists at eval time
+      home.activation.linkCocConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        run mkdir -p ${config.home.homeDirectory}/.config/vim/
+        run echo ${/. + config.home.homeDirectory + "/src/shrc/pkg/vim/.vim/coc-settings.json"}
+        run ln -sf $VERBOSE_ARG \
+          ${config.home.homeDirectory}/src/shrc/pkg/vim/.vim/coc-settings.json \
+          ${config.home.homeDirectory}/.config/vim/coc-settings.json
       '';
-    };
 
-    services.gpg-agent = {
-      enable = true;
-      defaultCacheTtl = 600;
-      maxCacheTtl = 7200;
-      enableScDaemon = true;
-      enableSshSupport = true;
-      enableExtraSocket = true;
-      enableBashIntegration = true;
-      # sshKeys = [
-      #   "0x807409C92CE23033"
-      # ];
-      pinentryPackage = pkgs.pinentry-gtk2;
-    };
+      programs.ssh = {
+        enable = true;
+        matchBlocks = {
+          "ghthor-devbox" = {
+            host = "ghthor.voltus-devbox";
+            forwardAgent = false; # handled by the gpg-agent socket forwarding
+            extraOptions = {
+              "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
+              "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
+            };
+          };
+          "ssm" = {
+            host = "i-* mi-*";
+            extraOptions = {
+              ProxyCommand = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
+            };
+          };
+        };
+        extraConfig = '''';
+      };
 
-    programs.gpg = {
-      enable = true;
-      mutableKeys = true;
-      mutableTrust = true;
-      # settings = {
-      #   "no-autostart" = "";
-      # };
-    };
+      services.gpg-agent = {
+        enable = true;
+        defaultCacheTtl = 600;
+        maxCacheTtl = 7200;
+        enableScDaemon = true;
+        enableSshSupport = true;
+        enableExtraSocket = true;
+        enableBashIntegration = true;
+        # sshKeys = [
+        #   "0x807409C92CE23033"
+        # ];
+        pinentryPackage = pkgs.pinentry-gtk2;
+      };
 
-    programs.kitty = {
-      enable = true;
-      shellIntegration.enableBashIntegration = true;
-      theme = "Jellybeans";
-    };
-    programs.tmux = {
-      enable = true;
-      mouse = true;
-      terminal = "tmux-256color";
-    };
-    home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
+      programs.gpg = {
+        enable = true;
+        mutableKeys = true;
+        mutableTrust = true;
+        # settings = {
+        #   "no-autostart" = "";
+        # };
+      };
 
-    programs.readline = {
-      enable = true;
-      extraConfig = builtins.head (
-        lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
-        ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
-      );
-    };
+      programs.kitty = {
+        enable = true;
+        shellIntegration.enableBashIntegration = true;
+        theme = "Jellybeans";
+      };
+      programs.tmux = {
+        enable = true;
+        mouse = true;
+        terminal = "tmux-256color";
+      };
+      home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
 
-    programs.nix-index = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
+      programs.readline = {
+        enable = true;
+        extraConfig = builtins.head (
+          lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
+          ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
+        );
+      };
 
-    programs.fzf = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
+      programs.nix-index = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+      };
 
-    # bash eval ordering matters so managing it manually
-    programs.starship = {
-      enable = true;
-      enableBashIntegration = false;
-      enableZshIntegration = false; # Manually enabled via initExtra
-      settings = builtins.head (
-        lib.optional useFlake (builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml))
-        ++ lib.optional (!useFlake) (builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml))
-      );
-    };
-    programs.direnv = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = false;
-      nix-direnv.enable = true;
-    };
-    programs.zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = false;
-    };
+      programs.fzf = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = true;
+      };
 
-    programs.bash = {
-      enable = true;
-      enableCompletion = true;
-      bashrcExtra = ''
-        export BASHRC_HOME_MANAGER=1
-        source $HOME/src/shrc/pkg/shell/.bash_noninteractive
+      # bash eval ordering matters so managing it manually
+      programs.starship = {
+        enable = true;
+        enableBashIntegration = false;
+        enableZshIntegration = false; # Manually enabled via initExtra
+        settings = builtins.head (
+          lib.optional useFlake (builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml))
+          ++ lib.optional (!useFlake) (
+            builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml)
+          )
+        );
+      };
+      programs.direnv = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = false;
+        nix-direnv.enable = true;
+      };
+      programs.zoxide = {
+        enable = true;
+        enableZshIntegration = true;
+        enableBashIntegration = false;
+      };
 
-        # Avoid running any of the starship/zoxide/direnv sourcing again
-        if [ ! -z "$DIRENV_IN_ENVRC" ]; then
-          return
-        fi
-      '';
-      initExtra = ''
-        source $HOME/src/shrc/pkg/shell/.bash_interactive
-        if [[ $TERM != "dumb" ]]; then
-          eval "$(zoxide init bash)"
-          eval "$(direnv hook bash)"
-          eval "$(starship init bash --print-full-init)"
-        fi
-      '';
+      programs.bash = {
+        enable = true;
+        enableCompletion = true;
+        bashrcExtra = ''
+          export BASHRC_HOME_MANAGER=1
+          source $HOME/src/shrc/pkg/shell/.bash_noninteractive
+
+          # Avoid running any of the starship/zoxide/direnv sourcing again
+          if [ ! -z "$DIRENV_IN_ENVRC" ]; then
+            return
+          fi
+        '';
+        initExtra = ''
+          source $HOME/src/shrc/pkg/shell/.bash_interactive
+          if [[ $TERM != "dumb" ]]; then
+            eval "$(zoxide init bash)"
+            eval "$(direnv hook bash)"
+            eval "$(starship init bash --print-full-init)"
+          fi
+        '';
+      };
+
+      # The state version is required and should stay at the version you
+      # originally installed.
+      home.stateVersion = "23.11";
     };
-
-    # The state version is required and should stay at the version you
-    # originally installed.
-    home.stateVersion = "23.11";
-  };
 
   programs.vim = {
     enable = true;
@@ -545,30 +570,30 @@ in
     fontconfig = {
       useEmbeddedBitmaps = true;
       localConf = ''
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-<fontconfig>
-  <match target="font">
-    <edit mode="assign" name="antialias">
-      <bool>true</bool>
-    </edit>
-    <edit mode="assign" name="embeddedbitmap">
-      <bool>false</bool>
-    </edit>
-    <edit mode="assign" name="hinting">
-      <bool>true</bool>
-    </edit>
-    <edit mode="assign" name="hintstyle">
-      <const>hintslight</const>
-    </edit>
-    <edit mode="assign" name="lcdfilter">
-      <const>lcddefault</const>
-    </edit>
-    <edit mode="assign" name="rgba">
-      <const>rgb</const>
-    </edit>
-  </match>
-</fontconfig>
+        <?xml version="1.0"?>
+        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+        <fontconfig>
+          <match target="font">
+            <edit mode="assign" name="antialias">
+              <bool>true</bool>
+            </edit>
+            <edit mode="assign" name="embeddedbitmap">
+              <bool>false</bool>
+            </edit>
+            <edit mode="assign" name="hinting">
+              <bool>true</bool>
+            </edit>
+            <edit mode="assign" name="hintstyle">
+              <const>hintslight</const>
+            </edit>
+            <edit mode="assign" name="lcdfilter">
+              <const>lcddefault</const>
+            </edit>
+            <edit mode="assign" name="rgba">
+              <const>rgb</const>
+            </edit>
+          </match>
+        </fontconfig>
       '';
     };
   };
@@ -617,7 +642,8 @@ in
   # even if you've upgraded your system to a new NixOS release.
   #
   # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system.
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
   #
   # This value being lower than the current NixOS release does NOT mean your system is
   # out of date, out of support, or vulnerable.
@@ -627,5 +653,4 @@ in
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }

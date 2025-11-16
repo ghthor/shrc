@@ -277,11 +277,13 @@ in
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
-    initContent = let
-      initExtra = lib.mkOrder 1000 (builtins.readFile ./zshrc);
-    in lib.mkMerge [
-      initExtra
-    ];
+    initContent =
+      let
+        initExtra = lib.mkOrder 1000 (builtins.readFile ./zshrc);
+      in
+      lib.mkMerge [
+        initExtra
+      ];
   };
 
   programs.bash = {

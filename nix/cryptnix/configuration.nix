@@ -217,6 +217,8 @@ in
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
 
+  environment.enableAllTerminfo = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ghthor = {
     isNormalUser = true;

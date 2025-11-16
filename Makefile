@@ -5,3 +5,10 @@ submodule_update:
 .PHONY: submodule_sync
 submodule_sync:
 	git submodule sync --recursive
+
+.PHONY: syncthing_conflicts
+syncthing_conflicts:
+	@find . -name '*.sync*' |\
+		tee $@
+	@find . -name '*.sync-conflict*' |\
+		tee -a $@

@@ -1,3 +1,4 @@
 pkg/shell/bin/brew_install_stdenv
 pkg/vim/.vim/**/.netrwhist
 result
+.stfolder/

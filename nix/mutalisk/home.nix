@@ -41,6 +41,7 @@ in
       bat
       stow
       viddy
+      dust
 
       gitFull
       pkgs-unstable.graphite-cli

@@ -553,6 +553,29 @@ in
     PasswordAuthentication = false;
   };
 
+  # services.jellyfin = {
+  #   enable = true;
+  # };
+
+  # services.transmission = {
+  #   enable = true;
+
+  #   settings = {
+  #     "incomplete-dir-enabled" = false;
+  #     "rpc-bind-address" = "0.0.0.0";
+  #     "rpc-whitelist-enabled" = false;
+  #     "rpc-host-whitelist-enabled" = false;
+  #   };
+  # };
+
+  # systemd.services.transmission = {
+  #   serviceConfig = {
+  #     BindPaths = [
+  #       "/mnt/space_round/transmission"
+  #     ];
+  #   };
+  # };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];

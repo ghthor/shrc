@@ -102,3 +102,6 @@ for hashi in nomad consul vault terraform; do
     complete -C "$(command -v $hashi)" $hashi
   fi
 done
+
+command -v thor &&
+  source <(thor completion bash)

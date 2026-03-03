@@ -9,27 +9,32 @@
     #   - Ex: slightly newer to pick up a patch
 
     #### Main stable release branch
-    # https://hydra.nixos.org/jobset/nixos/release-25.05/evals
+    # https://hydra.nixos.org/jobset/nixos/release-25.11/evals
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/fc756aa6f5d3e2e5666efcf865d190701fef150a";
+      # https://hydra.nixos.org/eval/1823025#tabs-inputs
+      url = "github:NixOS/nixpkgs/c217913993d6c6f6805c3b1a3bda5e639adfde6d";
       # url = "nixpkgs/nixos-25.05";
     };
+
     #### Stable release branch tracking darwin specific builds
     ###### Used if darwin needs specific patches to get better caching/fixes
-    # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-25.05-darwin/evals
+    # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-25.11-darwin/evals
     nixpkgs-darwin = {
-      url = "github:NixOS/nixpkgs/5c8ff8d6a76ae12f399ce646dba7aea9f0c8e6c4";
+      # https://hydra.nixos.org/eval/1823102#tabs-inputs
+      url = "github:NixOS/nixpkgs/49395877fffda8b2fb49346569d0a7cb41e4dad9";
       # url = "nixpkgs/nixpkgs-25.05-darwin";
     };
+
     #### Unstable release branch
     # https://hydra.nixos.org/jobset/nixos/trunk-combined
     nixpkgs-unstable = {
-      # https://hydra.nixos.org/eval/1819642#tabs-inputs
-      url = "github:NixOS/nixpkgs/6a08e6bb4e46ff7fcbb53d409b253f6bad8a28ce";
+      # https://hydra.nixos.org/eval/1823263#tabs-inputs
+      url = "github:NixOS/nixpkgs/cf59864ef8aa2e178cccedbe2c178185b0365705";
       # url = "nixpkgs/nixos-unstable";
     };
+
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-25.05";
+      url = "github:nix-community/home-manager?ref=release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

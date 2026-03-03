@@ -106,15 +106,16 @@ in
   programs.go.enable = true;
   programs.git = {
     enable = true;
-    diff-so-fancy.enable = true;
     package = pkgs.gitFull;
-    extraConfig = {
+    settings = {
       core = {
         excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
       };
     };
     includes = [ { path = "~/src/shrc/pkg/shell/.gitconfig"; } ];
   };
+  programs.diff-so-fancy.enable = true;
+  programs.diff-so-fancy.enableGitIntegration = true;
 
   programs.gh = {
     enable = true;
@@ -151,11 +152,11 @@ in
     target = "bin/brew_install_stdenv";
   };
 
-  home.activation.linkTabbyPlist = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run ln -sf $VERBOSE_ARG \
-      ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
-      ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
-  '';
+  # home.activation.linkTabbyPlist = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  #   run ln -sf $VERBOSE_ARG \
+  #     ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
+  #     ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
+  # '';
   home.activation.linkDotVim = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run [ -L "${homeDirectory}/.vim" ] || \
       run ln -sf $VERBOSE_ARG \

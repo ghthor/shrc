@@ -10,8 +10,6 @@
     <array>
 		<string>/Users/willowens/.nix-profile/bin/tabby</string>
 		<string>serve</string>
-		<string>--model</string>
-		<string>StarCoder2-3B</string>
 		<string>--host</string>
 		<string>127.0.0.1</string>
 		<string>--port</string>

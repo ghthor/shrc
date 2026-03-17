@@ -10,8 +10,7 @@
 }@attrs:
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
-
-  vim-tabby = if useFlake then ../packages/vim-tabby.nix else ./packages/vim-tabby.nix;
+  osConfig = config;
 in
 {
   imports = [
@@ -43,6 +42,8 @@ in
       "steam-unwrapped"
 
       "graphite-cli"
+
+      "keymapp"
     ];
 
   nixpkgs.config = {
@@ -56,39 +57,13 @@ in
       "nix-command"
       "flakes"
     ];
-    substituters = [
-      "http://cryptnix.local/"
-    ];
-    trusted-substituters = [
-      "http://cryptnix.local/"
-    ];
-    trusted-public-keys = [
-      "cryptnix.local:cDFJzHTVw96mdDraHDg5pNDpxd7x5Z0yyPeJ99IYmqI="
-    ];
-  };
-
-  services.nix-serve = {
-    enable = true;
-    secretKeyFile = "/etc/nixos/nix-serve/cache-priv-key.pem";
-    bindAddress = "127.0.0.1";
-  };
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    virtualHosts = {
-      "${config.networking.hostName}.local" = {
-        locations."/".proxyPass =
-          "http://${config.services.nix-serve.bindAddress}:${toString config.services.nix-serve.port}";
-      };
-    };
   };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "thornix"; # Define your hostname.
+  networking.hostName = "steamnix"; # Define your hostname.
   networking.networkmanager.enable = true;
 
   # Set your time zone.
@@ -111,7 +86,7 @@ in
 
   services.xserver.desktopManager.xfce.enable = true;
   services.displayManager.defaultSession = "xfce";
-  services.xserver.videoDrivers = [ "modesetting" ];
+  services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
@@ -153,9 +128,6 @@ in
     enable = true;
   };
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
-
   environment.enableAllTerminfo = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -164,29 +136,14 @@ in
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
       "networkmanager"
-      "docker"
       "audio"
     ];
     packages = with pkgs; [
-      nitrokey-app
       ulauncher
-      firefox
-      chromium
-
-      aws-sso-cli
-      docker
-      docker-buildx
-      docker-credential-helpers
-      amazon-ecr-credential-helper
       xclip
-      # barrier # unmaintained
-      obs-studio
-      sshfs
-      qmk
-
+      gnumake
       gitFull
-      gh
-      graphite-cli
+      keymapp # moonlander configurator
     ];
 
     openssh.authorizedKeys.keys = [
@@ -208,130 +165,26 @@ in
 
       home.packages = with pkgs; [
         bashInteractive
-        comma
-        docker
-
-        nodejs_22
-        typescript
-
-        statix
-
-        ruby
-        # rubyfmt # current broken
-
-        ruff
-
         vlc
-        peek
 
-        vscodium
-        zeal
-
-        remmina # rdp/vnc client
+        nixfmt-tree
       ];
 
       services.pasystray.enable = true;
 
-      programs.kitty = {
+      programs.go.enable = true;
+
+      programs.ghostty = {
         enable = true;
-        shellIntegration.enableBashIntegration = true;
-        theme = "Jellybeans";
+        enableBashIntegration = false; # breaks starship
+        # settings = {
+        #   initial-command = "${pkgs.bashInteractive}/bin/bash -l -i";
+        # };
       };
 
       programs.git = {
         enable = true;
       };
-
-      programs.gh = {
-        enable = true;
-        settings = {
-          aliases = {
-            co = "pr checkout";
-            pv = "pr view";
-            pvw = "pr view --web";
-          };
-          git_protocol = "ssh";
-        };
-        gitCredentialHelper.enable = true;
-      };
-
-      programs.obs-studio = {
-        enable = true;
-      };
-
-      programs.vim = {
-        enable = true;
-        plugins = with pkgs.vimPlugins; [
-          vim-pathogen
-          vim-addon-mw-utils
-          tlib_vim
-
-          jellybeans-vim
-          ctrlp-vim
-          zoxide-vim
-          (pkgs.callPackage vim-tabby { })
-          nerdtree
-          lightline-vim
-          vim-commentary
-          vim-repeat
-          vim-surround
-          vim-vinegar
-          indentLine
-
-          vim-nix
-
-          vim-terraform
-
-          # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
-          coc-nvim
-          ale
-
-          vim-gitgutter
-          vim-git
-          vim-fugitive
-          vim-rhubarb
-          vim-argumentative
-
-          zeavim
-        ];
-        settings = {
-          ignorecase = true;
-        };
-        extraConfig = ''
-          source $HOME/src/shrc/pkg/vim/.vimrc
-        '';
-      };
-
-      # The /. path form is used because it verifies that the path exists at eval time
-      home.activation.linkCocConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        run mkdir -p ${config.home.homeDirectory}/.config/vim/
-        run echo ${/. + config.home.homeDirectory + "/src/shrc/pkg/vim/.vim/coc-settings.json"}
-        run ln -sf $VERBOSE_ARG \
-          ${config.home.homeDirectory}/src/shrc/pkg/vim/.vim/coc-settings.json \
-          ${config.home.homeDirectory}/.config/vim/coc-settings.json
-      '';
-
-      programs.ssh = {
-        enable = true;
-        matchBlocks = {
-          "ghthor-devbox" = {
-            host = "ghthor.voltus-devbox";
-            forwardAgent = false; # handled by the gpg-agent socket forwarding
-            extraOptions = {
-              "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
-              "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
-            };
-          };
-          "ssm" = {
-            host = "i-* mi-*";
-            extraOptions = {
-              ProxyCommand = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
-            };
-          };
-        };
-        extraConfig = "";
-      };
-
       services.gpg-agent = {
         enable = true;
         defaultCacheTtl = 600;
@@ -428,113 +281,39 @@ in
         '';
       };
 
+      programs.lutris = {
+        enable = true;
+        steamPackage = osConfig.programs.steam.package;
+        defaultWinePackage = pkgs.proton-ge-bin;
+        protonPackages = [
+          pkgs.proton-ge-bin
+        ];
+        winePackages = [
+          pkgs.wineWow64Packages.full
+        ];
+        extraPackages = with pkgs; [
+          mangohud
+          winetricks
+          gamescope
+          gamemode
+          umu-launcher
+        ];
+      };
+
       # The state version is required and should stay at the version you
       # originally installed.
-      home.stateVersion = "23.11";
+      home.stateVersion = "25.11";
     };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     bashInteractive
     nix-bash-completions
-
-    starship
-    fzf
-    stow
-    zoxide
-
-    htop
-    bat
-    eza
-    screen
-    tmux
-    tmux-xpanes
-    entr
-    bc
-
     jq
-    ijq
-    miller # jq for csv
-    tree
-    wget
-    ripgrep
-    fd
-    file
 
-    diff-so-fancy
-    gnumake
-    go
-
-    ruby
-    # rubyfmt # current broken
-    python3
-
-    pass
-    pwgen
-
-    pciutils
-    usbutils
-    lm_sensors
-
-    xorg.xmodmap
-    xfce.xfce4-sensors-plugin
-    xfce.xfce4-systemload-plugin
     xfce.xfce4-cpugraph-plugin
-    xfce.xfce4-pulseaudio-plugin
-    pavucontrol
-
-    winetricks
-
-    docker-buildx
-    docker-compose
+    xfce.xfce4-systemload-plugin
+    xfce.xfce4-sensors-plugin
   ];
-
-  fonts = {
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
-      liberation_ttf
-      nerd-fonts.hack
-    ];
-    fontconfig = {
-      useEmbeddedBitmaps = true;
-      localConf = ''
-        <?xml version="1.0"?>
-        <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
-        <fontconfig>
-          <match target="font">
-            <edit mode="assign" name="antialias">
-              <bool>true</bool>
-            </edit>
-            <edit mode="assign" name="embeddedbitmap">
-              <bool>false</bool>
-            </edit>
-            <edit mode="assign" name="hinting">
-              <bool>true</bool>
-            </edit>
-            <edit mode="assign" name="hintstyle">
-              <const>hintslight</const>
-            </edit>
-            <edit mode="assign" name="lcdfilter">
-              <const>lcddefault</const>
-            </edit>
-            <edit mode="assign" name="rgba">
-              <const>rgb</const>
-            </edit>
-          </match>
-        </fontconfig>
-      '';
-    };
-  };
-
-  programs.mtr.enable = true;
-
-  programs.mosh = {
-    enable = true;
-    openFirewall = true;
-  };
 
   programs.firefox.enable = true;
   programs.bash = {
@@ -546,9 +325,11 @@ in
     package = pkgs.gitFull;
   };
 
-  programs.vim = {
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
+    vimAlias = true;
+    viAlias = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -559,34 +340,11 @@ in
     PasswordAuthentication = false;
   };
 
-  # services.jellyfin = {
-  #   enable = true;
-  # };
-
-  # services.transmission = {
-  #   enable = true;
-
-  #   settings = {
-  #     "incomplete-dir-enabled" = false;
-  #     "rpc-bind-address" = "0.0.0.0";
-  #     "rpc-whitelist-enabled" = false;
-  #     "rpc-host-whitelist-enabled" = false;
-  #   };
-  # };
-
-  # systemd.services.transmission = {
-  #   serviceConfig = {
-  #     BindPaths = [
-  #       "/mnt/space_round/transmission"
-  #     ];
-  #   };
-  # };
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
@@ -610,5 +368,5 @@ in
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

@@ -117,9 +117,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "cryptnix"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -155,7 +153,7 @@ in
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  # services.libinput.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -251,6 +249,7 @@ in
       gh
       graphite-cli
     ];
+
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/P1Dwjn0gppEakHqmYWD0QijlkK6JlOCp9A0tj+R8kdvGq2Ti6GyI1eRPUbrcwF41Cj2ynGQe/OgmguRxL72xIT8/ZvVtM4kqwTiMspEjMeizMNtGlGfPhmQd4CgnXyVuILrqTDNi8j8yUYEvIaBID/dt2qWd4UmgcSRZmGPmIOK7RaH9Rc69bJ9xu0KdE2u85I9nEb3t8r13kz8oggEPbqeL7RArsZLxyzVuucZr8QkpHUDjyyJWAjAg3lLX2t6RbUP8NDk+ZSKGJ6ldeVxbjupIu/o/L9XiZUqQw32Nt+WW+BGYmCI5ygvuswdkBZMACYYc96EckWzthcN4SjJP cardno:000F_D0A41346"
     ];
@@ -291,6 +290,12 @@ in
 
         remmina # rdp/vnc client
       ];
+
+      programs.kitty = {
+        enable = true;
+        shellIntegration.enableBashIntegration = true;
+        theme = "Jellybeans";
+      };
 
       programs.git = {
         enable = true;
@@ -383,7 +388,7 @@ in
             };
           };
         };
-        extraConfig = '''';
+        extraConfig = "";
       };
 
       services.gpg-agent = {
@@ -409,11 +414,6 @@ in
         # };
       };
 
-      programs.kitty = {
-        enable = true;
-        shellIntegration.enableBashIntegration = true;
-        theme = "Jellybeans";
-      };
       programs.tmux = {
         enable = true;
         mouse = true;
@@ -491,17 +491,6 @@ in
       # originally installed.
       home.stateVersion = "23.11";
     };
-
-  programs.vim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  programs.bash = {
-    completion.enable = true;
-  };
-  programs.git.enable = true;
-  programs.git.package = pkgs.gitFull;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -606,6 +595,21 @@ in
   programs.mosh = {
     enable = true;
     openFirewall = true;
+  };
+
+  programs.firefox.enable = true;
+  programs.bash = {
+    completion.enable = true;
+  };
+
+  programs.git = {
+    enable = true;
+    package = pkgs.gitFull;
+  };
+
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   # Enable the OpenSSH daemon.

@@ -29,11 +29,8 @@
     enable = true;
     # enable32bit = true;
 
-    ## TODO: radv: an open-source Vulkan driver from freedesktop
-
-    ## amdvlk: an open-source Vulkan driver from AMD
-    extraPackages = [ pkgs.amdvlk ];
-    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
+    extraPackages = [ ];
+    extraPackages32 = [ ];
   };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth

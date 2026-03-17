@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := $(shell hostname)
 
-.PHONY: thornix cryptnix nydus
+.PHONY: thornix cryptnix steamnix nydus
 
 USE_FLAKE ?= 0
 
@@ -23,6 +23,18 @@ cryptnix:
 		sudo rsync -r ./packages/ /etc/nixos/packages/; \
 		sudo nixos-rebuild -I nixpkgs=/home/ghthor/src/nixpkgs -I nixos-config=/etc/nixos/configuration.nix switch --show-trace; \
 	fi
+
+
+steamnix:
+	if [ $(USE_FLAKE) -eq 1 ]; then \
+		sudo nixos-rebuild switch --flake '.#steamnix' --show-trace; \
+	else \
+		sudo rsync -r ./steamnix/ /etc/nixos/; \
+		sudo rsync -r ./modules/ /etc/nixos/modules/; \
+		sudo rsync -r ./packages/ /etc/nixos/packages/; \
+		sudo nixos-rebuild switch --show-trace; \
+	fi
+
 
 nydus:
 	if [ $(USE_FLAKE) -eq 1 ]; then \

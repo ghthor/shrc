@@ -28,8 +28,8 @@
     #### Unstable release branch
     # https://hydra.nixos.org/jobset/nixos/trunk-combined
     nixpkgs-unstable = {
-      # https://hydra.nixos.org/eval/1823263#tabs-inputs
-      url = "github:NixOS/nixpkgs/cf59864ef8aa2e178cccedbe2c178185b0365705";
+      # https://hydra.nixos.org/eval/1823865#tabs-inputs
+      url = "github:NixOS/nixpkgs/46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9";
       # url = "nixpkgs/nixos-unstable";
     };
 

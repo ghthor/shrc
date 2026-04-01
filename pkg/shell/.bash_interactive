@@ -1,7 +1,7 @@
 #
 # ~/.bashrc
 #
-# vi: ft=bash
+# vim: filetype=bash
 
 # Skip this entire file if we're in direnv envrc
 if [ ! -z "$DIRENV_IN_ENVRC" ]; then

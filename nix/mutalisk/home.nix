@@ -145,12 +145,14 @@ in
     target = ".gnupg/gpg-agent.conf";
   };
 
-  # TODO: generate this shell script from nix instead of
-  #       it being outside of nix
-  home.file."brew_install_stdenv" = {
-    source = ./brew_install_stdenv;
-    target = "bin/brew_install_stdenv";
-  };
+  home.activation.linkBrewInstall = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run [ -L ${homeDirectory}/bin/brew_install_stdenv ] || {
+     run mkdir -p ${homeDirectory}/bin
+     run ln -sf $VERBOSE_ARG \
+       ${homeDirectory}/src/shrc/nix/mutalisk/brew_install_stdenv \
+       ${homeDirectory}/bin/brew_install_stdenv
+    }
+  '';
 
   # home.activation.linkTabbyPlist = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
   #   run ln -sf $VERBOSE_ARG \

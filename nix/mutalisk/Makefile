@@ -1,6 +1,6 @@
 # switch: flake.lock_sync
 switch:
-	if [ "$$(hostname)" != "VOLTUS-MAC-GVQX2XQ2C6" ]; then echo "$$(hostname) != VOLTUS-MAC-GVQX2XQ2C6"; fi
+	if [ "$$(uname)" != "Darwin" ]; then echo "$$(uname) != Darwin"; exit 1; fi
 	nix run '.#home-manager' -- switch --flake .
 
 flake.lock_sync:

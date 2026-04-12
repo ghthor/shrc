@@ -42,8 +42,6 @@ in
       "steam-unwrapped"
 
       "graphite-cli"
-
-      "keymapp"
     ];
 
   nixpkgs.config = {
@@ -81,6 +79,8 @@ in
     useXkbConfig = true; # use xkb.options in tty.
   };
 
+  hardware.keyboard.qmk.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -91,10 +91,6 @@ in
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  services.udev.packages = [
-    pkgs.qmk-udev-rules
-  ];
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -143,7 +139,8 @@ in
       xclip
       gnumake
       gitFull
-      keymapp # moonlander configurator
+
+      qmk
     ];
 
     openssh.authorizedKeys.keys = [
@@ -166,6 +163,9 @@ in
       home.packages = with pkgs; [
         bashInteractive
         vlc
+        gum
+        stow
+        peek
 
         nixfmt-tree
       ];
@@ -173,6 +173,8 @@ in
       services.pasystray.enable = true;
 
       programs.go.enable = true;
+
+      programs.bat.enable = true;
 
       programs.ghostty = {
         enable = true;
@@ -344,7 +346,7 @@ in
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

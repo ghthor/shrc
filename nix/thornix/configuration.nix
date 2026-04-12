@@ -12,6 +12,8 @@ let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 
   vim-tabby = if useFlake then ../packages/vim-tabby.nix else ./packages/vim-tabby.nix;
+
+  osConfig = config;
 in
 {
   imports = [
@@ -106,6 +108,8 @@ in
     useXkbConfig = true; # use xkb.options in tty.
   };
 
+  hardware.keyboard.qmk.enable = true;
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -116,10 +120,6 @@ in
   # Configure keymap in X11
   services.xserver.xkb.layout = "us";
   services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  services.udev.packages = [
-    pkgs.qmk-udev-rules
-  ];
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -179,14 +179,16 @@ in
       docker-credential-helpers
       amazon-ecr-credential-helper
       xclip
+      gnumake
       # barrier # unmaintained
       obs-studio
       sshfs
-      qmk
 
       gitFull
       gh
       graphite-cli
+
+      qmk
     ];
 
     openssh.authorizedKeys.keys = [
@@ -222,6 +224,8 @@ in
         ruff
 
         vlc
+        gum
+        stow
         peek
 
         vscodium
@@ -231,6 +235,8 @@ in
       ];
 
       services.pasystray.enable = true;
+
+      programs.go.enable = true;
 
       programs.kitty = {
         enable = true;
@@ -292,7 +298,7 @@ in
           vim-rhubarb
           vim-argumentative
 
-          zeavim
+          zeavim-vim
         ];
         settings = {
           ignorecase = true;
@@ -477,11 +483,12 @@ in
     usbutils
     lm_sensors
 
-    xorg.xmodmap
-    xfce.xfce4-sensors-plugin
-    xfce.xfce4-systemload-plugin
-    xfce.xfce4-cpugraph-plugin
-    xfce.xfce4-pulseaudio-plugin
+    xmodmap
+    xfce4-sensors-plugin
+    xfce4-systemload-plugin
+    xfce4-cpugraph-plugin
+    xfce4-pulseaudio-plugin
+
     pavucontrol
 
     winetricks

@@ -2,8 +2,6 @@
 	email = ghthor@gmail.com
 	name = Will Owens
 	signingkey = E08C6F2C12E395ACC41858DD2E5231C73B0B6D5E
-[includeIf "gitdir:~/voltusdev/"]
-	path = ~/voltusdev/gitconfig
 
 [commit]
 	gpgsign = true
@@ -23,3 +21,6 @@
 	autosetuprebase = always
 [push]
 	default = current
+
+[includeIf "gitdir:~/voltusdev/"]
+	path = ~/voltusdev/gitconfig

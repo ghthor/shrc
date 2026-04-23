@@ -191,6 +191,7 @@ in
               indentLine
 
               vim-nix
+              vim-cue
 
               vim-terraform
 

@@ -9,32 +9,32 @@
     #   - Ex: slightly newer to pick up a patch
 
     #### Main stable release branch
-    # https://hydra.nixos.org/jobset/nixos/release-25.11/evals
+    # https://hydra.nixos.org/jobset/nixos/release-26.05/evals
     nixpkgs = {
-      # https://hydra.nixos.org/eval/1823025#tabs-inputs
-      url = "github:NixOS/nixpkgs/c217913993d6c6f6805c3b1a3bda5e639adfde6d";
-      # url = "nixpkgs/nixos-25.05";
+      # https://hydra.nixos.org/eval/1827033#tabs-inputs
+      url = "github:NixOS/nixpkgs/8f0500b9660505dc3cb647775fe9a978a74b5283";
+      # url = "nixpkgs/nixos-26.05";
     };
 
     #### Stable release branch tracking darwin specific builds
     ###### Used if darwin needs specific patches to get better caching/fixes
-    # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-25.11-darwin/evals
+    # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-26.05-darwin/evals
     nixpkgs-darwin = {
-      # https://hydra.nixos.org/eval/1823102#tabs-inputs
-      url = "github:NixOS/nixpkgs/49395877fffda8b2fb49346569d0a7cb41e4dad9";
-      # url = "nixpkgs/nixpkgs-25.05-darwin";
+      # https://hydra.nixos.org/eval/1827053#tabs-inputs
+      url = "github:NixOS/nixpkgs/572a2c2b6faebd71246e3162e4217d7ca63a9300";
+      # url = "nixpkgs/nixpkgs-26.05-darwin";
     };
 
     #### Unstable release branch
-    # https://hydra.nixos.org/jobset/nixos/trunk-combined
+    # https://hydra.nixos.org/jobset/nixos/unstable
     nixpkgs-unstable = {
-      # https://hydra.nixos.org/eval/1823865#tabs-inputs
-      url = "github:NixOS/nixpkgs/46db2e09e1d3f113a13c0d7b81e2f221c63b8ce9";
+      # https://hydra.nixos.org/eval/1827505#tabs-inputs
+      url = "github:NixOS/nixpkgs/624af665418d3c65d544145b4d34ad696439570e";
       # url = "nixpkgs/nixos-unstable";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager?ref=release-25.11";
+      url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -56,19 +56,35 @@
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "copilot.vim" ];
+          allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "copilot.vim"
+
+              # Bunch of repos w/o licenses are now marked as unfree in nixpkgs
+              "vim-addon-mw-utils"
+              "vim-git"
+            ];
         };
       };
       pkgs-darwin = import nixpkgs-darwin {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ ];
+          allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+            ];
         };
       };
       pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config = {
-          allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "graphite-cli" ];
+          allowUnfreePredicate =
+            pkg:
+            builtins.elem (nixpkgs.lib.getName pkg) [
+              "graphite-cli"
+              "graphite-cli-unwrapped"
+            ];
         };
       };
 

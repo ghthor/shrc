@@ -33,6 +33,7 @@ in
       # rubyfmt # broken in nixos-unstable
       python3
       ruff
+      nixfmt-tree
 
       fd
       ripgrep
@@ -53,6 +54,7 @@ in
       tmux
       tmux-xpanes
       mosh
+      pkgs-unstable.herdr
 
       jq
       ijq
@@ -81,26 +83,33 @@ in
 
   programs.ssh = {
     enable = true;
-    matchBlocks = {
-      "ghthor-devbox" = {
-        host = "ghthor.voltus-devbox";
-        user = "ghthor";
-        forwardAgent = false; # handled by the gpg-agent socket forwarding
-        extraOptions = {
-          "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /Users/willowens/.gnupg/S.gpg-agent.extra" = "";
-          "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /Users/willowens/.gnupg/S.gpg-agent.ssh" = "";
-        };
-      };
-      "ssm" = {
-        host = "i-* mi-*";
-        extraOptions = {
-          ProxyCommand = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
-        };
+    # matchBlocks = {
+    #   "ghthor-devbox" = {
+    #     host = "ghthor.voltus-devbox";
+    #     user = "ghthor";
+    #     forwardAgent = false; # handled by the gpg-agent socket forwarding
+    #     extraOptions = {
+    #       "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /Users/willowens/.gnupg/S.gpg-agent.extra" = "";
+    #       "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /Users/willowens/.gnupg/S.gpg-agent.ssh" = "";
+    #     };
+    #   };
+    # };
+    enableDefaultConfig = false;
+    settings = {
+      "*" = {
+        ForwardAgent = "no";
+        ServerAliveInterval = "0";
+        ServerAliveCountMax = "3";
+        Compression = "no";
+        AddKeysToAgent = "no";
+        HashKnownHosts = "no";
+        UserKnownHostsFile = "~/.ssh/known_hosts";
+        ControlMaster = "no";
+        ControlPath = "~/.ssh/master-%r@%n:%p";
+        ControlPersist = "no";
+        Include = "~/.orbstack/ssh/config";
       };
     };
-    extraConfig = ''
-      Include ~/.orbstack/ssh/config
-    '';
   };
 
   programs.go.enable = true;
@@ -282,6 +291,7 @@ in
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
+    dotDir = homeDirectory;
     initContent =
       let
         initExtra = lib.mkOrder 1000 (builtins.readFile ./zshrc);

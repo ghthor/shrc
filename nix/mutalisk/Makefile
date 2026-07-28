@@ -3,6 +3,10 @@ switch:
 	if [ "$$(uname)" != "Darwin" ]; then echo "$$(uname) != Darwin"; exit 1; fi
 	nix run '.#home-manager' -- switch --flake .
 
+build:
+	if [ "$$(uname)" != "Darwin" ]; then echo "$$(uname) != Darwin"; exit 1; fi
+	nix run '.#home-manager' -- build --flake .
+
 flake.lock_sync:
 	go run ./cmd/sync-nixpkgs/main.go --from flake.lock.upstream --to flake.lock
 

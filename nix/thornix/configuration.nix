@@ -243,6 +243,8 @@ in
 
         remmina # rdp/vnc client
 
+        herdr
+
         nixfmt-tree
       ];
 

@@ -11,7 +11,6 @@
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
 
-  vim-tabby = if useFlake then ../packages/vim-tabby.nix else ./packages/vim-tabby.nix;
 in
 {
   imports = [
@@ -328,7 +327,6 @@ in
           jellybeans-vim
           ctrlp-vim
           zoxide-vim
-          (pkgs.callPackage vim-tabby { })
           nerdtree
           lightline-vim
           vim-commentary

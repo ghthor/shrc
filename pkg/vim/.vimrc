@@ -9,16 +9,18 @@ set clipboard^=unnamed
 
 set autowrite
 
-silent !mkdir -p "$XDG_CACHE_HOME/vim/swap"
-silent !mkdir -p "$XDG_CACHE_HOME/vim/undodir"
+call mkdir(expand("$XDG_CACHE_HOME/vim/swap"), "p")
+call mkdir(expand("$XDG_CACHE_HOME/vim/undodir"), "p")
 
 set directory^=$XDG_CACHE_HOME/vim/swap//
 set undodir=$XDG_CACHE_HOME/vim/undodir
 set undofile
 
 " Setup OCaml Plugin
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute "set rtp+=" . g:opamshare . "/merlin/vim"
+if executable('opam')
+  let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+  execute "set rtp+=" . g:opamshare . "/merlin/vim"
+endif
 
 " Pathogen bundle manager
 runtime bundle/vim-pathogen/autoload/pathogen.vim 
@@ -50,22 +52,6 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
-let g:tabby_keybinding_accept = '<Right>'
-let g:tabby_inline_completion_keybinding_accept = '<Right>'
-
-if has('macunix')
-    if system('ioreg -p IOUSB -l -w 0 | grep ErgoDox') != ''
-        let g:tabby_keybinding_accept = '<PageDown>'
-        let g:tabby_inline_completion_keybinding_accept = '<PageDown>'
-    endif
-else
-    if system('lsusb | grep ErgoDox') != ''
-        let g:tabby_keybinding_accept = '<PageDown>'
-        let g:tabby_inline_completion_keybinding_accept = '<PageDown>'
-    endif
-endif
-let g:tabby_agent_start_command = ['npx', 'tabby-agent', '--stdio']
-let g:tabby_inline_completion_trigger = 'auto'
 
 let g:elm_format_autosave = 1
 

@@ -1,20 +1,22 @@
-.DEFAULT_GOAL := $(shell hostname)
+.DEFAULT_GOAL := home
 
-.PHONY: thornix cryptnix steamnix nydus
+.PHONY: home system cryptnix steamnix nydus
 
 USE_FLAKE ?= 0
 
 CMD ?= build
 
-thornix:
-	if [ $(USE_FLAKE) -eq 1 ]; then \
-		sudo nixos-rebuild $(CMD) --flake '.#thornix' --show-trace; \
-	else \
-		sudo rsync -r ./thornix/ /etc/nixos/; \
-		sudo rsync -r ./modules/ /etc/nixos/modules/; \
-		sudo rsync -r ./packages/ /etc/nixos/packages/; \
-		sudo nixos-rebuild -I nixpkgs=/home/ghthor/src/nixpkgs -I nixos-config=/etc/nixos/configuration.nix $(CMD) --show-trace; \
-	fi
+home:
+	home-manager $(CMD)  --flake '.#ghthor' --show-trace
+
+system:
+	sudo rsync -r ./thornix/ /etc/nixos/
+	sudo rsync -r ./modules/ /etc/nixos/modules/
+	sudo rsync -r ./packages/ /etc/nixos/packages/
+	sudo nixos-rebuild \
+	  -I nixpkgs=/home/ghthor/src/nixpkgs \
+	  -I nixos-config=/etc/nixos/configuration.nix \
+	  $(CMD) --show-trace
 
 cryptnix:
 	if [ $(USE_FLAKE) -eq 1 ]; then \

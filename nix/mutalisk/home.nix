@@ -316,7 +316,6 @@ in
     '';
     initExtra = ''
       source $HOME/src/shrc/pkg/shell/.bash_interactive
-
       if [[ $TERM != "dumb" ]]; then
         eval "$(starship init bash --print-full-init)"
 

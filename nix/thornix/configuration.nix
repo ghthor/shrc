@@ -23,16 +23,6 @@ let
       "steam-original"
       "steam-run"
       "steam-unwrapped"
-
-      "graphite-cli"
-      "graphite-cli-unwrapped"
-
-      # Bunch of repos w/o licenses are now marked as unfree in nixpkgs
-      "vim-argumentative"
-      "vim-addon-mw-utils"
-      "vim-git"
-
-      "claude-code"
     ];
 in
 {
@@ -173,12 +163,13 @@ in
       "audio"
     ];
     packages = with pkgs; [
+      # TODO: this list should be pruned to almost nothing; should only be packages
+      # needed to bootstrap the system into home-manager
       nitrokey-app
       ulauncher
       firefox
       chromium
 
-      aws-sso-cli
       docker
       docker-buildx
       docker-credential-helpers
@@ -188,10 +179,6 @@ in
       # barrier # unmaintained
       obs-studio
       sshfs
-
-      gitFull
-      gh
-      graphite-cli
 
       qmk
     ];
@@ -208,6 +195,8 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # TODO: this list should be pruned to almost nothing; should only be packages
+    # needed to bootstrap the system into home-manager
     bashInteractive
     nix-bash-completions
 

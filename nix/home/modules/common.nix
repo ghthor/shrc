@@ -45,6 +45,9 @@ let
     dust
     gnumake
     pkgs-unstable.gum
+    bkt
+    curl
+    colorized-logs
 
     jq
     ijq

@@ -1,0 +1,22 @@
+{
+  "env": {},
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash '/home/ghthor/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python3 /home/ghthor/.claude/statusline-command.py"
+  },
+  "theme": "dark"
+}

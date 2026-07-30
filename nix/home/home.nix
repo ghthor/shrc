@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   pkgs-unstable,
   NIX_PATH,
@@ -20,7 +21,37 @@ let
     remmina # rdp/vnc client
     vlc
     peek
+
+    claude-code-bedrock-wrapped
   ];
+
+  claude-code-wrapped = pkgs.symlinkJoin {
+    name = "claude-code";
+    paths = [ pkgs.claude-code ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/claude \
+        --set ANTHROPIC_BASE_URL "https://openrouter.ai/api" \
+        --set ANTHROPIC_API_KEY "" \
+        --set ANTHROPIC_DEFAULT_SONNET_MODEL "anthropic/claude-sonnet-5" \
+        --set ANTHROPIC_DEFAULT_OPUS_MODEL "openrouter/auto" \
+        --run 'export ANTHROPIC_AUTH_TOKEN=$(pass show openrouter-key)'
+    '';
+  };
+
+  claude-code-bedrock-wrapped = pkgs.symlinkJoin {
+    name = "claude-code-bedrock";
+    paths = [ pkgs.claude-code ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      rm $out/bin/claude
+      makeWrapper ${pkgs.claude-code}/bin/claude $out/bin/claude-bedrock \
+        --set CLAUDE_CODE_USE_BEDROCK 1 \
+        --set ANTHROPIC_DEFAULT_SONNET_MODEL "us.anthropic.claude-sonnet-4-6" \
+        --set ANTHROPIC_DEFAULT_HAIKU_MODEL "us.anthropic.claude-haiku-4-5-20251001-v1:0" \
+        --set ANTHROPIC_DEFAULT_OPUS_MODEL ""
+    '';
+  };
 
   gpg-pinentry = pkgs.pinentry-gtk2;
   gpg-agent-conf = {
@@ -47,6 +78,14 @@ in
     inherit NIX_PATH;
   };
   shrc.common.packages = packages;
+
+  home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run mkdir -p "$HOME/.claude"
+    run ln -sfn "$HOME/src/shrc/nix/home/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"
+    run ln -sfn "$HOME/src/shrc/nix/home/claude/settings.json" "$HOME/.claude/settings.json"
+  '';
+
+  programs.claude-code.package = claude-code-wrapped;
 
   services.gpg-agent = {
     enable = true;

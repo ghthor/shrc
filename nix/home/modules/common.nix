@@ -85,7 +85,10 @@ in
 
     xdg.enable = true;
 
-    programs.go.enable = true;
+    programs.go = {
+      enable = true;
+      package = pkgs-unstable.go;
+    };
 
     programs.claude-code.enable = true;
 

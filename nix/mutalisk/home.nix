@@ -1,6 +1,5 @@
 {
   lib,
-  hmlib,
   pkgs,
   pkgs-unstable,
   NIX_PATH,
@@ -8,228 +7,79 @@
 }:
 let
   homeDirectory = "/Users/willowens";
+  username = "willowens";
+
+  brewPackages = [
+    "amethyst"
+    "thaw"
+    "font-hack-nerd-font"
+    "ghostty"
+    "gnupg"
+    "kitty" # needs brew install for Kitty.app
+    "orbstack"
+    "pinentry"
+    "pinentry-mac"
+    "stats"
+    "syncthing"
+    "syncthing-app"
+    "tailscale"
+    "vim"
+    "vlc"
+  ];
+
+  packages = with pkgs; [
+    (pkgs.writeShellApplication {
+      name = "brew_install_stdenv";
+      text = ''
+        brew install ${builtins.concatStringsSep " " brewPackages}
+      '';
+    })
+
+    pkgs-unstable.graphite-cli
+
+    vimPlugins.coc-nvim
+
+    pkgs-unstable.amazon-ecr-credential-helper
+
+  ];
+
+  gpg-pinentry = "/opt/homebrew/bin/pinentry-mac";
+  gpg-agent-conf = {
+    text = ''
+      default-cache-ttl 600
+      max-cache-ttl 7200
+      enable-ssh-support
+      extra-socket $HOME/.gnupg/S.gpg-agent.extra
+      debug-level none
+      # debug-pinentry
+      log-file $HOME/.gnupg/gpg-agent.log
+      pinentry-program ${gpg-pinentry}
+    '';
+    target = ".gnupg/gpg-agent.conf";
+  };
 in
 {
-  imports = [ ../home/modules/vimrc.nix ];
+  imports = [
+    ../home/modules/common.nix
+    ../home/modules/vimrc.nix
+  ];
 
-  news.display = "show";
-
-  # This is required information for home-manager to do its job
-  home = {
-    stateVersion = "23.11";
-    username = "willowens";
-    inherit homeDirectory;
-    packages = with pkgs; [
-      bashInteractive
-      nix-bash-completions
-      pkgs-unstable.nix-output-monitor
-
-      pkgs-unstable.aws-sso-cli
-
-      (pkgs.callPackage ../packages/tabby.nix { })
-
-      pass
-      pwgen
-
-      ruby
-      # rubyfmt # broken in nixos-unstable
-      python3
-      ruff
-      nixfmt-tree
-
-      fd
-      ripgrep
-      eza
-      tree
-      bat
-      stow
-      viddy
-      dust
-
-      gitFull
-      pkgs-unstable.graphite-cli
-
-      typescript
-
-      htop
-      screen
-      tmux
-      tmux-xpanes
-      mosh
-      pkgs-unstable.herdr
-
-      jq
-      ijq
-      gnumake
-      findutils
-
-      expect
-
-      vimPlugins.coc-nvim
-      nodejs_22
-      statix # used by vim-ale
-
-      pkgs-unstable.gum
-
-      pkgs-unstable.amazon-ecr-credential-helper
-    ];
-  };
-
-  # https://mipmip.github.io/home-manager-option-search/?query=
-  programs.home-manager.enable = true;
   home.sessionVariables = {
     EDITOR = "vim";
     inherit NIX_PATH;
   };
-  xdg.enable = true;
+  shrc.common.packages = packages;
 
-  programs.ssh = {
-    enable = true;
-    # matchBlocks = {
-    #   "ghthor-devbox" = {
-    #     host = "ghthor.voltus-devbox";
-    #     user = "ghthor";
-    #     forwardAgent = false; # handled by the gpg-agent socket forwarding
-    #     extraOptions = {
-    #       "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /Users/willowens/.gnupg/S.gpg-agent.extra" = "";
-    #       "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /Users/willowens/.gnupg/S.gpg-agent.ssh" = "";
-    #     };
-    #   };
-    # };
-    enableDefaultConfig = false;
-    settings = {
-      "*" = {
-        ForwardAgent = "no";
-        ServerAliveInterval = "0";
-        ServerAliveCountMax = "3";
-        Compression = "no";
-        AddKeysToAgent = "no";
-        HashKnownHosts = "no";
-        UserKnownHostsFile = "~/.ssh/known_hosts";
-        ControlMaster = "no";
-        ControlPath = "~/.ssh/master-%r@%n:%p";
-        ControlPersist = "no";
-        Include = "~/.orbstack/ssh/config";
-      };
-    };
-  };
-
-  programs.go.enable = true;
-  programs.git = {
-    enable = true;
-    package = pkgs.gitFull;
-    settings = {
-      core = {
-        excludesfile = "~/src/shrc/pkg/shell/.global.gitignore";
-      };
-    };
-    includes = [ { path = "~/src/shrc/pkg/shell/.gitconfig"; } ];
-  };
-  programs.diff-so-fancy.enable = true;
-  programs.diff-so-fancy.enableGitIntegration = true;
-
-  programs.gh = {
-    enable = true;
-    package = pkgs-unstable.gh;
-    settings = {
-      git_protocol = "ssh";
-      aliases = {
-        co = "pr checkout";
-        pv = "pr view";
-        pvw = "pr view --web";
-      };
-      prompt = "enabled";
-    };
-  };
-
-  home.file."gpg-agent.conf" = {
-    text = ''
-      pinentry-program /opt/homebrew/bin/pinentry-mac
-      enable-ssh-support
-      extra-socket $HOME/.gnupg/S.gpg-agent.extra
-      default-cache-ttl 600
-      max-cache-ttl 7200
-      debug-level none
-      # debug-pinentry
-      log-file $HOME/.gnupg/gpg-agent.log
-    '';
-    target = ".gnupg/gpg-agent.conf";
-  };
-
-  home.activation.linkBrewInstall = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run [ -L ${homeDirectory}/bin/brew_install_stdenv ] || {
-     run mkdir -p ${homeDirectory}/bin
-     run ln -sf $VERBOSE_ARG \
-       ${homeDirectory}/src/shrc/nix/mutalisk/brew_install_stdenv \
-       ${homeDirectory}/bin/brew_install_stdenv
-    }
-  '';
-
-  # home.activation.linkTabbyPlist = hmlib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  #   run ln -sf $VERBOSE_ARG \
-  #     ${homeDirectory}/src/shrc/nix/mutalisk/tabby.plist \
-  #     ${homeDirectory}/Library/LaunchAgents/com.ghthor.tabby.plist
-  # '';
-
-  # Still needs to be brew installed for Kitty.app
-  programs.kitty = {
-    enable = true;
-    shellIntegration.enableZshIntegration = true;
-    themeFile = "Jellybeans";
-    font.name = "Hack Nerd Font Mono";
-  };
-
-  # Still installed with brew for Ghostty.app
-  programs.ghostty = {
-    enable = true;
-    package = (pkgs-unstable.callPackage ./ghostty-bin.nix { });
-    # manually enabled via initExtra cause HomeManager ordering is wrong
-    enableBashIntegration = false;
-    enableZshIntegration = true;
-    installVimSyntax = true;
-    settings = {
-      theme = "Jellybeans";
-      font-family = "Hack Nerd Font Mono";
-    };
-  };
+  home.file."gpg-agent.conf" = gpg-agent-conf;
 
   programs.tmux = {
     enable = true;
     mouse = true;
-    terminal = "xterm-kitty";
+    terminal = "tmux-256color";
     shell = "${pkgs.bash}/bin/bash";
     plugins = [ pkgs.tmuxPlugins.cpu ];
   };
   home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
-
-  programs.readline = {
-    enable = true;
-    extraConfig = builtins.readFile ../../pkg/shell/.inputrc;
-  };
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = true;
-  };
-
-  # bash eval ordering matters so managing it manually
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = false; # Manually enabled via initExtra
-    enableBashIntegration = false;
-    settings = builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml);
-  };
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = false;
-    nix-direnv.enable = true;
-  };
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-    enableBashIntegration = false;
-  };
 
   programs.zsh = {
     enable = true;
@@ -245,31 +95,9 @@ in
       ];
   };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    bashrcExtra = ''
-      export BASHRC_HOME_MANAGER=1
-      export NIX_PATH="${NIX_PATH}"
-      source $HOME/src/shrc/pkg/shell/.bash_noninteractive
-
-      # Avoid running any of the starship/zoxide/direnv sourcing again
-      if [ ! -z "$DIRENV_IN_ENVRC" ]; then
-        return
-      fi
-    '';
-    initExtra = ''
-      source $HOME/src/shrc/pkg/shell/.bash_interactive
-      if [[ $TERM != "dumb" ]]; then
-        eval "$(starship init bash --print-full-init)"
-
-        if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
-          builtin source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
-        fi
-
-        eval "$(direnv hook bash)"
-        eval "$(zoxide init bash)"
-      fi
-    '';
+  home = {
+    stateVersion = "23.11";
+    inherit username;
+    inherit homeDirectory;
   };
 }

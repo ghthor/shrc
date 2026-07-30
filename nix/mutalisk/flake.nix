@@ -89,14 +89,6 @@
       };
 
       NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
-      home = import ./home.nix {
-        inherit (nixpkgs) lib;
-        hmlib = home-manager.lib;
-        inherit pkgs;
-        inherit pkgs-darwin;
-        inherit pkgs-unstable;
-        inherit NIX_PATH;
-      };
 
     in
     {
@@ -104,8 +96,8 @@
       homeConfigurations = {
         "willowens" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit pkgs-unstable; };
-          modules = [ home ];
+          extraSpecialArgs = { inherit pkgs-unstable pkgs-darwin NIX_PATH; };
+          modules = [ ./home.nix ];
         };
       };
 

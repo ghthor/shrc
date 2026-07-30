@@ -16,6 +16,15 @@
       # url = "nixpkgs/nixos-26.05";
     };
 
+    #### Stable release branch tracking darwin specific builds
+    ###### Used if darwin needs specific patches to get better caching/fixes
+    # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-26.05-darwin/evals
+    nixpkgs-darwin = {
+      # https://hydra.nixos.org/eval/1827053#tabs-inputs
+      url = "github:NixOS/nixpkgs/572a2c2b6faebd71246e3162e4217d7ca63a9300";
+      # url = "nixpkgs/nixpkgs-26.05-darwin";
+    };
+
     #### Unstable release branch
     # https://hydra.nixos.org/jobset/nixos/unstable
     nixpkgs-unstable = {
@@ -34,6 +43,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-darwin,
       nixpkgs-unstable,
       home-manager,
       ...
@@ -51,13 +61,14 @@
           ];
       };
       inherit (pkgs) lib;
+      NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
     in
     {
       formatter.${system} = pkgs.nixfmt-rfc-style;
 
       homeConfigurations."ghthor" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit pkgs-unstable; };
+        extraSpecialArgs = { inherit pkgs-unstable NIX_PATH; };
         modules = [ ./home/home.nix ];
       };
 

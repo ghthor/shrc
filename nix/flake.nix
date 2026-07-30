@@ -58,7 +58,7 @@
       homeConfigurations."ghthor" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = { inherit pkgs-unstable; };
-        modules = [ ./thornix/home.nix ];
+        modules = [ ./home/home.nix ];
       };
 
       apps.${system}.home = {

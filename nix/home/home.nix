@@ -18,6 +18,8 @@ let
     ];
 in
 {
+  imports = [ ./modules/vimrc.nix ];
+
   xdg.enable = true;
 
   home.username = "ghthor";
@@ -30,6 +32,7 @@ in
   nixpkgs.config.allowUnfreePredicate = unfreeConfig;
 
   home.packages = with pkgs; [
+    vim
     bashInteractive
     comma
     docker
@@ -106,55 +109,6 @@ in
   programs.obs-studio = {
     enable = true;
   };
-
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-pathogen
-      vim-addon-mw-utils
-      tlib_vim
-
-      jellybeans-vim
-      ctrlp-vim
-      zoxide-vim
-      nerdtree
-      lightline-vim
-      vim-commentary
-      vim-repeat
-      vim-surround
-      vim-vinegar
-      indentLine
-
-      vim-nix
-
-      vim-terraform
-
-      # https://dev.to/braybaut/integrate-terraform-language-server-protocol-with-vim-38g
-      coc-nvim
-      ale
-
-      vim-gitgutter
-      vim-git
-      vim-fugitive
-      vim-rhubarb
-      vim-argumentative
-
-      zeavim-vim
-    ];
-    settings = {
-      ignorecase = true;
-    };
-    extraConfig = ''
-      source $HOME/src/shrc/pkg/vim/.vimrc
-    '';
-  };
-
-  home.activation.linkCocConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p $HOME/.config/vim/
-    run ln -sf $VERBOSE_ARG \
-      $HOME/src/shrc/pkg/vim/.vim/coc-settings.json \
-      $HOME/.config/vim/coc-settings.json
-  '';
 
   programs.ssh = {
     enable = true;

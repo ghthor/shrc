@@ -22,7 +22,7 @@ alias fix_history="vim $HISTFILE && history -c && history -r"
 alias fxhs="vim $HISTFILE && history -c && history -r"
 alias f="vim $HISTFILE && history -c && history -r"
 
-alias lspath="tr ':' '\n' <<< \"$PATH\""
+alias lspath="printenv PATH | tr ':' '\n'"
 
 # git
 alias gitexport='git daemon --base-path=$PWD/../ --verbose --export-all'

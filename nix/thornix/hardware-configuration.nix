@@ -41,7 +41,6 @@
     cryptroot = {
       device = "/dev/disk/by-uuid/ab5643e0-bdc0-47cc-8e1e-eab8823817b5";
       allowDiscards = true;
-      fallbackToPassword = true;
     };
   };
 
@@ -92,7 +91,7 @@
   # Ensure NVIDIA GPU is powered off by default on boot
   systemd.services."nvidia-gpu-poweroff" =
     let
-      power-pkg = config.boot.kernelPackages.system76-power;
+      power-pkg = pkgs.system76-power;
     in
     {
       after = [ "system76-power.service" ];

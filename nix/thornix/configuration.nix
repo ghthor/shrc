@@ -14,6 +14,28 @@ let
   vim-tabby = if useFlake then ../packages/vim-tabby.nix else ./packages/vim-tabby.nix;
 
   osConfig = config;
+
+  unfreeConfig =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      # Add additional package names here
+      "nomad"
+
+      "steam"
+      "steam-original"
+      "steam-run"
+      "steam-unwrapped"
+
+      "graphite-cli"
+      "graphite-cli-unwrapped"
+
+      # Bunch of repos w/o licenses are now marked as unfree in nixpkgs
+      "vim-argumentative"
+      "vim-addon-mw-utils"
+      "vim-git"
+
+      "claude-code"
+    ];
 in
 {
   imports = [
@@ -33,19 +55,7 @@ in
 
   # See for more options, they don't show up in the NixOS option search
   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      # Add additional package names here
-      "nomad"
-
-      "steam"
-      "steam-original"
-      "steam-run"
-      "steam-unwrapped"
-
-      "graphite-cli"
-    ];
+  nixpkgs.config.allowUnfreePredicate = unfreeConfig;
 
   nixpkgs.config = {
     firefox = {
@@ -208,6 +218,8 @@ in
     {
       xdg.enable = true;
 
+      nixpkgs.config.allowUnfreePredicate = unfreeConfig;
+
       home.packages = with pkgs; [
         bashInteractive
         comma
@@ -232,16 +244,32 @@ in
         zeal
 
         remmina # rdp/vnc client
+
+        nixfmt-tree
       ];
 
       services.pasystray.enable = true;
 
       programs.go.enable = true;
 
+      programs.claude-code.enable = true;
+
       programs.kitty = {
         enable = true;
         shellIntegration.enableBashIntegration = true;
-        theme = "Jellybeans";
+        themeFile = "Jellybeans";
+      };
+
+      programs.ghostty = {
+        enable = true;
+        # manually enabled via initExtra cause HomeManager ordering is wrong
+        enableBashIntegration = false;
+        enableZshIntegration = true;
+        installVimSyntax = true;
+        settings = {
+          theme = "Jellybeans";
+          font-family = "Hack Nerd Font Mono";
+        };
       };
 
       programs.git = {
@@ -319,23 +347,21 @@ in
 
       programs.ssh = {
         enable = true;
-        matchBlocks = {
-          "ghthor-devbox" = {
-            host = "ghthor.voltus-devbox";
-            forwardAgent = false; # handled by the gpg-agent socket forwarding
-            extraOptions = {
-              "RemoteForward /run/user/1000/gnupg/S.gpg-agent     /run/user/1000/gnupg/S.gpg-agent.extra" = "";
-              "RemoteForward /run/user/1000/gnupg/S.gpg-agent.ssh /run/user/1000/gnupg/S.gpg-agent.ssh" = "";
-            };
-          };
-          "ssm" = {
-            host = "i-* mi-*";
-            extraOptions = {
-              ProxyCommand = ''sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"'';
-            };
+        enableDefaultConfig = false;
+        settings = {
+          "*" = {
+            AddKeysToAgent = false;
+            Compression = false;
+            ControlMaster = "no";
+            ControlPath = "~/.ssh/master-%r@%n:%p";
+            ControlPersist = false;
+            ForwardAgent = false;
+            HashKnownHosts = false;
+            ServerAliveCountMax = 3;
+            ServerAliveInterval = 0;
+            UserKnownHostsFile = "~/.ssh/known_hosts";
           };
         };
-        extraConfig = "";
       };
 
       services.gpg-agent = {
@@ -349,7 +375,7 @@ in
         # sshKeys = [
         #   "0x807409C92CE23033"
         # ];
-        pinentryPackage = pkgs.pinentry-gtk2;
+        pinentry.package = pkgs.pinentry-gtk2;
       };
 
       programs.gpg = {

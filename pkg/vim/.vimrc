@@ -112,6 +112,18 @@ set cursorcolumn
 
 let g:indentLine_char = '|'
 
+function! LightlineFilename()
+    let l:dirname = expand('%:h:t')
+    let l:filename = expand('%:t')
+    if l:filename == ''
+        return '[No Name]'
+    endif
+    if l:dirname == '' || l:dirname == '.'
+        return l:filename
+    endif
+    return l:dirname . '/' . l:filename
+endfunction
+
 let g:lightline = {
             \"colorscheme": "wombat",
             \"active": {
@@ -122,6 +134,7 @@ let g:lightline = {
             \ },
             \ "component_function": {
             \   "gitbranch": "FugitiveHead",
+            \   "filename": "LightlineFilename",
             \ },
             \ }
 

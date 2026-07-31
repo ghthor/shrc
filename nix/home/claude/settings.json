@@ -18,5 +18,9 @@
     "type": "command",
     "command": "python3 /home/ghthor/.claude/statusline-command.py"
   },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
+  },
   "theme": "dark"
 }

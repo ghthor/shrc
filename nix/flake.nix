@@ -37,6 +37,11 @@
       url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    serena = {
+      url = "github:oraios/serena";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -46,6 +51,7 @@
       nixpkgs-darwin,
       nixpkgs-unstable,
       home-manager,
+      serena,
       ...
     }@attrs:
     let
@@ -68,7 +74,7 @@
 
       homeConfigurations."ghthor" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit pkgs-unstable NIX_PATH; };
+        extraSpecialArgs = { inherit pkgs-unstable NIX_PATH serena; };
         modules = [ ./home/home.nix ];
       };
 

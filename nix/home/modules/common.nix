@@ -3,6 +3,7 @@
   lib,
   pkgs,
   pkgs-unstable,
+  serena,
   NIX_PATH,
   ...
 }:
@@ -43,6 +44,7 @@ let
     stow
     viddy
     dust
+    glow
     gnumake
     pkgs-unstable.gum
     bkt
@@ -57,6 +59,8 @@ let
     pi-coding-agent
 
     pkgs-unstable.aws-sso-cli
+
+    serena.packages.${pkgs.system}.serena
   ];
 in
 {
@@ -253,5 +257,10 @@ in
     };
 
     home.packages = packages-base ++ config.shrc.common.packages;
+
+    home.activation.serenaClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      # Serena reports an error when the user-scoped MCP server already exists.
+      run ${serena.packages.${pkgs.system}.serena}/bin/serena setup claude-code || true
+    '';
   };
 }

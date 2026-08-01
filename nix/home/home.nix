@@ -33,8 +33,9 @@ let
       wrapProgram $out/bin/claude \
         --set ANTHROPIC_BASE_URL "https://openrouter.ai/api" \
         --set ANTHROPIC_API_KEY "" \
-        --set ANTHROPIC_DEFAULT_SONNET_MODEL "anthropic/claude-sonnet-5" \
-        --set ANTHROPIC_DEFAULT_OPUS_MODEL "openrouter/auto" \
+        --set ANTHROPIC_DEFAULT_SONNET_MODEL "openai/gpt-5.6-luna" \
+        --set ANTHROPIC_DEFAULT_HAIKU_MODEL "openai/gpt-5.6-luna" \
+        --set ANTHROPIC_DEFAULT_OPUS_MODEL "anthropic/claude-sonnet-5" \
         --run 'export ANTHROPIC_AUTH_TOKEN=$(pass show openrouter-key)'
     '';
   };

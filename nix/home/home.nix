@@ -14,6 +14,7 @@ let
     vim-full
     comma
     docker
+    git-absorb
 
     vscodium
     zeal

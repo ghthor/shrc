@@ -35,6 +35,9 @@ let
     python3
     ruff
 
+    marksman
+    shellcheck
+
     fd
     ripgrep
     findutils
@@ -60,7 +63,7 @@ let
 
     pkgs-unstable.aws-sso-cli
 
-    serena.packages.${pkgs.system}.serena
+    serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
   ];
 in
 {
@@ -260,7 +263,9 @@ in
 
     home.activation.serenaClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       # Serena reports an error when the user-scoped MCP server already exists.
-      run ${serena.packages.${pkgs.system}.serena}/bin/serena setup claude-code || true
+      run ${
+        serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
+      }/bin/serena setup claude-code || true
     '';
   };
 }

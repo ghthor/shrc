@@ -72,6 +72,7 @@ in
 {
   imports = [
     ./modules/common.nix
+    ./modules/lutris.nix
     ./modules/vimrc.nix
   ];
 

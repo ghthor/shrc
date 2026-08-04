@@ -72,6 +72,8 @@ in
 {
   imports = [
     ./modules/common.nix
+    ./modules/nix-delete-generations.nix
+    ./modules/nix-delete-home-generations.nix
     ./modules/lutris.nix
     ./modules/vimrc.nix
   ];
@@ -81,6 +83,8 @@ in
     inherit NIX_PATH;
   };
   shrc.common.packages = packages;
+  shrc.nix-delete-generations.enable = true;
+  shrc.nix-delete-home-generations.enable = true;
 
   home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p "$HOME/.claude"

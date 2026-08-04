@@ -13,6 +13,13 @@ let
 
   osConfig = config;
 
+  fbtermFontNames = lib.concatStringsSep "," [
+    "Hack Nerd Font Mono"
+    "Hack Mono"
+    "Hack"
+  ];
+  fbtermFontSize = 16;
+
   unfreeConfig =
     pkg:
     builtins.elem (lib.getName pkg) [
@@ -153,6 +160,27 @@ in
 
   environment.enableAllTerminfo = true;
 
+  # Use fbterm on tty2 while retaining ordinary gettys on tty3-tty6.
+  systemd.services."getty@tty2".enable = false;
+  systemd.services.fbterm-tty2 = {
+    description = "Framebuffer terminal on tty2";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-user-sessions.service" ];
+    conflicts = [ "getty@tty2.service" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.fbterm}/bin/fbterm --font-names='${fbtermFontNames}' --font-size=${toString fbtermFontSize} -- ${pkgs.shadow}/bin/login";
+      Restart = "always";
+      RestartSec = "1s";
+      TTYPath = "/dev/tty2";
+      StandardInput = "tty";
+      StandardOutput = "tty";
+      StandardError = "tty";
+      TTYReset = true;
+      TTYVHangup = true;
+      TTYVTDisallocate = true;
+    };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ghthor = {
     isNormalUser = true;
@@ -209,6 +237,7 @@ in
     bat
     eza
     screen
+    fbterm
     tmux
     tmux-xpanes
     entr
@@ -261,6 +290,7 @@ in
       nerd-fonts.hack
     ];
     fontconfig = {
+      defaultFonts.monospace = [ "Hack Nerd Font Mono" ];
       useEmbeddedBitmaps = true;
       localConf = ''
         <?xml version="1.0"?>

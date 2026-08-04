@@ -19,7 +19,6 @@ let
     screen
     expect
 
-    pkgs-unstable.herdr
     tmux
     tmux-xpanes
 
@@ -216,6 +215,8 @@ in
       settings = {
         theme = "Jellybeans";
         font-family = "Hack Nerd Font Mono";
+        fullscreen = true;
+        link-url = true;
       };
     };
 

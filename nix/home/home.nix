@@ -72,6 +72,7 @@ in
 {
   imports = [
     ./modules/common.nix
+    ./modules/herdr.nix
     ./modules/nix-delete-generations.nix
     ./modules/nix-delete-home-generations.nix
     ./modules/lutris.nix
@@ -83,6 +84,7 @@ in
     inherit NIX_PATH;
   };
   shrc.common.packages = packages;
+  shrc.herdr.enable = true;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 
@@ -126,6 +128,7 @@ in
 
   programs.tmux = {
     enable = true;
+    prefix = "C-g";
     mouse = true;
     terminal = "tmux-256color";
     plugins = [

@@ -90,8 +90,8 @@ in
 
   home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p "$HOME/.claude"
-    run ln -sfn "$HOME/src/shrc/nix/home/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"
-    run ln -sfn "$HOME/src/shrc/nix/home/claude/settings.json" "$HOME/.claude/settings.json"
+    run ln -sfn "$HOME/src/shrc/nix/home/config/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"
+    run ln -sfn "$HOME/src/shrc/nix/home/config/claude/settings.json" "$HOME/.claude/settings.json"
   '';
 
   programs.claude-code.package = claude-code-wrapped;

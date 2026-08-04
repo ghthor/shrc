@@ -56,7 +56,13 @@ export HISTTIMEFORMAT="[%F %T] "
 export HISTFILE=~/.bash_eternal_history
 # Force prompt to write history after every command.
 # http://superuser.com/questions/20900/bash-history-loss
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+#
+# Do a little dance with PROMPT_COMMAND to prevent inserting empty strings
+if [[ -n "$PROMPT_COMMAND" ]]; then
+  PROMPT_COMMAND=("history -a" "${PROMPT_COMMAND[@]}")
+else
+  PROMPT_COMMAND=("history -a")
+fi
 
 shopt -s histappend
 

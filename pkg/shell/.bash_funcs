@@ -149,3 +149,27 @@ xmodmap_mouse() {
 xmodmap_touchpad() {
   xmodmap -e 'pointer = 1 2 3 4 5'
 }
+
+prompt_command() {
+  local -r prompt_command_decl=$(declare -p PROMPT_COMMAND 2>/dev/null || true)
+  local -r starship_prompt_command_decl=$(declare -p STARSHIP_PROMPT_COMMAND 2>/dev/null || true)
+  local index
+
+  printf 'PROMPT_COMMAND:\n'
+  if [[ $prompt_command_decl == "declare -a "* ]]; then
+    for index in "${!PROMPT_COMMAND[@]}"; do
+      printf '  [%s] %q\n' "$index" "${PROMPT_COMMAND[$index]}"
+    done
+  else
+    printf '  %q\n' "${PROMPT_COMMAND-}"
+  fi
+
+  printf '\nSTARSHIP_PROMPT_COMMAND:\n'
+  if [[ $starship_prompt_command_decl == "declare -a "* ]]; then
+    for index in "${!STARSHIP_PROMPT_COMMAND[@]}"; do
+      printf '  [%s] %q\n' "$index" "${STARSHIP_PROMPT_COMMAND[$index]}"
+    done
+  else
+    printf '  %q\n' "${STARSHIP_PROMPT_COMMAND-}"
+  fi
+}

@@ -37,7 +37,8 @@ let
         --set ANTHROPIC_DEFAULT_SONNET_MODEL "openai/gpt-5.6-luna" \
         --set ANTHROPIC_DEFAULT_HAIKU_MODEL "openai/gpt-5.6-luna" \
         --set ANTHROPIC_DEFAULT_OPUS_MODEL "anthropic/claude-sonnet-5" \
-        --run 'export ANTHROPIC_AUTH_TOKEN=$(pass show openrouter-key)'
+        --run 'export ANTHROPIC_AUTH_TOKEN=$(pass show openrouter-key)' \
+        --run 'set -- --system-prompt "$(serena prompts print-cc-system-prompt-override)" "$@"'
     '';
   };
 
@@ -51,7 +52,8 @@ let
         --set CLAUDE_CODE_USE_BEDROCK 1 \
         --set ANTHROPIC_DEFAULT_SONNET_MODEL "us.anthropic.claude-sonnet-4-6" \
         --set ANTHROPIC_DEFAULT_HAIKU_MODEL "us.anthropic.claude-haiku-4-5-20251001-v1:0" \
-        --set ANTHROPIC_DEFAULT_OPUS_MODEL ""
+        --set ANTHROPIC_DEFAULT_OPUS_MODEL "" \
+        --run 'set -- --system-prompt "$(serena prompts print-cc-system-prompt-override)" "$@"'
     '';
   };
 

@@ -29,8 +29,15 @@ _git_col="\e[01;36m" # Git branch
 PROMPT_COMMAND=''
 
 function set_term_title() {
+  # Linux VTs, including FbTerm, do not consume OSC title sequences reliably.
+  if [[ "${TERM:-}" == "fbterm-256color" ||
+        "${TERM:-}" == "linux" ]]; then
+    export STARSHIP_CMD_STATUS
+    return
+  fi
+
   local -r wd=$(pwd | sed "s_${HOME}_~_")
-  echo -ne "\033]0;$(whoami)@$(hostname): ${wd}\007"
+  printf '\033]0;%s@%s: %s\007' "$(whoami)" "$(hostname)" "$wd"
   export STARSHIP_CMD_STATUS
 }
 

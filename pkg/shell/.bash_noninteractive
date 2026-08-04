@@ -80,12 +80,24 @@ if [ "$(uname)" = "Darwin" ]; then
   until [ -f "$HOME/.gnupg/env" ]; do
     source $HOME/.gnupg/env
   done
+fi
 
-  # -------------------------------------------------------
-  # GPG Pinentry use correct TTY
-  # -------------------------------------------------------
-  export GPG_TTY=$(tty)
-  gpg-connect-agent updatestartuptty /bye >/dev/null
+# Configure pinentry to use the shell's controlling terminal.
+# -t 0: stdin is a terminal (the shell can read from a TTY).
+# -t 1: stdout is a terminal (pinentry can write to the TTY).
+# -t 2: stderr is a terminal (diagnostics/pinentry errors have a TTY).
+# Any one of these is enough to attempt tty discovery; tty(1) below
+# remains the final check that a usable /dev/* path was returned.
+if [[ -t 0 || -t 1 || -t 2 ]] &&
+   command -v gpg-connect-agent >/dev/null 2>&1; then
+  gpg_tty=$(tty 2>/dev/null || true)
+
+  if [[ "$gpg_tty" == /dev/* ]]; then
+    export GPG_TTY="$gpg_tty"
+    gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1 || true
+  fi
+
+  unset gpg_tty
 fi
 
 if [ "${SSH_AGENT_PID:-0}" -ne $$ ]; then

@@ -128,6 +128,12 @@ in
     enable = true;
     mouse = true;
     terminal = "tmux-256color";
+    plugins = [
+      pkgs.tmuxPlugins.catppuccin
+      pkgs.tmuxPlugins.cpu
+      pkgs.tmuxPlugins."pain-control"
+      pkgs.tmuxPlugins.sensible
+    ];
   };
   home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
 

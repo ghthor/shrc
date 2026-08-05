@@ -65,6 +65,27 @@ in
       fi
     '';
 
+    home.activation.piSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      agents_dir="$HOME/.agents"
+      skills_path="$agents_dir/skills"
+      skills_source_path="$HOME/src/shrc/nix/home/config/agents/skills"
+
+      run test -d "$skills_source_path"
+      run mkdir -p "$agents_dir"
+
+      if [ -L "$skills_path" ]; then
+        if [ "$(readlink -f "$skills_path")" != "$(readlink -f "$skills_source_path")" ]; then
+          run rm "$skills_path"
+          run ln -s "$skills_source_path" "$skills_path"
+        fi
+      elif [ -e "$skills_path" ]; then
+        echo "Agent skills directory exists at $skills_path; review it against $skills_source_path before activating" >&2
+        exit 1
+      else
+        run ln -s "$skills_source_path" "$skills_path"
+      fi
+    '';
+
     home.activation.piSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       pi_agent_dir="$HOME/.pi/agent"
       settings_path="$pi_agent_dir/settings.json"

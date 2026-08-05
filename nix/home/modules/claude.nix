@@ -48,6 +48,27 @@ in
       package = claude-code-wrapped;
     };
 
+    home.activation.claudeSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      claude_dir="$HOME/.claude"
+      skills_path="$claude_dir/skills"
+      skills_source_path="$HOME/src/shrc/nix/home/config/agents/skills"
+
+      run test -d "$skills_source_path"
+      run mkdir -p "$claude_dir"
+
+      if [ -L "$skills_path" ]; then
+        if [ "$(readlink -f "$skills_path")" != "$(readlink -f "$skills_source_path")" ]; then
+          run rm "$skills_path"
+          run ln -s "$skills_source_path" "$skills_path"
+        fi
+      elif [ -e "$skills_path" ]; then
+        echo "Claude skills directory exists at $skills_path; review it against $skills_source_path before activating" >&2
+        exit 1
+      else
+        run ln -s "$skills_source_path" "$skills_path"
+      fi
+    '';
+
     home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       run mkdir -p "$HOME/.claude"
       run ln -sfn "$HOME/src/shrc/nix/home/config/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"

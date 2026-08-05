@@ -22,6 +22,8 @@ let
     tmux
     tmux-xpanes
 
+    (pkgs.callPackage ../../packages/idr-tools.nix { })
+
     nodejs_22
     typescript
     typescript-language-server

@@ -12,7 +12,8 @@ let
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/pi \
-        --run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'
+        --run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)' \
+        --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi'
     '';
   };
 in

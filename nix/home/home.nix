@@ -62,7 +62,6 @@ in
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 
-
   services.gpg-agent = {
     enable = true;
   }

@@ -98,7 +98,6 @@ in
       package = pkgs-unstable.go;
     };
 
-
     programs.git = {
       enable = true;
       package = pkgs.gitFull;

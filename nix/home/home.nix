@@ -23,40 +23,7 @@ let
     vlc
     peek
 
-    claude-code-bedrock-wrapped
   ];
-
-  claude-code-wrapped = pkgs.symlinkJoin {
-    name = "claude-code";
-    paths = [ pkgs.claude-code ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/claude \
-        --set ANTHROPIC_BASE_URL "https://openrouter.ai/api" \
-        --set ANTHROPIC_API_KEY "" \
-        --set ANTHROPIC_DEFAULT_SONNET_MODEL "openai/gpt-5.6-luna" \
-        --set ANTHROPIC_DEFAULT_HAIKU_MODEL "openai/gpt-5.6-luna" \
-        --set ANTHROPIC_DEFAULT_OPUS_MODEL "anthropic/claude-sonnet-5" \
-        --run 'export ANTHROPIC_AUTH_TOKEN=$(pass show openrouter-key)' \
-        --run 'set -- --system-prompt "$(serena prompts print-cc-system-prompt-override)" "$@"'
-    '';
-  };
-
-  claude-code-bedrock-wrapped = pkgs.symlinkJoin {
-    name = "claude-code-bedrock";
-    paths = [ pkgs.claude-code ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      rm $out/bin/claude
-      makeWrapper ${pkgs.claude-code}/bin/claude $out/bin/claude-bedrock \
-        --set CLAUDE_CODE_USE_BEDROCK 1 \
-        --set ANTHROPIC_DEFAULT_SONNET_MODEL "us.anthropic.claude-sonnet-4-6" \
-        --set ANTHROPIC_DEFAULT_HAIKU_MODEL "us.anthropic.claude-haiku-4-5-20251001-v1:0" \
-        --set ANTHROPIC_DEFAULT_OPUS_MODEL "" \
-        --run 'set -- --system-prompt "$(serena prompts print-cc-system-prompt-override)" "$@"'
-    '';
-  };
-
 
   gpg-pinentry = pkgs.pinentry-gtk2;
   gpg-agent-conf = {
@@ -81,6 +48,7 @@ in
     ./modules/lutris.nix
     ./modules/vimrc.nix
     ./modules/pi.nix
+    ./modules/claude.nix
   ];
 
   home.sessionVariables = {
@@ -90,16 +58,10 @@ in
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
   shrc.pi.enable = true;
+  shrc.claude.enable = true;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 
-  home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run mkdir -p "$HOME/.claude"
-    run ln -sfn "$HOME/src/shrc/nix/home/config/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"
-    run ln -sfn "$HOME/src/shrc/nix/home/config/claude/settings.json" "$HOME/.claude/settings.json"
-  '';
-
-  programs.claude-code.package = claude-code-wrapped;
 
   services.gpg-agent = {
     enable = true;

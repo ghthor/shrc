@@ -97,7 +97,6 @@ in
       package = pkgs-unstable.go;
     };
 
-    programs.claude-code.enable = true;
 
     programs.git = {
       enable = true;
@@ -260,17 +259,5 @@ in
 
     home.packages = packages-base ++ config.shrc.common.packages;
 
-    home.activation.serenaClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      # Serena looks up Claude Code by name during its setup check.
-      export PATH="${config.home.profileDirectory}/bin:$PATH"
-
-      if [[ -f "$HOME/.claude/settings.json" ]] && ${pkgs.jq}/bin/jq -e '.mcpServers.serena' "$HOME/.claude/settings.json" >/dev/null 2>&1; then
-        echo "Serena MCP server already configured; skipping setup."
-      else
-        run ${
-          serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
-        }/bin/serena setup claude-code || true
-      fi
-    '';
   };
 }

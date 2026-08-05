@@ -1,0 +1,10 @@
+{
+  "lastChangelogVersion": "0.81.1",
+  "defaultProvider": "openrouter",
+  "defaultModel": "openai/gpt-5.6-luna",
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "packages": [
+    "git:github.com/nicobailon/pi-mcp-adapter@1dbdef96f674410ac37067de70f10a3de3d48d98"
+  ]
+}

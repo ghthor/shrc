@@ -60,7 +60,8 @@ let
     jq
     ijq
 
-    nixfmt-tree
+    nixfmt
+    treefmt
 
     pkgs-unstable.aws-sso-cli
 

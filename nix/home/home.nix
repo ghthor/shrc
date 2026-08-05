@@ -42,6 +42,7 @@ in
 {
   imports = [
     ./modules/common.nix
+    ./modules/flake-nixpkgs.nix
     ./modules/herdr.nix
     ./modules/nix-delete-generations.nix
     ./modules/nix-delete-home-generations.nix

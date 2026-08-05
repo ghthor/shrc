@@ -33,6 +33,7 @@ BASIC_FIXTURE = {
     "model": {"id": "anthropic/claude-sonnet-4-5"},
     "context_window": {
         "used_percentage": 25.0,
+        "context_window_size": 200000,
         "current_usage": {
             "input_tokens": 5000,
             "output_tokens": 200,
@@ -101,6 +102,36 @@ OR_FIXTURE = {
     "model": {"id": "openai/gpt-5.6-luna"},
     "context_window": {
         "used_percentage": 12.0,
+        "total_input_tokens": 100000,
+        "total_output_tokens": 10000,
+        "context_window_size": 200000,
+        "current_usage": {
+            "input_tokens": 10000,
+            "output_tokens": 500,
+            "cache_creation_input_tokens": 100,
+            "cache_read_input_tokens": 200,
+        },
+    },
+}
+
+OR_FIXTURE_NO_TOTALS = {
+    "model": {"id": "openai/gpt-5.6-luna"},
+    "context_window": {
+        "used_percentage": 12.0,
+        "current_usage": {
+            "input_tokens": 10000,
+            "output_tokens": 500,
+            "cache_creation_input_tokens": 100,
+            "cache_read_input_tokens": 200,
+        },
+    },
+}
+
+# Legacy fixture retained for cost tests.
+OR_FIXTURE_LEGACY = {
+    "model": {"id": "openai/gpt-5.6-luna"},
+    "context_window": {
+        "used_percentage": 12.0,
         "current_usage": {
             "input_tokens": 10000,
             "output_tokens": 500,
@@ -135,6 +166,7 @@ OR_PRICING_RESPONSE = {
                 "input_cache_write": "0.000000625",
                 "input_cache_read": "0.00000005",
             },
+            "context_length": 1_100_000,
         }
     ]
 }
@@ -272,7 +304,8 @@ class TestNonOpenRouter(unittest.TestCase):
     def test_basic_model_and_ctx(self):
         out = self._run(BASIC_FIXTURE)
         self.assertIn("anthropic/claude-sonnet-4-5", out)
-        self.assertIn("25%", out)
+        self.assertIn("25.0%", out)
+        self.assertIn("/200k", out)
         self.assertRegex(out, r'~\$[0-9]+\.[0-9]+\|[0-9]+\.[0-9]+')
 
     def test_no_context_window(self):
@@ -283,11 +316,11 @@ class TestNonOpenRouter(unittest.TestCase):
 
     def test_ctx_60_percent(self):
         out = self._run(CTX_60_FIXTURE)
-        self.assertIn("60%", out)
+        self.assertIn("60.0%", out)
 
     def test_ctx_85_percent(self):
         out = self._run(CTX_85_FIXTURE)
-        self.assertIn("85%", out)
+        self.assertIn("85.0%", out)
 
     def test_display_name_fallback(self):
         out = self._run(DISPLAY_NAME_FIXTURE)
@@ -301,6 +334,19 @@ class TestNonOpenRouter(unittest.TestCase):
         out = self._run(BASIC_FIXTURE)
         self.assertIn("Ⓐ", out)
         self.assertNotIn("Ⓞ", out)
+
+    @unittest.skipUnless(TARGET.endswith(".py"), "Python-only footer formatting")
+    def test_pi_style_usage_labels(self):
+        out = self._run({**OR_FIXTURE, "effort": {"level": "high"}})
+        self.assertIn("↑10k", out)
+        self.assertIn("Ⓐ openai/gpt-5.6-luna • high", out)
+        self.assertNotIn("openai/gpt-5.6-luna Ⓐ", out)
+        self.assertNotIn("openai/gpt-5.6-luna - high", out)
+        self.assertIn("↓500", out)
+        self.assertIn("CR200", out)
+        self.assertIn("CW100", out)
+        self.assertEqual(len(out.strip().splitlines()), 1)
+        self.assertNotIn("  " * 20, out)
 
     def test_session_accumulates_across_turns(self):
         out1 = run_statusline(BASIC_FIXTURE, fake_bin_dir=self.tmpdir, cost_file=str(self._cost))
@@ -356,6 +402,9 @@ class TestOpenRouter(unittest.TestCase):
         out = self._run(OR_FIXTURE, OR_PRICING_RESPONSE)
         self.assertIn("Ⓞ", out)
         self.assertIn("openai/gpt-5.6-luna", out)
+        self.assertIn("/1.1M", out)
+        self.assertIn("10.0%/1.1M", out)
+        self.assertNotIn("100.0%/1.1M", out)
 
     def test_known_model_with_pricing_uses_or_prices(self):
         # Anthropic fallback: input=0.000003, output=0.000015

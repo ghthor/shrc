@@ -3,6 +3,7 @@
 
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -75,8 +76,8 @@ def color_session(text: str) -> str:
 # OpenRouter pricing lookup
 # ---------------------------------------------------------------------------
 
-def fetch_or_pricing(model: str, auth_token: str, base_url: str) -> dict | None:
-    """Return {field: float} prices for model, or None on failure."""
+def fetch_or_model(model: str, auth_token: str, base_url: str) -> dict | None:
+    """Return model pricing and context metadata, or None on failure."""
     cache_dir = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "claude-openrouter"
     cache_dir.mkdir(parents=True, exist_ok=True)
 
@@ -102,15 +103,18 @@ def fetch_or_pricing(model: str, auth_token: str, base_url: str) -> dict | None:
 
     for entry in data.get("data", []):
         if entry.get("id") == model:
-            pricing = entry.get("pricing")
-            if pricing is None:
-                return {}  # model found but no pricing; still show OpenRouter glyph
-            return {
+            pricing = entry.get("pricing") or {}
+            result = {
                 "input":       float(pricing.get("prompt", 0) or 0),
                 "output":      float(pricing.get("completion", 0) or 0),
                 "cache_write": float(pricing.get("input_cache_write", 0) or 0),
                 "cache_read":  float(pricing.get("input_cache_read", 0) or 0),
             }
+            context_length = entry.get("context_length")
+            if context_length:
+                result["context_length"] = int(context_length)
+            return result
+
     return None  # model not found
 
 
@@ -145,6 +149,30 @@ def write_session_state(path: Path, cost: float, signature: str) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Formatting
+# ---------------------------------------------------------------------------
+
+def format_tokens(value: int) -> str:
+    if value < 1000:
+        return str(value)
+    if value < 1_000_000:
+        return f"{value / 1000:.1f}k".replace(".0k", "k")
+    return f"{value / 1_000_000:.1f}M".replace(".0M", "M")
+
+
+def visible_width(text: str) -> int:
+    return len(re.sub(r"\x1b\[[0-9;]*m", "", text))
+
+
+def format_context_size(value: int) -> str:
+    if value < 1000:
+        return str(value)
+    if value < 1_000_000:
+        return f"{value / 1000:.1f}k".replace(".0k", "k")
+    return f"{value / 1_000_000:.1f}M".replace(".0M", "M")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -157,10 +185,24 @@ def main() -> None:
 
     model_obj = data.get("model") or {}
     model = model_obj.get("id") or model_obj.get("display_name") or "?"
+    effort = data.get("effort") or model_obj.get("effort") or os.environ.get("CLAUDE_EFFORT")
+    if isinstance(effort, dict):
+        effort = effort.get("level")
+    model_label = f"{model} • {effort}" if effort else model
+    try:
+        terminal_width = int(os.environ.get("COLUMNS", "80"))
+    except ValueError:
+        terminal_width = 80
+    terminal_width = max(40, terminal_width - 5)
 
     ctx_window = data.get("context_window") or {}
     used_pct = ctx_window.get("used_percentage")
+    context_size = ctx_window.get("context_window_size")
+    total_input_tokens = int(ctx_window.get("total_input_tokens", 0) or 0)
+    total_output_tokens = int(ctx_window.get("total_output_tokens", 0) or 0)
     usage = ctx_window.get("current_usage") or {}
+    if context_size is not None:
+        context_size = int(context_size)
     input_tokens       = int(usage.get("input_tokens", 0) or 0)
     output_tokens      = int(usage.get("output_tokens", 0) or 0)
     cache_write_tokens = int(usage.get("cache_creation_input_tokens", 0) or 0)
@@ -173,11 +215,17 @@ def main() -> None:
     auth_token = os.environ.get("ANTHROPIC_AUTH_TOKEN") or ""
 
     if base_url == "https://openrouter.ai/api" and model != "?":
-        or_prices = fetch_or_pricing(model, auth_token, base_url)
-        if or_prices is not None:
+        or_model = fetch_or_model(model, auth_token, base_url)
+        if or_model is not None:
             openrouter_confirmed = True
-            if or_prices:  # non-empty means actual prices available
-                prices.update(or_prices)
+            if or_model:
+                context_length = or_model.pop("context_length", None)
+                if context_length:
+                    context_size = context_length
+                    total_context_tokens = total_input_tokens + total_output_tokens
+                    if total_context_tokens:
+                        used_pct = total_context_tokens / context_size * 100
+                prices.update(or_model)
 
     turn_cost = (
         input_tokens       * prices["input"]
@@ -197,19 +245,33 @@ def main() -> None:
         session_cost = prev_cost
 
     mode_glyph = MODE_GLYPH_OPENROUTER if openrouter_confirmed else MODE_GLYPH_ANTHROPIC
+    usage_parts = [
+        f"↑{format_tokens(input_tokens)}",
+        f"↓{format_tokens(output_tokens)}",
+    ]
+    if cache_read_tokens:
+        usage_parts.append(f"CR{format_tokens(cache_read_tokens)}")
+    if cache_write_tokens:
+        usage_parts.append(f"CW{format_tokens(cache_write_tokens)}")
 
-    s = sep()
-    model_s   = color_model(model) + " " + color_mode(mode_glyph, openrouter_confirmed)
-    turn_s    = color_turn(f"~${turn_cost:.4f}")
-    session_s = color_session(f"{session_cost:.4f}")
-
-    parts = [model_s]
+    stats = " ".join(usage_parts)
+    costs = f"~${turn_cost:.4f}|{session_cost:.4f}"
+    context = ""
     if used_pct is not None:
-        used_int = round(used_pct)
-        parts.append(color_ctx(f"{used_int}%", used_int))
-    parts.append(f"{turn_s}|{session_s}")
+        context_pct = f"{float(used_pct):.1f}"
+        context_label = f"{context_pct}%"
+        if context_size:
+            context_label += f"/{format_context_size(context_size)}"
+        context = color_ctx(context_label, round(float(used_pct)))
 
-    print(s.join(parts))
+    left_parts = [stats, costs]
+    if context:
+        left_parts.append(context)
+    left = sep().join(left_parts)
+    model_s = color_mode(mode_glyph, openrouter_confirmed) + " " + color_model(model_label)
+    content_width = visible_width(left) + visible_width(model_s)
+    padding = terminal_width - content_width
+    print(left + (" " * padding if padding > 0 else " ") + model_s)
 
 
 if __name__ == "__main__":

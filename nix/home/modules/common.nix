@@ -58,8 +58,6 @@ let
 
     nixfmt-tree
 
-    pi-coding-agent
-
     pkgs-unstable.aws-sso-cli
 
     serena.packages.${pkgs.stdenv.hostPlatform.system}.serena

@@ -57,6 +57,7 @@ let
     '';
   };
 
+
   gpg-pinentry = pkgs.pinentry-gtk2;
   gpg-agent-conf = {
     defaultCacheTtl = 600;
@@ -79,6 +80,7 @@ in
     ./modules/nix-delete-home-generations.nix
     ./modules/lutris.nix
     ./modules/vimrc.nix
+    ./modules/pi.nix
   ];
 
   home.sessionVariables = {
@@ -87,6 +89,7 @@ in
   };
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
+  shrc.pi.enable = true;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 

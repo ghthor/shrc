@@ -49,30 +49,23 @@ in
     };
 
     home.activation.claudeSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      claude_dir="$HOME/.claude"
-      skills_path="$claude_dir/skills"
-      skills_source_path="$HOME/src/shrc/nix/home/config/agents/skills"
+      source ${./link_path.sh}
 
-      run test -d "$skills_source_path"
-      run mkdir -p "$claude_dir"
-
-      if [ -L "$skills_path" ]; then
-        if [ "$(readlink -f "$skills_path")" != "$(readlink -f "$skills_source_path")" ]; then
-          run rm "$skills_path"
-          run ln -s "$skills_source_path" "$skills_path"
-        fi
-      elif [ -e "$skills_path" ]; then
-        echo "Claude skills directory exists at $skills_path; review it against $skills_source_path before activating" >&2
-        exit 1
-      else
-        run ln -s "$skills_source_path" "$skills_path"
-      fi
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/agents/skills" \
+        "$HOME/.claude/skills"
     '';
 
     home.activation.claudeStatusline = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      run mkdir -p "$HOME/.claude"
-      run ln -sfn "$HOME/src/shrc/nix/home/config/claude/statusline-command.py" "$HOME/.claude/statusline-command.py"
-      run ln -sfn "$HOME/src/shrc/nix/home/config/claude/settings.json" "$HOME/.claude/settings.json"
+      source ${./link_path.sh}
+
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/claude/statusline-command.py" \
+        "$HOME/.claude/statusline-command.py"
+
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/claude/settings.json" \
+        "$HOME/.claude/settings.json"
     '';
 
     home.activation.serenaClaudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

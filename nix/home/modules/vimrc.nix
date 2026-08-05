@@ -49,10 +49,11 @@ let
 in
 {
   home.activation.linkDotVim = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    run [ -L "$HOME/.vim" ] || \
-      run ln -sf $VERBOSE_ARG \
-        $HOME/src/shrc/pkg/vim/.vim/ \
-        $HOME/.vim
+    source ${./link_path.sh}
+
+    shrc_link_path \
+      "$HOME/src/shrc/pkg/vim/.vim" \
+      "$HOME/.vim"
   '';
 
   home.file.".vimrc" = {

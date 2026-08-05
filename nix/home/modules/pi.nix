@@ -24,92 +24,35 @@ in
     home.packages = [ pi-coding-agent-wrapped ];
 
     home.activation.piMcpConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      config_dir="$HOME/.config"
-      config_path="$config_dir/mcp"
-      source_path="$HOME/src/shrc/nix/home/config/mcp"
+      source ${./link_path.sh}
 
-      run test -d "$source_path"
-      run mkdir -p "$config_dir"
-
-      if [ -L "$config_path" ]; then
-        if [ "$(readlink -f "$config_path")" != "$(readlink -f "$source_path")" ]; then
-          run rm "$config_path"
-          run ln -s "$source_path" "$config_path"
-        fi
-      elif [ -e "$config_path" ]; then
-        echo "Pi MCP config exists at $config_path; review it against $source_path before activating" >&2
-        exit 1
-      else
-        run ln -s "$source_path" "$config_path"
-      fi
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/mcp" \
+        "$HOME/.config/mcp"
     '';
 
     home.activation.piExtensions = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      pi_agent_dir="$HOME/.pi/agent"
-      extensions_path="$pi_agent_dir/extensions"
-      extensions_source_path="$HOME/src/shrc/nix/home/config/pi/agent/extensions"
+      source ${./link_path.sh}
 
-      run test -d "$extensions_source_path"
-      run mkdir -p "$pi_agent_dir"
-
-      if [ -L "$extensions_path" ]; then
-        if [ "$(readlink -f "$extensions_path")" != "$(readlink -f "$extensions_source_path")" ]; then
-          run rm "$extensions_path"
-          run ln -s "$extensions_source_path" "$extensions_path"
-        fi
-      elif [ -e "$extensions_path" ]; then
-        echo "Pi extensions directory exists at $extensions_path; review it against $extensions_source_path before activating" >&2
-        exit 1
-      else
-        run ln -s "$extensions_source_path" "$extensions_path"
-      fi
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/pi/agent/extensions" \
+        "$HOME/.pi/agent/extensions"
     '';
 
     home.activation.piSkills = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      agents_dir="$HOME/.agents"
-      skills_path="$agents_dir/skills"
-      skills_source_path="$HOME/src/shrc/nix/home/config/agents/skills"
+      source ${./link_path.sh}
 
-      run test -d "$skills_source_path"
-      run mkdir -p "$agents_dir"
-
-      if [ -L "$skills_path" ]; then
-        if [ "$(readlink -f "$skills_path")" != "$(readlink -f "$skills_source_path")" ]; then
-          run rm "$skills_path"
-          run ln -s "$skills_source_path" "$skills_path"
-        fi
-      elif [ -e "$skills_path" ]; then
-        echo "Agent skills directory exists at $skills_path; review it against $skills_source_path before activating" >&2
-        exit 1
-      else
-        run ln -s "$skills_source_path" "$skills_path"
-      fi
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/agents/skills" \
+        "$HOME/.agents/skills"
     '';
 
     home.activation.piSettings = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      pi_agent_dir="$HOME/.pi/agent"
-      settings_path="$pi_agent_dir/settings.json"
-      source_path="$HOME/src/shrc/nix/home/config/pi/agent/settings.json"
+      source ${./link_path.sh}
 
-      run test -f "$source_path"
-      run mkdir -p "$pi_agent_dir"
-
-      if [ -L "$settings_path" ]; then
-        if [ "$(readlink -f "$settings_path")" != "$(readlink -f "$source_path")" ]; then
-          run rm "$settings_path"
-          run ln -s "$source_path" "$settings_path"
-        fi
-      elif [ -e "$settings_path" ]; then
-        if cmp -s "$settings_path" "$source_path"; then
-          run rm "$settings_path"
-          run ln -s "$source_path" "$settings_path"
-        else
-          echo "Pi settings file exists at $settings_path; review it against $source_path before activating" >&2
-          exit 1
-        fi
-      else
-        run ln -s "$source_path" "$settings_path"
-      fi
+      shrc_link_path \
+        "$HOME/src/shrc/nix/home/config/pi/agent/settings.json" \
+        "$HOME/.pi/agent/settings.json"
     '';
   };
 }

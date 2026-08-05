@@ -24,6 +24,7 @@ let
 
     nodejs_22
     typescript
+    typescript-language-server
     statix # used by vim-ale
 
     pass

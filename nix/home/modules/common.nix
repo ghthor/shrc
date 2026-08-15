@@ -69,6 +69,10 @@ let
 
     serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
   ];
+
+  packages-base-linux = with pkgs; [
+    xmodmap
+  ];
 in
 {
   options.shrc.common.enable = lib.mkEnableOption "shrc common configuration";
@@ -263,7 +267,10 @@ in
         '';
     };
 
-    home.packages = packages-base ++ config.shrc.common.packages;
+    home.packages =
+      packages-base
+      ++ lib.optionals pkgs.stdenv.isLinux packages-base-linux
+      ++ config.shrc.common.packages;
 
   };
 }

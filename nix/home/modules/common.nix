@@ -41,6 +41,8 @@ let
     marksman
     shellcheck
 
+    vscode-json-languageserver
+
     fd
     ripgrep
     findutils

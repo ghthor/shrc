@@ -37,6 +37,7 @@ language_servers:
 - go
 - nix
 - bash
+- json
 - typescript
 - yaml
 

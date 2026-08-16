@@ -51,6 +51,7 @@ in
     ./modules/vimrc.nix
     ./modules/pi.nix
     ./modules/claude.nix
+    ./modules/whisp.nix
   ];
 
   home.sessionVariables = {
@@ -61,6 +62,7 @@ in
   shrc.herdr.enable = true;
   shrc.pi.enable = true;
   shrc.claude.enable = true;
+  shrc.whisp.enable = pkgs.stdenv.isLinux;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 

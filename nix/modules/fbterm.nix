@@ -5,12 +5,6 @@
   ...
 }:
 let
-  fbtermFontNames = lib.concatStringsSep "," [
-    "Hack Nerd Font Mono"
-    "Hack Mono"
-    "Hack"
-  ];
-  fbtermFontSize = 16;
   fbtermLogin = pkgs.writeShellScript "fbterm-login" ''
     export TERM=fbterm-256color
     exec ${pkgs.shadow}/bin/login "$@"
@@ -37,7 +31,7 @@ in
       ];
       conflicts = [ "getty@tty2.service" ];
       serviceConfig = {
-        ExecStart = "${pkgs.fbterm}/bin/fbterm --font-names='${fbtermFontNames}' --font-size=${toString fbtermFontSize} -- ${fbtermLogin}";
+        ExecStart = "${pkgs.fbterm}/bin/fbterm -- ${fbtermLogin}";
         Environment = "TERM=fbterm-256color";
         Restart = "always";
         RestartSec = "1s";

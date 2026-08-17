@@ -185,8 +185,9 @@ in
       enable = true;
       enableZshIntegration = false; # Manually enabled via initExtra
       enableBashIntegration = false;
-      settings = builtins.fromTOML (builtins.readFile ../../../pkg/shell/.starship.toml);
     };
+    # Use direct file ref so no symlink needed and no home-manager switch required to modify the starship config
+    home.sessionVariables.STARSHIP_CONFIG = lib.mkForce "${config.home.homeDirectory}/src/shrc/pkg/shell/.starship.toml";
 
     programs.direnv = {
       enable = true;

@@ -52,6 +52,7 @@ in
     ./modules/pi.nix
     ./modules/claude.nix
     ./modules/whisp.nix
+    ./modules/fbterm.nix
   ];
 
   home.sessionVariables = {
@@ -63,6 +64,7 @@ in
   shrc.pi.enable = true;
   shrc.claude.enable = true;
   shrc.whisp.enable = pkgs.stdenv.isLinux;
+  shrc.fbterm.enable = pkgs.stdenv.isLinux;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 

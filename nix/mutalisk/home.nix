@@ -22,7 +22,6 @@ let
     "stats"
     "syncthing"
     "syncthing-app"
-    "tailscale"
     "vim"
     "vlc"
   ];

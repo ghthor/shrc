@@ -1,5 +1,6 @@
 # Nix toolchain
 
-- Declarative Nix flake project using nixpkgs, nixpkgs-unstable, and Home Manager.
-- Darwin support is handled through `nixpkgs-darwin`; shared modules branch on `pkgs.stdenv.isDarwin` where needed.
-- `serena` is a flake input and its package is installed by the shared Home Manager module.
+- Nix flakes with pinned nixpkgs stable, Darwin-specific nixpkgs, unstable nixpkgs, Home Manager, and Serena inputs.
+- Home Manager profiles: `x86_64-linux.ghthor` and `aarch64-darwin.willowens` in the main flake.
+- Make is used for Home Manager and NixOS wrappers.
+- `treefmt` is the repository formatter; do not use `nix fmt` for verification.

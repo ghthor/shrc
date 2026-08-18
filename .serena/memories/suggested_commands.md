@@ -1,6 +1,6 @@
 # Useful project commands
 
-- From `nix/`, inspect flake outputs with `nix flake show`.
-- Format Nix sources with `treefmt` (use `treefmt --no-cache <paths>` for targeted checks).
-- Evaluate/check the flake with `nix flake check` when dependencies and target platform permit.
-- Review edits with `git diff -- nix/home/modules/common.nix` and `git status --short`.
+- From `nix/`: `make home` defaults to a non-mutating Home Manager build.
+- From `nix/`: `make home CMD=switch` performs the explicit Home Manager switch.
+- Override platform selection for tests: `make -C nix -n home SYSTEM=Darwin` or `SYSTEM=Linux`; unsupported values fail at Makefile parse time.
+- Evaluate native Home Manager outputs: `cd nix && nix eval .#homeConfigurations.x86_64-linux.ghthor.activationPackage.drvPath` and the analogous Darwin selector.

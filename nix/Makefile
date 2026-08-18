@@ -5,9 +5,21 @@
 USE_FLAKE ?= 0
 
 CMD ?= build
+SYSTEM ?= $(shell uname -s)
+
+ifeq ($(SYSTEM),Darwin)
+HOME_SYSTEM        := aarch64-darwin
+HOME_CONFIGURATION := willowens
+else ifeq ($(SYSTEM),Linux)
+HOME_SYSTEM        := x86_64-linux
+HOME_CONFIGURATION := ghthor
+else
+$(error Unsupported SYSTEM '$(SYSTEM)'; expected Darwin or Linux)
+endif
 
 home:
-	home-manager $(CMD) --flake '.#ghthor' --show-trace
+	@printf 'Home Manager: SYSTEM=%s CONFIGURATION=%s CMD=%s\n' '$(SYSTEM)' '$(HOME_CONFIGURATION)' '$(CMD)'
+	nix run '.#home-manager' -- $(CMD) --flake '.#$(HOME_CONFIGURATION)' --show-trace
 
 system:
 	sudo rsync -r ./thornix/ /etc/nixos/; \

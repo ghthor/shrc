@@ -1,4 +1,7 @@
-# Completion checks
+# Nix completion checks
 
-- For Nix changes, run `treefmt --no-cache` and then `nix flake check` from `nix/` when available.
-- At minimum inspect `git diff` and ensure the changed Nix file formats cleanly before reporting completion.
+- Run `treefmt` (or `treefmt --ci`) and `git diff --check`.
+- For Home Manager changes, evaluate both native activation package derivation paths.
+- Exercise Makefile platform selection with Darwin and Linux overrides and verify an unsupported system fails without invoking Home Manager.
+- Check references after removing flake/wrapper files with `rg`.
+- Full `nix flake check` may include unrelated NixOS assertions; report those separately from direct Home Manager evaluation.

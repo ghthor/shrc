@@ -33,6 +33,8 @@
       # url = "nixpkgs/nixos-unstable";
     };
 
+    flake-utils.url = "github:numtide/flake-utils";
+
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,6 +49,7 @@
   outputs =
     {
       self,
+      flake-utils,
       nixpkgs,
       nixpkgs-darwin,
       nixpkgs-unstable,
@@ -55,42 +58,90 @@
       ...
     }@attrs:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      pkgs-unstable = import nixpkgs-unstable {
-        inherit system;
-        config.allowUnfreePredicate =
-          pkg:
-          builtins.elem (nixpkgs.lib.getName pkg) [
-            "graphite-cli"
-            "graphite-cli-unwrapped"
-          ];
-      };
-      inherit (pkgs) lib;
-      NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
-    in
-    {
-      formatter.${system} = pkgs.nixfmt-rfc-style;
+      inherit (nixpkgs) lib;
 
-      homeConfigurations."ghthor" = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = { inherit pkgs-unstable NIX_PATH serena; };
-        modules = [ ./home/home.nix ];
+      unfreePredicate =
+        pkg:
+        builtins.elem (nixpkgs.lib.getName pkg) [
+          "copilot.vim"
+          # Repositories without licenses are marked unfree in nixpkgs.
+          "vim-addon-mw-utils"
+          "vim-git"
+          "graphite-cli"
+          "graphite-cli-unwrapped"
+        ];
+      nixpkgsConfig = {
+        allowUnfreePredicate = unfreePredicate;
       };
 
-      apps.${system}.home = {
+      homeManagerApp = system: pkgs: {
         type = "app";
         program = toString (
-          pkgs.writeShellScript "hm-switch" ''
-            exec ${home-manager.packages.${system}.home-manager}/bin/home-manager \
-              switch --flake .#ghthor "$@"
+          pkgs.writeShellScript "home-manager" ''
+            exec ${home-manager.packages.${system}.home-manager}/bin/home-manager "$@"
           ''
         );
       };
 
+      homeManagerOutputs = flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          darwinSystem = system == "aarch64-darwin";
+          linuxSystem = system == "x86_64-linux";
+
+          pkgs = import nixpkgs {
+            inherit system;
+            config = nixpkgsConfig;
+          };
+          pkgs-unstable = import nixpkgs-unstable {
+            inherit system;
+            config = nixpkgsConfig;
+          };
+          pkgs-darwin = import nixpkgs-darwin {
+            inherit system;
+            config = nixpkgsConfig;
+          };
+          NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
+
+          homeConfiguration =
+            lib.optionalAttrs linuxSystem {
+              ghthor = home-manager.lib.homeManagerConfiguration {
+                inherit pkgs;
+                extraSpecialArgs = { inherit pkgs-unstable NIX_PATH serena; };
+                modules = [ ./home/home.nix ];
+              };
+            }
+            // lib.optionalAttrs darwinSystem {
+              willowens = home-manager.lib.homeManagerConfiguration {
+                inherit pkgs;
+                extraSpecialArgs = {
+                  inherit
+                    pkgs-unstable
+                    pkgs-darwin
+                    NIX_PATH
+                    serena
+                    ;
+                };
+                modules = [ ./mutalisk/home.nix ];
+              };
+            };
+        in
+        {
+          formatter = if darwinSystem then pkgs-unstable.nixfmt-rfc-style else pkgs.nixfmt-rfc-style;
+          homeConfiguration = homeConfiguration;
+          apps.home-manager = homeManagerApp system pkgs;
+        }
+      );
+    in
+    (builtins.removeAttrs homeManagerOutputs [ "homeConfiguration" ])
+    // {
+      homeConfigurations =
+        homeManagerOutputs.homeConfiguration.x86_64-linux
+        // homeManagerOutputs.homeConfiguration.aarch64-darwin;
+
       nixosConfigurations = {
         thornix = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = "x86_64-linux";
           specialArgs = lib.mkMerge [
             attrs
             { useFlake = true; }
@@ -103,7 +154,7 @@
           ];
         };
         cryptnix = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = "x86_64-linux";
           specialArgs = lib.mkMerge [
             attrs
             { useFlake = true; }
@@ -116,7 +167,7 @@
           ];
         };
         nydus = nixpkgs.lib.nixosSystem {
-          inherit system;
+          system = "x86_64-linux";
           specialArgs = lib.mkMerge [
             attrs
             { useFlake = true; }

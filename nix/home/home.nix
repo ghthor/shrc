@@ -45,6 +45,7 @@ in
     ./modules/common.nix
     ./modules/flake-nixpkgs.nix
     ./modules/herdr.nix
+    ./modules/aws-sso-cli.nix
     ./modules/nix-delete-generations.nix
     ./modules/nix-delete-home-generations.nix
     ./modules/lutris.nix
@@ -61,6 +62,7 @@ in
   };
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
+  shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.claude.enable = true;
   shrc.whisp.enable = pkgs.stdenv.isLinux;

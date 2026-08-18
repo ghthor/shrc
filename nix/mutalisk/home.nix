@@ -63,6 +63,7 @@ in
     ../home/modules/common.nix
     ../home/modules/vimrc.nix
     ../home/modules/herdr.nix
+    ../home/modules/aws-sso-cli.nix
     ../home/modules/pi.nix
   ];
 
@@ -72,6 +73,7 @@ in
   };
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
+  shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.nix-delete-home-generations.enable = true;
 

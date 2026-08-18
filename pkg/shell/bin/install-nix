@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+nix_conf=$(mktemp "${TMPDIR:-/tmp}/nix.conf.XXXXXX")
+
+cleanup() {
+  rm -f "$nix_conf"
+}
+trap cleanup EXIT
+
+cat >"$nix_conf" <<'EOF'
+experimental-features = nix-command flakes
+EOF
+
+curl --fail --location https://nixos.org/nix/install \
+  | sh -s -- --nix-extra-conf-file "$nix_conf" "$@"

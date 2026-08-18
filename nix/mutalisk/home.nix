@@ -59,8 +59,11 @@ let
 in
 {
   imports = [
+    ../home/modules/nix-delete-home-generations.nix
     ../home/modules/common.nix
     ../home/modules/vimrc.nix
+    ../home/modules/herdr.nix
+    ../home/modules/pi.nix
   ];
 
   home.sessionVariables = {
@@ -68,6 +71,9 @@ in
     inherit NIX_PATH;
   };
   shrc.common.packages = packages;
+  shrc.herdr.enable = true;
+  shrc.pi.enable = true;
+  shrc.nix-delete-home-generations.enable = true;
 
   home.file."gpg-agent.conf" = gpg-agent-conf;
 

@@ -65,6 +65,7 @@ in
     ../home/modules/herdr.nix
     ../home/modules/aws-sso-cli.nix
     ../home/modules/pi.nix
+    ../home/modules/zsh.nix
   ];
 
   home.sessionVariables = {
@@ -76,6 +77,7 @@ in
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.nix-delete-home-generations.enable = true;
+  shrc.zsh.enable = true;
 
   home.file."gpg-agent.conf" = gpg-agent-conf;
 

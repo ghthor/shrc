@@ -54,6 +54,7 @@ in
     ./modules/claude.nix
     ./modules/whisp.nix
     ./modules/fbterm.nix
+    ./modules/zsh.nix
   ];
 
   home.sessionVariables = {
@@ -69,6 +70,7 @@ in
   shrc.fbterm.enable = pkgs.stdenv.isLinux;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
+  shrc.zsh.enable = false;
 
   services.gpg-agent = {
     enable = true;

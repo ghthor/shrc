@@ -19,6 +19,9 @@
       initContent = ''
         zstyle ':completion-sync:compinit:custom' enabled true
         zstyle ':completion-sync:compinit:custom' command 'source ${pkgs-unstable.zsh-autocomplete}/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh'
+
+        thor="$(command -v thor || printf '%s/bin/thor' "$(go env GOPATH)")"
+        [[ -x $thor ]] && source <("$thor" completion zsh)
       '';
     };
   };

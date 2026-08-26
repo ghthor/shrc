@@ -34,12 +34,14 @@ in
     ./modules/steam.nix
     ./modules/fbterm.nix
     ./modules/fonts.nix
+    ./modules/physlock.nix
   ]
   ++ lib.optionals (builtins.pathExists ../modules) [
     ../modules/syncthing.nix
     ../modules/steam.nix
     ../modules/fbterm.nix
     ../modules/fonts.nix
+    ../modules/physlock.nix
   ];
 
   # See for more options, they don't show up in the NixOS option search

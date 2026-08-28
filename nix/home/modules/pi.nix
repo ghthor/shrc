@@ -12,8 +12,18 @@ let
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/pi \
-        --run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)' \
-        --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi'
+        --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi' \
+        --run '
+          pi_path="${pkgs-unstable.pi-coding-agent}/bin/pi"
+          for arg in "$@"; do
+            case "$arg" in
+              install | remove | uninstall | update | list | config | --help | -h)
+                exec "$pi_path" "$@"
+                ;;
+            esac
+          done
+        ' \
+        --run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'
     '';
   };
 in

@@ -1,6 +1,6 @@
 {
   "env": {},
-  "model": "haiku",
+  "model": "",
   "hooks": {
     "PreToolUse": [
       {
@@ -28,7 +28,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/home/ghthor/.claude/hooks/herdr-agent-state.sh' session",
+            "command": "bash \"$HOME/.claude/hooks/herdr-agent-state.sh\" session",
             "timeout": 10
           }
         ]
@@ -57,7 +57,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "python3 /home/ghthor/.claude/statusline-command.py"
+    "command": "python3 \"$HOME/.claude/statusline-command.py\""
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,

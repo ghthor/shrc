@@ -33,6 +33,8 @@
       # url = "nixpkgs/nixos-unstable";
     };
 
+    nixpkgs-claude.url = "github:NixOS/nixpkgs/34ab99075ac4f7e40cf037eef32cb1c360bb85e9";
+
     flake-utils.url = "github:numtide/flake-utils";
 
     home-manager = {
@@ -53,6 +55,7 @@
       nixpkgs,
       nixpkgs-darwin,
       nixpkgs-unstable,
+      nixpkgs-claude,
       home-manager,
       serena,
       ...
@@ -69,6 +72,7 @@
           "vim-git"
           "graphite-cli"
           "graphite-cli-unwrapped"
+          "claude-code"
         ];
       nixpkgsConfig = {
         allowUnfreePredicate = unfreePredicate;
@@ -97,6 +101,10 @@
             inherit system;
             config = nixpkgsConfig;
           };
+          pkgs-claude = import nixpkgs-claude {
+            inherit system;
+            config = nixpkgsConfig;
+          };
           pkgs-darwin = import nixpkgs-darwin {
             inherit system;
             config = nixpkgsConfig;
@@ -107,7 +115,14 @@
             lib.optionalAttrs linuxSystem {
               ghthor = home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
-                extraSpecialArgs = { inherit pkgs-unstable NIX_PATH serena; };
+                extraSpecialArgs = {
+                  inherit
+                    pkgs-unstable
+                    pkgs-claude
+                    NIX_PATH
+                    serena
+                    ;
+                };
                 modules = [ ./home/home.nix ];
               };
             }
@@ -117,6 +132,7 @@
                 extraSpecialArgs = {
                   inherit
                     pkgs-unstable
+                    pkgs-claude
                     pkgs-darwin
                     NIX_PATH
                     serena

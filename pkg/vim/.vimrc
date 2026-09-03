@@ -72,6 +72,7 @@ let g:tf_fmt_autosave = 0
 
 let g:nix_fmt_autosave = 1
 
+set regexpengine=0
 set foldmethod=syntax
 " Don't screw up folds when inserting text that might affect them, until
 " leaving insert mode. Foldmethod is local to the window. Protect against
@@ -188,6 +189,8 @@ if has("autocmd")
 
     autocmd FileType javascript setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
     autocmd FileType typescript setl expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    " autocmd FileType typescript,typescriptreact
+    "             \ setlocal foldmethod=manual synmaxcol=1000
 
     " setting for go
     autocmd Filetype go setl noexpandtab tabstop=4 softtabstop=4 shiftwidth=4 noautoindent

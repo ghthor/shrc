@@ -67,14 +67,14 @@
   "theme": "dark",
   "mcpServers": {
     "serena": {
-      "type": "stdio",
-      "command": "serena",
       "args": [
         "start-mcp-server",
         "--context=claude-code",
         "--project-from-cwd"
       ],
-      "env": {}
+      "command": "serena",
+      "env": {},
+      "type": "stdio"
     }
   }
 }

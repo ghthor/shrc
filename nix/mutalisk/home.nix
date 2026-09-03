@@ -77,6 +77,7 @@ in
   shrc.herdr.enable = true;
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
+  shrc.pi.openrouter.enable = false;
   shrc.claude.enable = true;
   shrc.nix-delete-home-generations.enable = true;
   shrc.zsh.enable = true;

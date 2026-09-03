@@ -65,6 +65,7 @@ in
   shrc.herdr.enable = true;
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
+  shrc.pi.openrouter.enable = true;
   shrc.claude.enable = true;
   shrc.whisp.enable = pkgs.stdenv.isLinux;
   shrc.fbterm.enable = pkgs.stdenv.isLinux;

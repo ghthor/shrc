@@ -23,12 +23,15 @@ let
             esac
           done
         ' \
-        --run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'
+        ${lib.optionalString config.shrc.pi.openrouter.enable "--run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'"}
     '';
   };
 in
 {
-  options.shrc.pi.enable = lib.mkEnableOption "Pi coding agent configuration";
+  options.shrc.pi = {
+    enable = lib.mkEnableOption "Pi coding agent configuration";
+    openrouter.enable = lib.mkEnableOption "OpenRouter API key for Pi";
+  };
 
   config = lib.mkIf config.shrc.pi.enable {
     home.packages = [ pi-coding-agent-wrapped ];

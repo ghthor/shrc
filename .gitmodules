@@ -10,9 +10,6 @@
 [submodule "bundle/vim-less"]
 	path = pkg/vim/.vim/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
-[submodule "bundle/vim-jade"]
-	path = pkg/vim/.vim/bundle/vim-jade
-	url = https://github.com/digitaltoad/vim-jade
 [submodule "bundle/vim-snipmate"]
 	path = pkg/vim/.vim/bundle/vim-snipmate
 	url = https://github.com/garbas/vim-snipmate
@@ -31,24 +28,12 @@
 [submodule "bundle/elm-vim"]
 	path = pkg/vim/.vim/bundle/elm-vim
 	url = https://github.com/ElmCast/elm-vim.git
-[submodule "bundle/ex.next.syntax.vim"]
-	path = pkg/vim/.vim/bundle/es.next.syntax.vim
-	url = https://github.com/othree/es.next.syntax.vim.git
-[submodule "bundle/vim-jsx"]
-	path = pkg/vim/.vim/bundle/vim-jsx
-	url = https://github.com/mxw/vim-jsx.git
 [submodule "bundle/vim-shfmt"]
 	path = pkg/vim/.vim/bundle/vim-shfmt
 	url = https://github.com/z0mbix/vim-shfmt.git
-[submodule "bundle/yajs.vim"]
-	path = pkg/vim/.vim/bundle/yajs.vim
-	url = https://github.com/othree/yajs.vim.git
 [submodule "bundle/vim-yaml-folds"]
 	path = pkg/vim/.vim/bundle/vim-yaml-folds
 	url = https://github.com/pedrohdz/vim-yaml-folds.git
-[submodule "bundle/earthly.vim"]
-	path = pkg/vim/.vim/bundle/earthly.vim
-	url = https://github.com/earthly/earthly.vim.git
 [submodule "bundle/vinfo"]
 	path = pkg/vim/.vim/bundle/vinfo
 	url = https://github.com/alx741/vinfo.git

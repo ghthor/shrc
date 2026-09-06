@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.81.1",
+  "lastChangelogVersion": "0.84.4",
   "defaultProvider": "openrouter",
   "defaultModel": "openai/gpt-5.6-luna",
   "defaultThinkingLevel": "high",

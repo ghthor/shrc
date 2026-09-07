@@ -46,6 +46,12 @@
       url = "github:oraios/serena";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    treehouse = {
+      # v2.3.0, pinned to a newer commit that fixes the flake package build.
+      url = "github:ghthor/treehouse?rev=3feda26154e634685a94f9d683a8117b711351b8";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -58,6 +64,7 @@
       nixpkgs-claude,
       home-manager,
       serena,
+      treehouse,
       ...
     }@attrs:
     let
@@ -121,6 +128,7 @@
                     pkgs-claude
                     NIX_PATH
                     serena
+                    treehouse
                     ;
                 };
                 modules = [ ./home/home.nix ];
@@ -136,6 +144,7 @@
                     pkgs-darwin
                     NIX_PATH
                     serena
+                    treehouse
                     ;
                 };
                 modules = [ ./mutalisk/home.nix ];

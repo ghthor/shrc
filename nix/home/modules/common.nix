@@ -4,6 +4,7 @@
   pkgs,
   pkgs-unstable,
   serena,
+  treehouse,
   NIX_PATH,
   ...
 }:
@@ -66,6 +67,7 @@ let
     treefmt
 
     serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
+    treehouse.packages.${pkgs.stdenv.hostPlatform.system}.treehouse
   ];
 
   packages-base-linux = with pkgs; [

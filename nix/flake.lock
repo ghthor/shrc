@@ -179,7 +179,8 @@
         "nixpkgs-claude": "nixpkgs-claude",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "serena": "serena"
+        "serena": "serena",
+        "treehouse": "treehouse"
       }
     },
     "serena": {
@@ -233,6 +234,27 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "treehouse": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788825574,
+        "narHash": "sha256-eYAED6V2ex3Mc8oZz92LYXoaz4aoNVczqX0dgPfJ1AU=",
+        "owner": "ghthor",
+        "repo": "treehouse",
+        "rev": "3feda26154e634685a94f9d683a8117b711351b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ghthor",
+        "repo": "treehouse",
+        "rev": "3feda26154e634685a94f9d683a8117b711351b8",
         "type": "github"
       }
     },

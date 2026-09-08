@@ -69,8 +69,8 @@ in
   shrc.pi.enable = true;
   shrc.pi.openrouter.enable = true;
   shrc.claude.enable = true;
-  shrc.whisp.enable = pkgs.stdenv.isLinux;
-  shrc.fbterm.enable = pkgs.stdenv.isLinux;
+  shrc.whisp.enable = pkgs.stdenv.hostPlatform.isLinux;
+  shrc.fbterm.enable = pkgs.stdenv.hostPlatform.isLinux;
   shrc.nix-delete-generations.enable = true;
   shrc.nix-delete-home-generations.enable = true;
   shrc.zsh.enable = false;

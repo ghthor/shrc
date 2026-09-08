@@ -1,6 +1,8 @@
 {
   description = "ghthor's system flakes";
   inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
+
     # 1. Check Statuses of channels and hydra before updating
     #   - https://nixos.wiki/wiki/Nix_channels
     #   - https://status.nixos.org/
@@ -33,17 +35,15 @@
       # url = "nixpkgs/nixos-unstable";
     };
 
-    nixpkgs-claude.url = "github:NixOS/nixpkgs/34ab99075ac4f7e40cf037eef32cb1c360bb85e9";
-
-    flake-utils.url = "github:numtide/flake-utils";
-
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     serena = {
-      url = "github:oraios/serena";
+      # Adapt the flake to nixpkgs' deprecation of the stdenv platform predicates.
+      # https://github.com/oraios/serena/commit/6d387aa8ec968c08000ff44eef709e810016c1cb
+      url = "github:oraios/serena?rev=6d387aa8ec968c08000ff44eef709e810016c1cb";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -61,7 +61,6 @@
       nixpkgs,
       nixpkgs-darwin,
       nixpkgs-unstable,
-      nixpkgs-claude,
       home-manager,
       serena,
       treehouse,
@@ -108,14 +107,12 @@
             inherit system;
             config = nixpkgsConfig;
           };
-          pkgs-claude = import nixpkgs-claude {
-            inherit system;
-            config = nixpkgsConfig;
-          };
           pkgs-darwin = import nixpkgs-darwin {
             inherit system;
             config = nixpkgsConfig;
           };
+
+          pkgs-claude = pkgs-unstable;
           NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
 
           homeConfiguration =

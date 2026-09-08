@@ -146,7 +146,7 @@ in
           ServerAliveInterval = 0;
           UserKnownHostsFile = "~/.ssh/known_hosts";
         }
-        // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
           Include = "~/.orbstack/ssh/config";
         };
       };
@@ -208,16 +208,16 @@ in
       shellIntegration.enableZshIntegration = true;
       themeFile = "Jellybeans";
     }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       font.name = "Hack Nerd Font Mono";
     };
 
     programs.ghostty = {
       enable = true;
-      package = lib.mkIf pkgs.stdenv.isDarwin (
+      package = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (
         pkgs-unstable.callPackage ../../mutalisk/ghostty-bin.nix { }
       );
-      enableBashIntegration = !pkgs.stdenv.isDarwin;
+      enableBashIntegration = !pkgs.stdenv.hostPlatform.isDarwin;
       enableZshIntegration = true;
       installVimSyntax = true;
       settings = {
@@ -258,7 +258,7 @@ in
             eval "$(direnv hook bash)"
             eval "$(zoxide init bash)"
           '';
-          termNotDumb = if pkgs.stdenv.isDarwin then darwin else linux;
+          termNotDumb = if pkgs.stdenv.hostPlatform.isDarwin then darwin else linux;
         in
         ''
           source $HOME/src/shrc/pkg/shell/.bash_interactive
@@ -270,7 +270,7 @@ in
 
     home.packages =
       packages-base
-      ++ lib.optionals pkgs.stdenv.isLinux packages-base-linux
+      ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux packages-base-linux
       ++ config.shrc.common.packages;
 
   };

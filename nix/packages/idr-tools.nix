@@ -25,8 +25,8 @@ stdenv.mkDerivation {
 
   src = fetchurl source;
 
-  nativeBuildInputs = [ unzip ] ++ lib.optional stdenv.isLinux autoPatchelfHook;
-  buildInputs = lib.optional stdenv.isLinux stdenv.cc.cc.lib;
+  nativeBuildInputs = [ unzip ] ++ lib.optional stdenv.hostPlatform.isLinux autoPatchelfHook;
+  buildInputs = lib.optional stdenv.hostPlatform.isLinux stdenv.cc.cc.lib;
 
   dontUnpack = true;
   dontConfigure = true;

@@ -5,8 +5,8 @@
 }:
 
 let
-  targetOs = if stdenv.isDarwin then "apple-darwin" else "linux";
-  targetArch = if stdenv.isAarch64 then "aarch64" else "x86_64";
+  targetOs = if stdenv.hostPlatform.isDarwin then "apple-darwin" else "linux";
+  targetArch = if stdenv.hostPlatform.isAarch64 then "aarch64" else "x86_64";
 
   hashes = {
     aarch64-apple-darwin = "sha256-SfFoG0EVSbkujj839pdiML/U+KRLqFo4XKISzDm0Rjs=";

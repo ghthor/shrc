@@ -43,11 +43,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785119570,
-        "narHash": "sha256-Rgs2xKnGLFWQscxUaXX07oyZeuMDOHEbqDOsgliLFGM=",
+        "lastModified": 1788642154,
+        "narHash": "sha256-sPpQFVaFTDqO/4vvCAhuAhqTgqN/ygu+9eJcs5eB0js=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d4fd24667c8cbef124bb70a20380cab75ec8474d",
+        "rev": "fd0956c99c41ae3c13a73a638f1f7e963aebc4ab",
         "type": "github"
       },
       "original": {
@@ -70,22 +70,6 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "a5cc6f2c37bf518436dc8d1c288ccd0c43c2f4c4",
-        "type": "github"
-      }
-    },
-    "nixpkgs-claude": {
-      "locked": {
-        "lastModified": 1788179007,
-        "narHash": "sha256-hn1oU2rue2SYK8dAr8+WNZWtbsz1S2W5mnHlSEuh3bo=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "34ab99075ac4f7e40cf037eef32cb1c360bb85e9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "34ab99075ac4f7e40cf037eef32cb1c360bb85e9",
         "type": "github"
       }
     },
@@ -176,7 +160,6 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-claude": "nixpkgs-claude",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "serena": "serena",
@@ -194,16 +177,17 @@
         "uv2nix": "uv2nix"
       },
       "locked": {
-        "lastModified": 1786892233,
-        "narHash": "sha256-qWz/YPnGbEHeJW2kqV1w0qR3V4B1Y3FGNE6NRrkXGHk=",
+        "lastModified": 1788433551,
+        "narHash": "sha256-iSBFukS1X7VjTHqw3MpE9C32pCp1Z7nqHT0IwWO4EB8=",
         "owner": "oraios",
         "repo": "serena",
-        "rev": "19f1c33bbf8d79f43ebc1909f1848072216e63e3",
+        "rev": "6d387aa8ec968c08000ff44eef709e810016c1cb",
         "type": "github"
       },
       "original": {
         "owner": "oraios",
         "repo": "serena",
+        "rev": "6d387aa8ec968c08000ff44eef709e810016c1cb",
         "type": "github"
       }
     },

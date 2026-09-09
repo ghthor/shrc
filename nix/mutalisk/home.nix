@@ -35,6 +35,7 @@ let
     })
 
     pkgs-unstable.graphite-cli
+    pkgs-unstable.tailscale
 
     vimPlugins.coc-nvim
 

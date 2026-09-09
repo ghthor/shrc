@@ -5,6 +5,7 @@
   pkgs-unstable,
   serena,
   treehouse,
+  no-mistakes,
   NIX_PATH,
   ...
 }:
@@ -68,6 +69,7 @@ let
 
     serena.packages.${pkgs.stdenv.hostPlatform.system}.serena
     treehouse.packages.${pkgs.stdenv.hostPlatform.system}.treehouse
+    no-mistakes.packages.${pkgs.stdenv.hostPlatform.system}.no-mistakes
   ];
 
   packages-base-linux = with pkgs; [

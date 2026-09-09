@@ -52,6 +52,11 @@
       url = "github:ghthor/treehouse?rev=3feda26154e634685a94f9d683a8117b711351b8";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    no-mistakes = {
+      url = "github:ghthor/no-mistakes?rev=387ac2a577ffcb496ed3b3a5918b30acf1366d37";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -64,6 +69,7 @@
       home-manager,
       serena,
       treehouse,
+      no-mistakes,
       ...
     }@attrs:
     let
@@ -126,6 +132,7 @@
                     NIX_PATH
                     serena
                     treehouse
+                    no-mistakes
                     ;
                 };
                 modules = [ ./home/home.nix ];
@@ -142,6 +149,7 @@
                     NIX_PATH
                     serena
                     treehouse
+                    no-mistakes
                     ;
                 };
                 modules = [ ./mutalisk/home.nix ];

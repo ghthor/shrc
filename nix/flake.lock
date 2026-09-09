@@ -105,6 +105,27 @@
         "type": "github"
       }
     },
+    "no-mistakes": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788981662,
+        "narHash": "sha256-QgriHi9HEn9bxKD56uoen5bgwlWaleLdTfQJDbLSg64=",
+        "owner": "ghthor",
+        "repo": "no-mistakes",
+        "rev": "387ac2a577ffcb496ed3b3a5918b30acf1366d37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ghthor",
+        "repo": "no-mistakes",
+        "rev": "387ac2a577ffcb496ed3b3a5918b30acf1366d37",
+        "type": "github"
+      }
+    },
     "pyproject-build-systems": {
       "inputs": {
         "nixpkgs": [
@@ -162,6 +183,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-darwin": "nixpkgs-darwin",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "no-mistakes": "no-mistakes",
         "serena": "serena",
         "treehouse": "treehouse"
       }

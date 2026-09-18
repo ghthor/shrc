@@ -2,19 +2,19 @@
   config,
   lib,
   pkgs,
-  pkgs-unstable,
+  pkgs-pi,
   ...
 }:
 let
   pi-coding-agent-wrapped = pkgs.symlinkJoin {
     name = "pi-coding-agent-openrouter";
-    paths = [ pkgs-unstable.pi-coding-agent ];
+    paths = [ pkgs-pi.pi-coding-agent ];
     buildInputs = [ pkgs.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/pi \
         --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi' \
         --run '
-          pi_path="${pkgs-unstable.pi-coding-agent}/bin/pi"
+          pi_path="${pkgs-pi.pi-coding-agent}/bin/pi"
           for arg in "$@"; do
             case "$arg" in
               install | remove | uninstall | update | list | config | --help | -h)

@@ -35,6 +35,10 @@
       # url = "nixpkgs/nixos-unstable";
     };
 
+    nixpkgs-pi = {
+      url = "github:NixOS/nixpkgs/b1b875982b17dabde9b4a37f3e229e74913e6db3";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager?ref=release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,6 +70,7 @@
       nixpkgs,
       nixpkgs-darwin,
       nixpkgs-unstable,
+      nixpkgs-pi,
       home-manager,
       serena,
       treehouse,
@@ -117,6 +122,10 @@
             inherit system;
             config = nixpkgsConfig;
           };
+          pkgs-pi = import nixpkgs-pi {
+            inherit system;
+            config = nixpkgsConfig;
+          };
 
           pkgs-claude = pkgs-unstable;
           NIX_PATH = "nixpkgs=${nixpkgs.outPath}:nixpkgs-darwin=${nixpkgs-darwin.outPath}:nixpkgs-unstable=${nixpkgs-unstable.outPath}";
@@ -129,6 +138,7 @@
                   inherit
                     pkgs-unstable
                     pkgs-claude
+                    pkgs-pi
                     NIX_PATH
                     serena
                     treehouse
@@ -145,6 +155,7 @@
                   inherit
                     pkgs-unstable
                     pkgs-claude
+                    pkgs-pi
                     pkgs-darwin
                     NIX_PATH
                     serena

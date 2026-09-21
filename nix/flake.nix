@@ -61,6 +61,14 @@
       url = "github:ghthor/no-mistakes?rev=387ac2a577ffcb496ed3b3a5918b30acf1366d37";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    hermes-agent = {
+      # Tracks the branch; the commit is pinned by flake.lock. `nix flake update
+      # hermes-agent` moves both the native package and the container build
+      # (hermes-build-minimal reads the locked rev) together.
+      url = "github:ghthor/hermes-agent/nix/add-container-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -75,6 +83,7 @@
       serena,
       treehouse,
       no-mistakes,
+      hermes-agent,
       ...
     }@attrs:
     let
@@ -143,6 +152,7 @@
                     serena
                     treehouse
                     no-mistakes
+                    hermes-agent
                     ;
                 };
                 modules = [ ./home/home.nix ];
@@ -161,6 +171,7 @@
                     serena
                     treehouse
                     no-mistakes
+                    hermes-agent
                     ;
                 };
                 modules = [ ./mutalisk/home.nix ];

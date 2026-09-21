@@ -1,0 +1,21 @@
+# Compose project for the Hermes gateway and its sidecars.
+#
+# Launched by `hermesd`, which exports the interpolated variables below and
+# builds the locally produced sidecar images before `up`.
+
+name: hermes
+
+services:
+  gateway:
+    image: ${HERMES_IMAGE}
+    container_name: ${HERMESD_CONTAINER_NAME}
+    command: ["gateway", "run"]
+    environment:
+      # Loaded from pass by `hermesd up`; blank for other compose commands.
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN:-}
+      SLACK_APP_TOKEN: ${SLACK_APP_TOKEN:-}
+    volumes:
+      - ${HOME}/.hermes:/opt/data
+    stdin_open: true
+    tty: true
+    restart: unless-stopped

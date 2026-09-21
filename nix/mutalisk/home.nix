@@ -64,6 +64,7 @@ in
     ../home/modules/common.nix
     ../home/modules/vimrc.nix
     ../home/modules/herdr.nix
+    ../home/modules/hermes.nix
     ../home/modules/aws-sso-cli.nix
     ../home/modules/pi.nix
     ../home/modules/claude.nix
@@ -76,6 +77,7 @@ in
   };
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
+  shrc.hermes.enable = true;
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.pi.openrouter.enable = false;

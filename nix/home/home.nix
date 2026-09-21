@@ -46,6 +46,7 @@ in
     ./modules/flake-nixpkgs.nix
     ./modules/herdr.nix
     ./modules/shepherdr.nix
+    ./modules/hermes.nix
     ./modules/aws-sso-cli.nix
     ./modules/nix-delete-generations.nix
     ./modules/nix-delete-home-generations.nix
@@ -65,6 +66,7 @@ in
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
   shrc.shepherdr.enable = true;
+  shrc.hermes.enable = true;
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.pi.openrouter.enable = true;

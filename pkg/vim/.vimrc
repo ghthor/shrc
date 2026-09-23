@@ -188,7 +188,7 @@ if has("autocmd")
     autocmd FileType html,css,php setl expandtab
 
     autocmd FileType javascript setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd FileType typescript setl expandtab tabstop=4 softtabstop=4 shiftwidth=4
+    autocmd FileType typescript setl expandtab tabstop=2 softtabstop=2 shiftwidth=2
     " autocmd FileType typescript,typescriptreact
     "             \ setlocal foldmethod=manual synmaxcol=1000
 

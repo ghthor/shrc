@@ -103,6 +103,16 @@ source_file "/etc/profiles/per-user/ghthor/share/bash-completion/completions/git
 source_file "$HOME/.nix-profile/share/bash-completion/completions/git"            # darwin
 source_file "$HOME/src/shrc/pkg/scm_breeze/.scm_breeze/scm_breeze.sh"
 
+# Homebrew installs legacy-style completions into etc/bash_completion.d, which
+# bash-completion only reads via BASH_COMPLETION_COMPAT_DIR at load time (and
+# it's already loaded by the time we get here). Source them eagerly instead.
+if [ -d /opt/homebrew/etc/bash_completion.d ]; then
+  for _brew_comp in /opt/homebrew/etc/bash_completion.d/*; do
+    [ -r "$_brew_comp" ] && source "$_brew_comp"
+  done
+  unset _brew_comp
+fi
+
 export FZF_CTRL_T_COMMAND="fd ."
 
 set -o vi

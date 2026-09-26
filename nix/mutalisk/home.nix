@@ -27,6 +27,8 @@ let
   ];
 
   packages = with pkgs; [
+    nh
+
     (pkgs.writeShellApplication {
       name = "brew_install_stdenv";
       text = ''

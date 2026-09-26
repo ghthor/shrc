@@ -182,6 +182,10 @@
           formatter = if darwinSystem then pkgs-unstable.nixfmt-rfc-style else pkgs.nixfmt-rfc-style;
           homeConfiguration = homeConfiguration;
           apps.home-manager = homeManagerApp system pkgs;
+          apps.nh = {
+            type = "app";
+            program = "${pkgs.nh}/bin/nh";
+          };
         }
       );
     in

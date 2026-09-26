@@ -11,6 +11,7 @@ let
   username = "ghthor";
 
   packages = with pkgs; [
+    nh
     vim-full
     comma
     docker

@@ -6,6 +6,8 @@ USE_FLAKE ?= 0
 
 CMD ?= build
 SYSTEM ?= $(shell uname -s)
+# Bootstrap nh from the flake until it is available in the active Home Manager profile.
+NH ?= $(shell if command -v nh >/dev/null 2>&1; then printf '%s' nh; else printf '%s' 'nix run .#nh --'; fi)
 
 ifeq ($(SYSTEM),Darwin)
 HOME_SYSTEM        := aarch64-darwin
@@ -19,7 +21,7 @@ endif
 
 home:
 	@printf 'Home Manager: SYSTEM=%s CONFIGURATION=%s CMD=%s\n' '$(SYSTEM)' '$(HOME_CONFIGURATION)' '$(CMD)'
-	nix run '.#home-manager' -- $(CMD) --flake '.#$(HOME_CONFIGURATION)' --show-trace
+	$(NH) home $(CMD) --configuration '$(HOME_CONFIGURATION)' .
 
 system:
 	sudo rsync -r ./thornix/ /etc/nixos/; \

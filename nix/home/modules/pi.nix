@@ -10,8 +10,12 @@ let
     name = "pi-coding-agent-openrouter";
     paths = [ pkgs-pi.pi-coding-agent ];
     buildInputs = [ pkgs.makeWrapper ];
+    # RECHECK_BACKEND=worker supports the MCP extension's npm recheck ReDoS regex
+    # checking by running ReDoS through Scala.js instead of the native binary.
+    # See: https://github.com/makenowjust-labs/recheck/blob/d4dbb9557e55c253fd14f4238e78462489a38824/website/docs/usage/as-javascript-library.mdx#recheck_backend
     postBuild = ''
       wrapProgram $out/bin/pi \
+        --set RECHECK_BACKEND worker \
         --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi' \
         --run '
           pi_path="${pkgs-pi.pi-coding-agent}/bin/pi"

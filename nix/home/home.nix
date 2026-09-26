@@ -66,7 +66,7 @@ in
   shrc.common.packages = packages;
   shrc.herdr.enable = true;
   shrc.shepherdr.enable = true;
-  shrc.hermes.enable = true;
+  shrc.hermes.enable = false;
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.pi.openrouter.enable = true;

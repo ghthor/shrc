@@ -2,13 +2,13 @@
   config,
   lib,
   pkgs,
-  pkgs-pi,
   ...
 }:
 let
+  cfg = config.shrc.pi;
   pi-coding-agent-wrapped = pkgs.symlinkJoin {
     name = "pi-coding-agent-openrouter";
-    paths = [ pkgs-pi.pi-coding-agent ];
+    paths = [ cfg.package ];
     buildInputs = [ pkgs.makeWrapper ];
     # RECHECK_BACKEND=worker supports the MCP extension's npm recheck ReDoS regex
     # checking by running ReDoS through Scala.js instead of the native binary.
@@ -18,7 +18,7 @@ let
         --set RECHECK_BACKEND worker \
         --run 'if git_root=$(git rev-parse --show-toplevel 2>/dev/null); then cd "$git_root"; fi' \
         --run '
-          pi_path="${pkgs-pi.pi-coding-agent}/bin/pi"
+          pi_path="${cfg.package}/bin/pi"
           for arg in "$@"; do
             case "$arg" in
               install | remove | uninstall | update | list | config | --help | -h)
@@ -27,7 +27,7 @@ let
             esac
           done
         ' \
-        ${lib.optionalString config.shrc.pi.openrouter.enable "--run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'"}
+        ${lib.optionalString cfg.openrouter.enable "--run 'export OPENROUTER_API_KEY=$(pass show openrouter-key)'"}
     '';
   };
 in
@@ -35,9 +35,15 @@ in
   options.shrc.pi = {
     enable = lib.mkEnableOption "Pi coding agent configuration";
     openrouter.enable = lib.mkEnableOption "OpenRouter API key for Pi";
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = pkgs.pi-coding-agent;
+      defaultText = lib.literalExpression "pkgs.pi-coding-agent";
+      description = "pi-coding-agent package to wrap";
+    };
   };
 
-  config = lib.mkIf config.shrc.pi.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = [ pi-coding-agent-wrapped ];
 
     home.activation.piMcpConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

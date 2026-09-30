@@ -3,6 +3,7 @@
   lib,
   pkgs,
   pkgs-unstable,
+  pkgs-pi,
   NIX_PATH,
   ...
 }:
@@ -71,6 +72,7 @@ in
   shrc.aws-sso-cli.enable = true;
   shrc.pi.enable = true;
   shrc.pi.openrouter.enable = true;
+  shrc.pi.package = pkgs-pi.pi-coding-agent;
   shrc.claude.enable = true;
   shrc.whisp.enable = pkgs.stdenv.hostPlatform.isLinux;
   shrc.fbterm.enable = pkgs.stdenv.hostPlatform.isLinux;

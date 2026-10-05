@@ -10,27 +10,10 @@
 }@attrs:
 let
   useFlake = if (builtins.hasAttr "useFlake" attrs) then attrs.useFlake else false;
+
   osConfig = config;
-in
-{
-  imports = [
-    ./hardware-configuration.nix
-  ]
-  ++ lib.optionals useFlake [
-    ../modules/syncthing.nix
-    ../modules/steam.nix
-    attrs.home-manager.nixosModules.default
 
-  ]
-  ++ lib.optionals (!useFlake) [
-    ./modules/syncthing.nix
-    ./modules/steam.nix
-    <home-manager/nixos>
-  ];
-
-  # See for more options, they don't show up in the NixOS option search
-  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
-  nixpkgs.config.allowUnfreePredicate =
+  unfreeConfig =
     pkg:
     builtins.elem (lib.getName pkg) [
       # Add additional package names here
@@ -40,9 +23,26 @@ in
       "steam-original"
       "steam-run"
       "steam-unwrapped"
-
-      "graphite-cli"
     ];
+in
+{
+  imports = [
+    ./hardware-configuration.nix
+  ]
+  ++ lib.optionals (builtins.pathExists ./modules) [
+    ./modules/syncthing.nix
+    ./modules/steam.nix
+    ./modules/fonts.nix
+  ]
+  ++ lib.optionals (builtins.pathExists ../modules) [
+    ../modules/syncthing.nix
+    ../modules/steam.nix
+    ../modules/fonts.nix
+  ];
+
+  # See for more options, they don't show up in the NixOS option search
+  # https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/config.nix
+  nixpkgs.config.allowUnfreePredicate = unfreeConfig;
 
   nixpkgs.config = {
     firefox = {
@@ -138,7 +138,6 @@ in
       ulauncher
       xclip
       gnumake
-      gitFull
 
       qmk
     ];
@@ -150,171 +149,16 @@ in
     shell = pkgs.bashInteractive;
   };
 
-  home-manager.users.ghthor =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
-    {
-      xdg.enable = true;
-
-      home.packages = with pkgs; [
-        bashInteractive
-        vlc
-        gum
-        stow
-        peek
-
-        nixfmt-tree
-      ];
-
-      services.pasystray.enable = true;
-
-      programs.go.enable = true;
-
-      programs.bat.enable = true;
-
-      programs.ghostty = {
-        enable = true;
-        enableBashIntegration = false; # breaks starship
-        # settings = {
-        #   initial-command = "${pkgs.bashInteractive}/bin/bash -l -i";
-        # };
-      };
-
-      programs.git = {
-        enable = true;
-      };
-      services.gpg-agent = {
-        enable = true;
-        defaultCacheTtl = 600;
-        maxCacheTtl = 7200;
-        enableScDaemon = true;
-        enableSshSupport = true;
-        enableExtraSocket = true;
-        enableBashIntegration = true;
-        # sshKeys = [
-        #   "0x807409C92CE23033"
-        # ];
-        pinentryPackage = pkgs.pinentry-gtk2;
-      };
-
-      programs.gpg = {
-        enable = true;
-        mutableKeys = true;
-        mutableTrust = true;
-        # settings = {
-        #   "no-autostart" = "";
-        # };
-      };
-
-      programs.tmux = {
-        enable = true;
-        mouse = true;
-        terminal = "tmux-256color";
-      };
-      home.sessionVariables.TMUX_XPANES_EXEC = "tmux -2"; # force tmux from xpanes to be 256color
-
-      programs.readline = {
-        enable = true;
-        extraConfig = builtins.head (
-          lib.optional useFlake (builtins.readFile ../../pkg/shell/.inputrc)
-          ++ lib.optional (!useFlake) (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.inputrc)
-        );
-      };
-
-      programs.nix-index = {
-        enable = true;
-        enableZshIntegration = true;
-        enableBashIntegration = true;
-      };
-
-      programs.fzf = {
-        enable = true;
-        enableZshIntegration = true;
-        enableBashIntegration = true;
-      };
-
-      # bash eval ordering matters so managing it manually
-      programs.starship = {
-        enable = true;
-        enableBashIntegration = false;
-        enableZshIntegration = false; # Manually enabled via initExtra
-        settings = builtins.head (
-          lib.optional useFlake (builtins.fromTOML (builtins.readFile ../../pkg/shell/.starship.toml))
-          ++ lib.optional (!useFlake) (
-            builtins.fromTOML (builtins.readFile /home/ghthor/src/shrc/pkg/shell/.starship.toml)
-          )
-        );
-      };
-      programs.direnv = {
-        enable = true;
-        enableZshIntegration = true;
-        enableBashIntegration = false;
-        nix-direnv.enable = true;
-      };
-      programs.zoxide = {
-        enable = true;
-        enableZshIntegration = true;
-        enableBashIntegration = false;
-      };
-
-      programs.bash = {
-        enable = true;
-        enableCompletion = true;
-        bashrcExtra = ''
-          export BASHRC_HOME_MANAGER=1
-          source $HOME/src/shrc/pkg/shell/.bash_noninteractive
-
-          # Avoid running any of the starship/zoxide/direnv sourcing again
-          if [ ! -z "$DIRENV_IN_ENVRC" ]; then
-            return
-          fi
-        '';
-        initExtra = ''
-          source $HOME/src/shrc/pkg/shell/.bash_interactive
-          if [[ $TERM != "dumb" ]]; then
-            eval "$(zoxide init bash)"
-            eval "$(direnv hook bash)"
-            eval "$(starship init bash --print-full-init)"
-          fi
-        '';
-      };
-
-      programs.lutris = {
-        enable = true;
-        steamPackage = osConfig.programs.steam.package;
-        defaultWinePackage = pkgs.proton-ge-bin;
-        protonPackages = [
-          pkgs.proton-ge-bin
-        ];
-        winePackages = [
-          pkgs.wineWow64Packages.full
-        ];
-        extraPackages = with pkgs; [
-          mangohud
-          winetricks
-          gamescope
-          gamemode
-          umu-launcher
-        ];
-      };
-
-      # The state version is required and should stay at the version you
-      # originally installed.
-      home.stateVersion = "25.11";
-    };
+  # home-manager is managed standalone via `make home` / `nix run .#home`
 
   environment.systemPackages = with pkgs; [
     bashInteractive
     nix-bash-completions
     jq
-
-    xfce.xfce4-cpugraph-plugin
-    xfce.xfce4-systemload-plugin
-    xfce.xfce4-sensors-plugin
+    xfce4-sensors-plugin
+    xfce4-systemload-plugin
+    xfce4-cpugraph-plugin
+    xfce4-pulseaudio-plugin
   ];
 
   programs.firefox.enable = true;
@@ -327,11 +171,9 @@ in
     package = pkgs.gitFull;
   };
 
-  programs.neovim = {
+  programs.vim = {
     enable = true;
     defaultEditor = true;
-    vimAlias = true;
-    viAlias = true;
   };
 
   # Enable the OpenSSH daemon.

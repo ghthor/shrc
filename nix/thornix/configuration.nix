@@ -187,7 +187,6 @@ in
       amazon-ecr-credential-helper
       xclip
       gnumake
-      # barrier # unmaintained
       obs-studio
       sshfs
 

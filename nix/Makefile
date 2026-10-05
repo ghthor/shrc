@@ -50,7 +50,7 @@ steamnix:
 		sudo rsync -r ./steamnix/ /etc/nixos/; \
 		sudo rsync -r ./modules/ /etc/nixos/modules/; \
 		sudo rsync -r ./packages/ /etc/nixos/packages/; \
-		sudo nixos-rebuild $(CMD) --show-trace; \
+		sudo nixos-rebuild -I nixpkgs=/home/ghthor/src/nixpkgs $(CMD) --show-trace; \
 	fi
 
 

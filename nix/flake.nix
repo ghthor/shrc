@@ -36,7 +36,7 @@
     };
 
     nixpkgs-pi = {
-      url = "github:NixOS/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
+      url = "github:NixOS/nixpkgs/151fa4e8ddfdd8dd25d945ad94ed54a13de9f6e4";
     };
 
     home-manager = {

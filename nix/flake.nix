@@ -13,8 +13,8 @@
     #### Main stable release branch
     # https://hydra.nixos.org/jobset/nixos/release-26.05/evals
     nixpkgs = {
-      # https://hydra.nixos.org/eval/1828759#tabs-inputs
-      url = "github:NixOS/nixpkgs/a5cc6f2c37bf518436dc8d1c288ccd0c43c2f4c4";
+      # https://hydra.nixos.org/eval/1830478#tabs-inputs
+      url = "github:NixOS/nixpkgs/cd4ea8d57de16f4810bc5f14207bac45fbf19f67";
       # url = "nixpkgs/nixos-26.05";
     };
 
@@ -22,21 +22,21 @@
     ###### Used if darwin needs specific patches to get better caching/fixes
     # https://hydra.nixos.org/jobset/nixpkgs/nixpkgs-26.05-darwin/evals
     nixpkgs-darwin = {
-      # https://hydra.nixos.org/eval/1828730#tabs-inputs
-      url = "github:NixOS/nixpkgs/c19db427a1fdfc7591c0b0baeb4665dcef2c61da";
+      # https://hydra.nixos.org/eval/1830488#tabs-inputs
+      url = "github:NixOS/nixpkgs/36fd15bbb657815e2028e31d715c2e43a1230c91";
       # url = "nixpkgs/nixpkgs-26.05-darwin";
     };
 
     #### Unstable release branch
     # https://hydra.nixos.org/jobset/nixos/unstable
     nixpkgs-unstable = {
-      # https://hydra.nixos.org/eval/1829594#tabs-inputs
-      url = "github:NixOS/nixpkgs/7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f";
+      # https://hydra.nixos.org/eval/1830477#tabs-inputs
+      url = "github:NixOS/nixpkgs/02c087f3fe673c9e317f206a627cb6b910336dbe";
       # url = "nixpkgs/nixos-unstable";
     };
 
     nixpkgs-pi = {
-      url = "github:NixOS/nixpkgs/151fa4e8ddfdd8dd25d945ad94ed54a13de9f6e4";
+      url = "github:NixOS/nixpkgs/02c087f3fe673c9e317f206a627cb6b910336dbe";
     };
 
     home-manager = {

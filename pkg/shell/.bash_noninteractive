@@ -38,6 +38,37 @@ pathmunge() {
   fi
 }
 
+# Place the given directories (in order) in PATH immediately before the first
+# system directory (/usr/local/bin, /usr/bin, ...), after any nix/user paths.
+# Any existing occurrence is moved, since pathmunge is a no-op for directories
+# already in PATH. Appends if no system directory is present.
+pathplace_before_system() {
+  local wanted=("$@") new="" entry w skip placed=0 IFS=:
+  local -a entries
+  read -ra entries <<<"$PATH"
+  place() {
+    for w in "${wanted[@]}"; do
+      [ -d "$w" ] && new="${new:+$new:}$w"
+    done
+    placed=1
+  }
+  for entry in "${entries[@]}"; do
+    skip=0
+    for w in "${wanted[@]}"; do
+      [ "$entry" = "$w" ] && skip=1
+    done
+    [ "$skip" = 1 ] && continue
+    case "$entry" in
+      /usr/local/bin | /usr/local/sbin | /usr/bin | /bin | /usr/sbin | /sbin)
+        [ "$placed" = 0 ] && place
+        ;;
+    esac
+    new="${new:+$new:}$entry"
+  done
+  [ "$placed" = 0 ] && place
+  PATH="$new"
+}
+
 eval "$(go env | grep -E '(GOPATH|GOROOT|GOCACHE|GOMODCACHE)')"
 # export GOROOT
 export GOSUMDB='sum.golang.org'
@@ -47,8 +78,6 @@ export GOMODCACHE
 export GOWORK=off
 
 binPaths=(
-  "/opt/homebrew/sbin"
-  "/opt/homebrew/bin"
   "$HOME/.local/bin"
   "$HOME/.cargo/bin"
   "$GOPATH/bin"
@@ -60,6 +89,9 @@ binPaths=(
 for dir in "${binPaths[@]}"; do
   pathmunge "$dir"
 done
+
+# Homebrew goes after nix/user paths but before /usr/local/bin and /usr/bin.
+pathplace_before_system /opt/homebrew/bin /opt/homebrew/sbin
 
 if [ -z "$XDG_CACHE_HOME" ]; then
   export XDG_CACHE_HOME="$HOME/.cache"

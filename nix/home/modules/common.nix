@@ -193,9 +193,11 @@ in
 
     programs.direnv = {
       enable = true;
+      package = pkgs-unstable.direnv;
       enableZshIntegration = true;
       enableBashIntegration = false;
       nix-direnv.enable = true;
+      nix-direnv.package = pkgs-unstable.nix-direnv;
     };
 
     programs.zoxide = {

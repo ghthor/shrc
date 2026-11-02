@@ -50,8 +50,8 @@ in
       source ${./link_path.sh}
 
       shrc_link_path \
-        "$HOME/src/shrc/nix/home/config/mcp" \
-        "$HOME/.config/mcp"
+        "$HOME/src/shrc/nix/home/config/pi/agent/mcp.json" \
+        "$HOME/.pi/agent/mcp.json"
     '';
 
     home.activation.piExtensions = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
